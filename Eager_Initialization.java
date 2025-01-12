@@ -8,7 +8,7 @@ public class Eager_Initialization {
     }
     
     public static void main(String[] args) {
-        Eager_Initialization ConnObj = Eager_Initialization.getInstance1();
-        System.out.println(ConnObj + " Established");
+        Eager_Initialization Obj = Eager_Initialization.getInstance1();
+        System.out.println(Obj + " Established");
     }
 }
