@@ -8,6 +8,7 @@ public class MyLinkedHashMap {
         
         MyMap.get(2);
         MyMap.forEach((Integer key, String val) -> System.out.println(key + " : " + val));
+        // Printing in insertion order
     }
     
 }
