@@ -4,9 +4,8 @@ public class MyMinQueue{
         PriorityQueue<Integer> minPQ = new PriorityQueue<>();
 
         minPQ.add(50);
-        minPQ.add(40);
-        minPQ.add(30);
         minPQ.add(20);
+        minPQ.add(80);
         minPQ.add(10);
 
         // This line prints elements from the PQ 
