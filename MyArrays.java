@@ -10,6 +10,12 @@ public class MyArrays {
         students.add("neville");
         students.add("luna");
 
+        for(int i = 0; i < students.size(); i++){
+            if (students.get(i) != null){
+                students.set(i, students.get(i).toUpperCase());
+            }
+        }
+
         Collections.sort(students);
         System.out.println("Sorted: \n");
         students.forEach((String str) -> System.out.println(str));
