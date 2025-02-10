@@ -14,6 +14,7 @@ public class FruitBasket{
             }
         }
         scan.close();
+        System.out.println(fruits);
         System.out.println("The fruits you bought were: ");
             for(String str : fruits){
                 System.out.println(str);
