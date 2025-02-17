@@ -4,8 +4,9 @@ public class ProfessorGame{
     public static void main(String[] args){
         Scanner scan = new Scanner(System.in);
 
-        int level = get_level();
+        int level = get_level(scan);
         int grade = 0;
+        
         for(int i = 0; i <= 10; i++){
             int m = get_int(level);
             int n = get_int(level);
@@ -23,8 +24,7 @@ public class ProfessorGame{
         }
     }
 
-    static int get_level() throws Exception {
-        Scanner scan = new Scanner(System.in);
+    static int get_level(Scanner scan) throws Exception {
         while (true){
             try{
                 int level = scan.nextInt();
@@ -61,4 +61,3 @@ public class ProfessorGame{
         }
     }
 
-}
