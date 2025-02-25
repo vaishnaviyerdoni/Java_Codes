@@ -1,4 +1,3 @@
-import java.util.Random;
 import java.util.*;
 public class ProfessorGame{
     public static void main(String[] args){
@@ -12,6 +11,8 @@ public class ProfessorGame{
             int n = get_int(level);
             int ans = m + n;
 
+
+            System.out.print(m + " + " + n +  " = " );
             for( int j = 0; j <= 3; j++){
                 int Ans = scan.nextInt();
                 if (Ans == ans){
@@ -20,44 +21,46 @@ public class ProfessorGame{
                 }else{
                     System.out.println("EEE");
                 }
-            } 
-        }
+            scan.close();
+            System.out.println("Final Score: " + grade);
+        } 
     }
+}
 
-    static int get_level(Scanner scan) throws Exception {
+    static int get_level(Scanner scan){
         while (true){
             try{
+                System.out.println("Enter the Level for your game: ");
                 int level = scan.nextInt();
                 if(level < 0){
-                    throw new Exception("No negative values allowed");
+                    throw new InputMismatchException();
                 }else if(level > 3){
-                    System.out.println("Level Cannot be greater than 3");
+                    throw new InputMismatchException();
                 }
                 return level;
-            }catch(Exception e){
+            }catch(InputMismatchException e){
+                e.printStackTrace();
                 System.out.println("Exception Occured");
             }        
         }
     }
 
-    static int get_int(int level) throws Exception{
+    static int get_int(int level){
         Random rand = new Random();
-        int no;
 
             if (level == 1){
-                no = rand.nextInt(10);
+                return rand.nextInt(10);
             }
             else if(level == 2){
-                no = rand.nextInt(100);
+                return rand.nextInt(100);
             }
             else if(level == 3){
-                no = rand.nextInt(1000);
+                return rand.nextInt(1000);
             }
             else{
-                throw new Exception("Invalid Level, Enter integer between 1 to 3");
-            }
-            return no;
-            
+                System.out.println("Enter Proper Integers");
+                return 0;
+            }    
         }
     }
 
