@@ -27,6 +27,7 @@ public class ProfessorGame{
                 }
             }catch(InputMismatchException e){
                 System.out.println("Incorrect!");
+                scan.next();
             }
         }
         scan.close();
