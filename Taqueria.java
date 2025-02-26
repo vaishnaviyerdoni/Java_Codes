@@ -40,6 +40,7 @@ public class Taqueria {
             }
         }
         scan.close();
-        System.out.println("The total bill is: " + total_Bill + "$");
+        String Bill = String.format("%.2f", (double)total_Bill);
+        System.out.println("The total bill is: " + Bill + "$");
     }
 }
