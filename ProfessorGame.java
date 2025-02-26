@@ -4,6 +4,7 @@ public class ProfessorGame{
         Scanner scan = new Scanner(System.in);
         int level = get_level(scan);
         int grade = 0;
+
         for(int i = 0; i < 10; i++){
             int m = get_int(level);
             int n = get_int(level);
@@ -12,6 +13,7 @@ public class ProfessorGame{
             try{
                 System.out.print(m +" + "+ n +" = ");
                 boolean isCorrect = false;
+                
                 for(int j = 0; j < 3; j++){
                     int userAns = scan.nextInt();
                     if(userAns == ans){
@@ -38,15 +40,14 @@ public class ProfessorGame{
             try{
                 System.out.println("Enter the Level for your game: ");
                 int level = scan.nextInt();
-                if(level < 0){
-                    throw new InputMismatchException();
-                }else if(level > 3){
+                if (level >= 1 && level <= 3){
+                    return level;
+                }else{
                     throw new InputMismatchException();
                 }
-                return level;
             }catch(InputMismatchException e){
-                e.printStackTrace();
-                System.out.println("Exception Occured");
+                System.out.println("Invalid Input");
+                scan.next();
             }        
         }
     }
@@ -58,10 +59,10 @@ public class ProfessorGame{
                 return rand.nextInt(10);
             }
             else if(level == 2){
-                return rand.nextInt(100);
+                return rand.nextInt(90)+10;
             }
             else if(level == 3){
-                return rand.nextInt(1000);
+                return rand.nextInt(900)+100;
             }
             else{
                 System.out.println("Enter Proper Integers");
