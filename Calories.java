@@ -29,10 +29,12 @@ public class Calories {
                 else{
                     System.out.println("Item not found in calories chart.");
                 }
-            }catch(Exception e){
+            }
+            catch(NoSuchElementException e){
                 System.out.println("Element not found!");
-                scan.next();
-                continue;
+            }
+            catch(Exception e){
+                System.out.println("Unexpected Error Occured!");
             }
         }
         scan.close();
