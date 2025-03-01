@@ -18,18 +18,21 @@ public class Calories {
         
         while(true){
             try{
-                System.out.println("Enter the name of fruit: ");
+                System.out.print("Enter the name of fruit: ");
                 String fruit = scan.nextLine();
+                String item = CaseSensitive.toTitleCase(fruit);
 
-                if (calories.containsKey(fruit)){
-                    System.out.println(fruit + " : " + calories.get(fruit));
+                if (calories.containsKey(item)){
+                    System.out.println(item + " : " + calories.get(item));
                     break;
                 }
                 else{
                     System.out.println("Item not found in calories chart.");
                 }
-            }catch(InputMismatchException e){
-                System.out.println("String Input Expedted!");
+            }catch(Exception e){
+                System.out.println("Element not found!");
+                scan.next();
+                continue;
             }
         }
         scan.close();
