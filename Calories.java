@@ -32,6 +32,7 @@ public class Calories {
             }
             catch(NoSuchElementException e){
                 System.out.println("Element not found!");
+                scan.next();
             }
             catch(Exception e){
                 System.out.println("Unexpected Error Occured!");
