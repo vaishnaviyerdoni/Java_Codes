@@ -22,6 +22,7 @@ public class Taqueria {
         while(scan.hasNextLine()){
             try{
                 String Order = scan.nextLine();
+                //String Order = CaseSensitive.toTitleCase(item);
                 if (Order.equalsIgnoreCase("Done")){
                     break;
                 }
@@ -40,7 +41,7 @@ public class Taqueria {
             }
         }
         scan.close();
-        String Bill = String.format("%.2f", (double)total_Bill);
+        String Bill = String.format("%.3f", (double)total_Bill);
         System.out.println("The total bill is: " + Bill + "$");
     }
 }
