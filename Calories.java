@@ -16,28 +16,25 @@ public class Calories {
         calories.put("Lime", 20);
         calories.put("Lemon", 15);
         
-        while(true){
+        System.out.print("Enter the name of fruit: ");
+        while(scan.hasNextLine()){
             try{
-                System.out.print("Enter the name of fruit: ");
-                String fruit = scan.nextLine();
-                String item = CaseSensitive.toTitleCase(fruit);
-
+                String item = scan.nextLine();
                 if (calories.containsKey(item)){
                     System.out.println(item + " : " + calories.get(item));
                     break;
                 }
                 else{
-                    System.out.println("Item not found in calories chart.");
+                    System.out.println("No Such Item Found!");
                 }
-            }
-            catch(NoSuchElementException e){
-                System.out.println("Element not found!");
+            }catch(NoSuchElementException e){
+                System.out.println("Item not found");
                 scan.next();
             }
             catch(Exception e){
-                System.out.println("Unexpected Error Occured!");
+                System.out.println("Unexpected Error Occured");
             }
         }
         scan.close();
-    }
+    }    
 }
