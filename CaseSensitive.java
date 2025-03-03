@@ -29,7 +29,7 @@ public class CaseSensitive{
             }
             catch(StringIndexOutOfBoundsException e){
                 System.out.println("Oops! Enter your string again!");
-                scan.next();
+                scan.nextLine().trim();
             }
             catch(Exception e){
                 System.out.println("Unexpected Error Occured!");
