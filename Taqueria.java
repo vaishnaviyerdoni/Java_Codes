@@ -21,8 +21,8 @@ public class Taqueria {
 
         while(scan.hasNextLine()){
             try{
-                String Order = scan.nextLine();
-                //String Order = CaseSensitive.toTitleCase(item);
+                String item = scan.nextLine();
+                String Order = TitleCase.toTitleCase(item);
                 if (Order.equalsIgnoreCase("Done")){
                     break;
                 }
