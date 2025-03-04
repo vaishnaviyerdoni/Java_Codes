@@ -8,7 +8,7 @@ public class Greeting{
         String Greeting = scan.nextLine();
         String greet = TitleCase.toTitleCase(Greeting);
 
-        if (greet.equalsIgnoreCase("Hello")){
+        if (greet.contains("Hello")){
             System.out.println("$0");
         }
 
