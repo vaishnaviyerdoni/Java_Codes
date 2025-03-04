@@ -29,9 +29,11 @@ public class FuelPercentage{
 
                 if (c >= 95){
                     System.out.println("Fuel tank if FULL!");
+                    break;
                 }
                 else if (c <= 5){
                     System.out.println("Fuel tank is EMPTY!");
+                    break;
                 }
                 else{
                     String fuel = String.format("%.2f", c);
