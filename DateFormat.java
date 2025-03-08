@@ -51,7 +51,7 @@ public class DateFormat {
                 System.out.println("Unexpected Error occured!");
             }
             catch(IllegalArgumentException e){
-                System.out.println("Improper date format!");
+                System.out.println("Oops! Date format is not correct!");
             }
         }
         scan.close();
