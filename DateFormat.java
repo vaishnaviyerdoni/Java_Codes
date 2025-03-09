@@ -31,6 +31,7 @@ public class DateFormat {
                 else if (date.contains(",")){
                     String myDate = date.replace(",", "");
                     String[] myDates = myDate.split(" ");
+                    myDates[0] = TitleCase.toTitleCase(myDates[0]);
                     
                     int Mon = getMonth(myDates[0]);
                     int Date = Integer.parseInt(myDates[1]);
