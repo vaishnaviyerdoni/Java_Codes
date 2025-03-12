@@ -5,7 +5,6 @@ public class TitleCase{
             try{
                 String[] word = input.split(" ");
                 StringBuilder title = new StringBuilder();
-
                 for (String chars : word){
                     if (!chars.isEmpty()){
                         title.append(Character.toUpperCase(chars.charAt(0)))
