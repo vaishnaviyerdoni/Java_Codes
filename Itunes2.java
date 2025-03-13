@@ -1,8 +1,8 @@
 import java.io.*;
 import java.net.*;
-import org.json.JSONObject;
+import org.json.*;
 
-public class Itunes {
+public class Itunes2{
     public static void main(String[]args){
         try{
             if (args.length != 1){
@@ -11,7 +11,7 @@ public class Itunes {
             }
 
             String term = args[0];
-            String urlString = "https://itunes.apple.com/search?entity=song&limit=1&term=" + term;
+            String urlString = "https://itunes.apple.com/search?entity=song&limit=5&term=" + term;
 
             @SuppressWarnings("deprecation")
             URL url = new URL(urlString);
@@ -32,7 +32,12 @@ public class Itunes {
             in.close();
 
             JSONObject jsonRes = new JSONObject(res.toString());
-            System.out.println(jsonRes.toString(4));
+            //System.out.println(jsonRes.toString(4));
+            JSONArray results = jsonRes.getJSONArray("results");
+            for (int i = 0; i < results.length(); i++){
+                JSONObject song = results.getJSONObject(i);
+                System .out.println("Track: " + song.getString("trackName"));
+            } 
         }
         catch(Exception e){
             System.out.println("Exception Occured!");
