@@ -15,6 +15,16 @@ public class Calories {
         calories.put("Kiwi", 90);
         calories.put("Lime", 20);
         calories.put("Lemon", 15);
+        calories.put("Nectarine", 60);
+        calories.put("Orange", 80);
+        calories.put("Peach", 60);
+        calories.put("Pear", 100);
+        calories.put("Pineapple", 50);
+        calories.put("Plums", 70);
+        calories.put("Strawberries", 50);
+        calories.put("Sweet Cheeries", 100);
+        calories.put("Tangerine", 50);
+        calories.put("Watermelon", 80);
         
         while(true){
             System.out.print("Enter the Fruit name: ");
