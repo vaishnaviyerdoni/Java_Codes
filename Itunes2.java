@@ -36,7 +36,7 @@ public class Itunes2{
             JSONArray results = jsonRes.getJSONArray("results");
             for (int i = 0; i < results.length(); i++){
                 JSONObject song = results.getJSONObject(i);
-                System .out.println("Track: " + song.getString("trackName"));
+                System.out.println("Track: " + song.getString("trackName"));
             } 
         }
         catch(Exception e){
