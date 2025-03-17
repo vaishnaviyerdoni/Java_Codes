@@ -10,8 +10,7 @@ public class Bitcoin {
                 System.exit(1);
             }
 
-            String NoOFBitCoins = args[0];
-            int BitCoins = Integer.parseInt(NoOFBitCoins);
+            int BitCoins = Integer.parseInt(args[0]);
             
             double price = get_price();
             if (price == -1){
