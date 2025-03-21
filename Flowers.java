@@ -6,8 +6,8 @@ class Flowers{
         Scanner scan = new Scanner(System.in);
 
         System.out.println("Enter Flower Name: ");
-        String flower = scan.nextLine();
-        flowers.add(flower);
+        String Flower = scan.nextLine();
+        flowers.add(Flower);
         System.out.println(flowers);
         scan.close();
     }
