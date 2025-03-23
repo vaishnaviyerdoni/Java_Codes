@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public class JDBCTest {
     public static void main(String args[]){
-        String CS = "jdbc:sqlserver://localhost\\SQLEXPRESS:1433;databaseName=Tables1;encrypt=false;trustServerCertificate=false;integratedSecurity=true";
+        String CS = "jdbc:sqlserver://VaishnavisPC\\SQLEXPRESS;Database=InventoryDB;integratedSecurity=true";
 
         try{
             try(Connection connection = DriverManager.getConnection(CS)){
@@ -17,5 +17,4 @@ public class JDBCTest {
             e.printStackTrace();
         }
     }
-
 }
