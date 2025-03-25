@@ -4,8 +4,7 @@ import java.sql.SQLException;
 
 public class JDBCTest {
     public static void main(String args[]){
-        String CS = "jdbc:sqlserver://VaishnavisPC\\SQLEXPRESS;Database=InventoryDB;integratedSecurity=true";
-
+        String CS = "jdbc:sqlserver://localhost;databaseName=InventoryDB;encrypt=false;integratedSecurity=true";
         try{
             try(Connection connection = DriverManager.getConnection(CS)){
                 if (connection != null){
