@@ -70,13 +70,21 @@ public class Inventory {
 
     public String toString(){
         return "InventoryItem{" +
-                "itemId=" + itemId +
-                ", itemName='" + itemName + '\'' +
+                "itemId=" + item_id +
+                ", itemName='" + item_name + '\'' +
                 ", category='" + category + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
-                ", lowStockThreshold=" + lowStockThreshold +
+                ", lowStockThreshold=" + Low_Stock_Threshold +
                 '}';
     }
 
-}
+        public static void main(String[] args) {
+            // Create an inventory item
+            Inventory item = new Inventory(1, "Laptop", "Electronics", 1200.50, 5, 2);
+    
+            // Print item details
+            System.out.println("\n" + item);
+
+        }
+    }
