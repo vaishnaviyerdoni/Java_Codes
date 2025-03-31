@@ -10,6 +10,9 @@ public class Inventory {
     private int quantity;
     private int Low_Stock_Threshold;
 
+    //empty constructor
+    public Inventory(){}
+
     //default Constructor
     public Inventory(int item_id, String item_name, String category, double price, int quantity, int Low_Stock_Threshold){
         this.item_id = item_id;
