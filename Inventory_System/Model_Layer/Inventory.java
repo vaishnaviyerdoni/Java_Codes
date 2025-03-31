@@ -3,12 +3,12 @@ package Inventory_System.Model_Layer;
 public class Inventory {
     
     //Fields
-    int item_id;
-    String item_name;
-    String category;
-    double price;
-    int quantity;
-    int Low_Stock_Threshold;
+    private int item_id;
+    private String item_name;
+    private String category;
+    private double price;
+    private int quantity;
+    private int Low_Stock_Threshold;
 
     //default Constructor
     public Inventory(int item_id, String item_name, String category, double price, int quantity, int Low_Stock_Threshold){
