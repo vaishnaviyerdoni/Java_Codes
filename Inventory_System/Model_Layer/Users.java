@@ -71,7 +71,7 @@ public class Users {
                 '}';
     }
 
-    //main method
+    
     public static void main(String[] args) {
         // Create an inventory item
         Users user = new Users(1, "vaishnavi00", "vaishnavi@gmail.com", "ABC", "admin");
