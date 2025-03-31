@@ -1,5 +1,7 @@
 package Inventory_System.Model_Layer;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Orders {
@@ -77,8 +79,19 @@ public class Orders {
     }
 
     public static void main(String[] args) {
+        Users user = new Users(1, "vaishnavi00", "vaishnavi@gmail.com", "ABC", "admin");
+
+        // Convert date string to Date object
+    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+    Date orderDate = null;
+    try {
+        orderDate = sdf.parse("19-05-2000");
+    } catch (ParseException e) {
+        e.printStackTrace();
+    }
+
         // Create an inventory item
-        Orders order = new Orders(1, 1, "19-05-2000", "Vaishnavi", "Shipped");
+        Orders order = new Orders(1, user, orderDate, "Vaishnavi", "Shipped");
 
         // Print item details
         System.out.println("\n" + order);
