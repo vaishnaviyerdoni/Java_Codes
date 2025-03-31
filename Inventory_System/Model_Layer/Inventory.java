@@ -82,6 +82,7 @@ public class Inventory {
                 '}';
     }
 
+        //main method
         public static void main(String[] args) {
             // Create an inventory item
             Inventory item = new Inventory(1, "Laptop", "Electronics", 1200.50, 5, 2);
