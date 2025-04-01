@@ -13,7 +13,7 @@ public class OrderItem {
 
     public OrderItem(int itemsId, Order OrderId, Inventory itemIdInventory, int quantity, double subtotal){
         this.itemsId = itemsId;
-        this.orderId = orderId;
+        this.OrderId = OrderId;
         this.itemIdInventory = itemIdInventory;
         this.quantity = quantity;
         this.subtotal = subtotal;
