@@ -61,7 +61,7 @@ public class OrderItems {
         this.subtotal = subtotal;
     }
 
-    public to String toString(){
+    public String toString(){
         return "OrderItems{" +
                 "itemsId=" + items_id +
                 ", orderId='" + orderId + '\'' +
@@ -70,4 +70,14 @@ public class OrderItems {
                 ", subtotal=" + subtotal +
                 '}';                 
     }
+
+    public static void main(String[] args) {
+        // Create an inventory item
+        OrderItems items = new OrderItems(1, 1, 1, 5, 10);
+
+        // Print item details
+        System.out.println("\n" + items);
+    
+    }
+
 }
