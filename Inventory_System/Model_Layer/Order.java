@@ -12,6 +12,7 @@ public class Order {
     private Date orderDate;
     private String customerName;
     private String status;
+    private List<OrderItem> orderItems;
 
     //constructor
     public Order(){}
@@ -22,6 +23,7 @@ public class Order {
         this.orderDate = orderDate;
         this.customerName = customerName;
         this.status = status;
+        this.orderItems = orderItems;
     }
 
     //getters
@@ -46,6 +48,10 @@ public class Order {
         return status;
     }
 
+    public List<OrderItem> get_orderItems(){
+        return orderItems;
+    }
+
     //setters
 
     public void set_OrderId(int orderId){
@@ -66,6 +72,10 @@ public class Order {
 
     public void set_status(String status){
         this.status = status;
+    }
+
+    public void set_orderItems(List<OrderItem> orderItems){
+        this.orderItems = orderItems;
     }
 
     public String toString(){
