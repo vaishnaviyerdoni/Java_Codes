@@ -81,14 +81,4 @@ public class Inventory {
                 ", lowStockThreshold=" + LowStockThreshold +
                 '}';
     }
-
-        
-        public static void main(String[] args) {
-            // Create an inventory item
-            Inventory item = new Inventory(1, "Laptop", "Electronics", 1200.50, 5, 2);
-    
-            // Print item details
-            System.out.println("\n" + item);
-
-        }
-    }
+}

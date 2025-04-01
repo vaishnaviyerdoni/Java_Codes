@@ -81,14 +81,4 @@ public class User {
                 ", role=" + role +
                 '}';
     }
-
-    
-    public static void main(String[] args) {
-        // Create an inventory item
-        User user = new User(1, "vaishnavi00", "vaishnavi@gmail.com", "ABC", "admin");
-
-        // Print item details
-        System.out.println("\n" + user);
-
-    }
 }

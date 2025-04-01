@@ -87,25 +87,5 @@ public class Order {
                 ", status=" + status +
                 '}';
     }
-
-    public static void main(String[] args) {
-        User user = new User(1, "vaishnavi00", "vaishnavi@gmail.com", "ABC", "admin");
-
-        // Convert date string to Date object
-    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-    Date orderDate = null;
-    try {
-        orderDate = sdf.parse("19-05-2000");
-    } catch (ParseException e) {
-        e.printStackTrace();
-    }
-
-        // Create an inventory item
-        Order order = new Order(1, user, orderDate, "Vaishnavi", "Shipped");
-
-        // Print item details
-        System.out.println("\n" + order);
-
-    }
     
 }
