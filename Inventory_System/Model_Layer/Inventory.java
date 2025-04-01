@@ -3,34 +3,34 @@ package Inventory_System.Model_Layer;
 public class Inventory {
     
     //Fields
-    private int item_id;
-    private String item_name;
+    private int itemId;
+    private String itemName;
     private String category;
     private double price;
     private int quantity;
-    private int Low_Stock_Threshold;
+    private int LowStockThreshold;
 
     //empty constructor
     public Inventory(){}
 
     //constructor
-    public Inventory(int item_id, String item_name, String category, double price, int quantity, int Low_Stock_Threshold){
-        this.item_id = item_id;
-        this.item_name = item_name;
+    public Inventory(int itemId, String itemName, String category, double price, int quantity, int LowStockThreshold){
+        this.itemId = itemId;
+        this.itemName = itemName;
         this.category = category;
         this.price = price;
         this.quantity = quantity;
-        this.Low_Stock_Threshold = Low_Stock_Threshold;
+        this.LowStockThreshold = LowStockThreshold;
     }
 
     //Getters
 
-    public int get_item_id(){
-        return item_id;
+    public int get_itemId(){
+        return itemId;
     }
 
-    public String get_item_name(){
-        return item_name;
+    public String get_itemName(){
+        return itemName;
     }
 
     public String get_category(){
@@ -45,18 +45,18 @@ public class Inventory {
         return quantity;
     }
 
-    public int get_Low_Stock(){
-        return Low_Stock_Threshold;
+    public int get_LowStock(){
+        return LowStockThreshold;
     }
 
     //Setters
 
-    public void set_item_id(int item_id){
-        this.item_id = item_id;
+    public void set_itemId(int itemId){
+        this.itemId = itemId;
     }
 
-    public void set_item_name(String item_name){
-        this.item_name = item_name;
+    public void set_itemName(String itemName){
+        this.itemName = itemName;
     }
 
     public void set_category(String category){
@@ -67,18 +67,18 @@ public class Inventory {
         this.quantity = quantity;
     }
 
-    public void set_LowStock(int Low_Stock_Threshold){
-        this.Low_Stock_Threshold = Low_Stock_Threshold;
+    public void set_LowStock(int LowStockThreshold){
+        this.LowStockThreshold = LowStockThreshold;
     }
 
     public String toString(){
         return "InventoryItem{" +
-                "itemId=" + item_id +
-                ", itemName='" + item_name + '\'' +
+                "itemId=" + itemId +
+                ", itemName='" + itemName + '\'' +
                 ", category='" + category + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
-                ", lowStockThreshold=" + Low_Stock_Threshold +
+                ", lowStockThreshold=" + LowStockThreshold +
                 '}';
     }
 
