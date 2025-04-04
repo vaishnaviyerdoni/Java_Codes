@@ -8,18 +8,18 @@ public class User {
     private int userId;
     private String userName;
     private String email;
-    private String password;
+    private String passcode;
     private String role;
     private List<Order> order; // one user can have many orders.
 
     //constructor
     public User(){}
 
-    public User(int userId, String userName, String email, String password, String role){
+    public User(int userId, String userName, String email, String passcode, String role){
         this.userId = userId;
         this.userName = userName;
         this.email = email;
-        this.password = password;
+        this.passcode = passcode;
         this.role = role;
         this.order = order;
     }
@@ -37,8 +37,8 @@ public class User {
         return email;
     }
 
-    public String get_password(){
-        return password;
+    public String get_passcode(){
+        return passcode;
     }
 
     public String get_role(){
@@ -61,8 +61,8 @@ public class User {
         this.email = email;
     }
 
-    public void set_password(String password){
-        this.password = password;
+    public void set_passcode(String passcode){
+        this.passcode = passcode;
     }
     public void set_role(String role){
         this.role = role;
@@ -77,7 +77,7 @@ public class User {
                 "UserId=" + userId +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
-                ", password=" + password +
+                ", passcode=" + passcode +
                 ", role=" + role +
                 '}';
     }

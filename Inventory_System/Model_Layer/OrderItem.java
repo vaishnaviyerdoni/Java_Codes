@@ -2,8 +2,8 @@ package Inventory_System.Model_Layer;
 
 public class OrderItem {
     private int itemsId;
-    private Order OrderrderId;
-    private Inventory itemIdInventory;
+    private Order OrderId;
+    private Inventory inventoryId;
     private int quantity;
     private double subtotal;
 
@@ -11,10 +11,10 @@ public class OrderItem {
 
     public OrderItem(){}
 
-    public OrderItem(int itemsId, Order OrderId, Inventory itemIdInventory, int quantity, double subtotal){
+    public OrderItem(int itemsId, Order OrderId, Inventory inventoryId, int quantity, double subtotal){
         this.itemsId = itemsId;
         this.OrderId = OrderId;
-        this.itemIdInventory = itemIdInventory;
+        this.inventoryId = inventoryId;
         this.quantity = quantity;
         this.subtotal = subtotal;
     }
@@ -29,7 +29,7 @@ public class OrderItem {
     }
 
     public Inventory get_inventoryId(){
-        return itemIdInventory;
+        return inventoryId;
     }
 
     public int getOrder_quantity(){
@@ -49,8 +49,8 @@ public class OrderItem {
         this.OrderId = OrderId;
     }
 
-    public void set_inventoryId(Inventory itemIdInventory){
-        this.itemIdInventory = itemIdInventory;
+    public void set_inventoryId(Inventory inventoryId){
+        this.inventoryId = inventoryId;
     }
 
     public void set_ItemsQuantity(int quantity){
@@ -65,7 +65,7 @@ public class OrderItem {
         return "OrderItems{" +
                 "itemsId=" + itemsId +
                 ", orderId='" + OrderId + '\'' +
-                ", inventoryID='" + itemIdInventory + '\'' +
+                ", inventoryID='" + inventoryId + '\'' +
                 ", quantity=" + quantity +
                 ", subtotal=" + subtotal +
                 '}';                 
