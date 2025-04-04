@@ -8,28 +8,24 @@ public class InventoryDAO {
     private static final String cs = "jdbc:sqlserver://localhost;databaseName=InventoryDB;encrypt=false;integratedSecurity=true";
     public List<Inventory> getAllItems(){
         List<Inventory> items = new ArrayList<>();
-        try{
-            try(Connection conn  = DriverManager.getConnection(cs);
-            Statement stmt = conn.createStatement();
-            ResultSet res = stmt.executeQuery("SELECT * FROM InventoryTable")){
-                while(res.next()){
-                    Inventory item = new Inventory(
-                        res.getInt("item_id"),
-                        res.getString("item_name"),
-                        res.getString("category"),
-                        res.getDouble("price"),
-                        res.getInt("quantity"),
-                        res.getInt("LOW_STOCK_THRESHOLD"));
-
+        try(Connection conn  = DriverManager.getConnection(cs);
+        Statement stmt = conn.createStatement();
+        ResultSet res = stmt.executeQuery("SELECT * FROM InventoryTable")){
+            while(res.next()){
+                Inventory item = new Inventory(
+                    res.getInt("itemId"),
+                    res.getString("itemName"),
+                    res.getString("category"),
+                    res.getDouble("price"),
+                    res.getInt("quantity"),
+                    res.getInt("LowStockThreshold"));
                     items.add(item);
-                }
-
-                return items;
+                    //System.out.println("Fetched item: " + item.get_itemId());
             }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
         return items;
     }
  
@@ -37,13 +33,18 @@ public class InventoryDAO {
             InventoryDAO obj = new InventoryDAO();
             List<Inventory> items = obj.getAllItems();
 
-            for(Inventory item : items){
+            for (int i = 0; i < items.size(); i++) {
+                Inventory item = items.get(i);
+                System.out.println("Item #" + (i + 1));
                 System.out.println("Id: " + item.get_itemId());
                 System.out.println("Name: " + item.get_itemName());
                 System.out.println("Category: " + item.get_category());
-                System.out.println("Price: " + "$"+ item.get_price());
+                System.out.println("Price: $" + item.get_price());
                 System.out.println("Quantity: " + item.get_quantity());
                 System.out.println("Low Stock Threshold: " + item.get_LowStock());
+                System.out.println("-----");
             }
+            
+            
         }
     }
