@@ -1,11 +1,31 @@
 package Inventory_System.DAO_Layer;
 
 import java.util.*;
+import java.math.BigDecimal;
 import java.sql.*;
 import Inventory_System.Model_Layer.Inventory;
 
 public class InventoryDAO {
     private static final String cs = "jdbc:sqlserver://localhost;databaseName=InventoryDB;encrypt=false;integratedSecurity=true";
+
+    //CREATE method: Add items to the columns in the inventory table
+    public void addItem(Inventory item){
+        String sqlQuery = "INSERT INTO InventoryTable (itemName, category, price, quantity, LowStockThreshold) VALUES (?,?,?,?,?)";
+        try(Connection conn =  DriverManager.getConnection(cs);
+        PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+                stmt.setString(1, item.get_itemName());
+                stmt.setString(2, item.get_category());
+                stmt.setDouble(3, item.get_price());
+                stmt.setInt(4, item.get_quantity());
+                stmt.setInt(5, item.get_LowStock());
+                stmt.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        
+    }
+
+    //READ method: getting all the items from inventory table
     public List<Inventory> getAllItems(){
         List<Inventory> items = new ArrayList<>();
         try(Connection conn  = DriverManager.getConnection(cs);
@@ -21,30 +41,27 @@ public class InventoryDAO {
                     res.getInt("LowStockThreshold"));
                     items.add(item);
                     //System.out.println("Fetched item: " + item.get_itemId());
-            }
+                }
             }
             catch(SQLException e){
                 e.printStackTrace();
             }
         return items;
     }
+
+    //UPDATE method: update the columns from inventory table wrt quantity
+    
+    //DELETE method : delete the record the table for the given id
  
     public static void main(String[] args) {
-            InventoryDAO obj = new InventoryDAO();
-            List<Inventory> items = obj.getAllItems();
-
-            for (int i = 0; i < items.size(); i++) {
-                Inventory item = items.get(i);
-                System.out.println("Item #" + (i + 1));
-                System.out.println("Id: " + item.get_itemId());
-                System.out.println("Name: " + item.get_itemName());
-                System.out.println("Category: " + item.get_category());
-                System.out.println("Price: $" + item.get_price());
-                System.out.println("Quantity: " + item.get_quantity());
-                System.out.println("Low Stock Threshold: " + item.get_LowStock());
-                System.out.println("-----");
-            }
-            
-            
-        }
+        InventoryDAO obj = new InventoryDAO();
+    
+        // itemId = 0 as placeholder, if DB auto-generates it
+        Inventory newItem = new Inventory(0, "Keyboard", "Electronics", 200000.0, 50, 5);
+        obj.addItem(newItem);
+    
+        //System.out.println("Added Item Successfully!");
     }
+    
+    
+}
