@@ -18,7 +18,14 @@ public class InventoryDAO {
                 stmt.setDouble(3, item.get_price());
                 stmt.setInt(4, item.get_quantity());
                 stmt.setInt(5, item.get_LowStock());
-                stmt.executeUpdate();
+                //stmt.executeUpdate();
+                int rows = stmt.executeUpdate();
+                if (rows > 0) {
+                    System.out.println("Inserted successfully!");
+                } else {
+                    System.out.println("Insert failed.");
+                }
+
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -57,7 +64,7 @@ public class InventoryDAO {
         InventoryDAO obj = new InventoryDAO();
     
         // itemId = 0 as placeholder, if DB auto-generates it
-        Inventory newItem = new Inventory(0, "Keyboard", "Electronics", 200000.0, 50, 5);
+        Inventory newItem = new Inventory(0,"Keyboard", "Electronics", 200000.0, 50, 5);
         obj.addItem(newItem);
     
         //System.out.println("Added Item Successfully!");
