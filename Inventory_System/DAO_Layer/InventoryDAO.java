@@ -60,15 +60,5 @@ public class InventoryDAO {
     
     //DELETE method : delete the record the table for the given id
  
-    public static void main(String[] args) {
-        InventoryDAO obj = new InventoryDAO();
-    
-        // itemId = 0 as placeholder, if DB auto-generates it
-        Inventory newItem = new Inventory(0,"Keyboard", "Electronics", 200000.0, 50, 5);
-        obj.addItem(newItem);
-    
-        //System.out.println("Added Item Successfully!");
-    }
-    
     
 }
