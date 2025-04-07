@@ -35,9 +35,10 @@ public class InventoryDAO {
     //READ method: getting all the items from inventory table
     public List<Inventory> getAllItems(){
         List<Inventory> items = new ArrayList<>();
+        String sqlquery = "SELECT * FROM InventoryTable";
         try(Connection conn  = DriverManager.getConnection(cs);
-        Statement stmt = conn.createStatement();
-        ResultSet res = stmt.executeQuery("SELECT * FROM InventoryTable")){
+        PreparedStatement stmt = conn.prepareStatement(sqlquery);
+        ResultSet res = stmt.executeQuery()){
             while(res.next()){
                 Inventory item = new Inventory(
                     res.getInt("itemId"),
