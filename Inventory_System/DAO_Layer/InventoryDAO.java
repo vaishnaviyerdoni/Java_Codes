@@ -61,5 +61,10 @@ public class InventoryDAO {
     
     //DELETE method : delete the record the table for the given id
  
-    
+    public static void main(String[] args) {
+        InventoryDAO items = new InventoryDAO();
+        List<Inventory> item = items.getAllItems();
+
+        System.out.println(item);
+    }
 }
