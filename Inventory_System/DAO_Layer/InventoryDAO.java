@@ -92,9 +92,9 @@ public class InventoryDAO {
 
         //System.out.println(item);
         
-        Inventory item = new Inventory(0,"MOBILE", "ELECTRONICS", 14000.00, 50, 10);
+        //Inventory item = new Inventory(0,"MOBILE", "ELECTRONICS", 14000.00, 50, 10);
     
-        items.addItem(item); //  Creating an entry in table
+        //items.addItem(item); //  Creating an entry in table
 
         //items.updateItembyQuantity(2, 20); // updating an entry in table
         //items.deleteItem(3); // Deleting and Entry from the table
