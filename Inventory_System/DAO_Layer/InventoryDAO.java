@@ -62,12 +62,14 @@ public class InventoryDAO {
 
     //UPDATE method: update the columns from inventory table wrt quantity
     public void updateItembyQuantity(int itemId, int newQuantity){
-        String sql  = "UPDATE InventoryTable SET quantity = ? WHERE quantity = ?";
+        String sql  = "UPDATE InventoryTable SET quantity = ? WHERE itemId = ?";
         try(Connection conn = DriverManager.getConnection(cs);
         PreparedStatement stmt = conn.prepareStatement(sql)){
-            stmt.setInt(1, itemId);
-            stmt.setInt(2, newQuantity);
+            stmt.setInt(1, newQuantity);
+            stmt.setInt(2, itemId);
             stmt.executeUpdate();
+
+            System.out.println("Inserted Successfully!");
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -80,6 +82,7 @@ public class InventoryDAO {
         PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
             stmt.setInt(1, itemId);
             stmt.executeUpdate();
+            System.out.println("Deleted Successfully");
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -87,13 +90,17 @@ public class InventoryDAO {
     }
  
     public static void main(String[] args) {
- 
+        
         InventoryDAO items = new InventoryDAO();
-        //List<Inventory> item = items.getAllItems();
+        //List<Inventory> item = items.getAllItems(); //Reading from the table
 
         //System.out.println(item);
         
-        Inventory item = new Inventory(0, "Camera", "Electronics", 5000, 10, 2);
-        items.addItem(item);
+        ///Inventory item = new Inventory(0, "Camera", "Electronics", 5000, 10, 2);
+        //items.addItem(item); //  Creating an entry in table
+
+        //items.updateItembyQuantity(2, 20); // updating an entry in table
+        //items.deleteItem(3); // Deleting and Entry from the table
+    
     }
 }
