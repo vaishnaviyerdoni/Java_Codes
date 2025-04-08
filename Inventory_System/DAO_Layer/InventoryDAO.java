@@ -1,6 +1,9 @@
 package Inventory_System.DAO_Layer;
 
 import java.util.*;
+
+import javax.swing.plaf.SliderUI;
+
 import java.math.BigDecimal;
 import java.sql.*;
 import Inventory_System.Model_Layer.Inventory;
@@ -58,13 +61,39 @@ public class InventoryDAO {
     }
 
     //UPDATE method: update the columns from inventory table wrt quantity
-    
+    public void updateItembyQuantity(int itemId, int newQuantity){
+        String sql  = "UPDATE InventoryTable SET quantity = ? WHERE quantity = ?";
+        try(Connection conn = DriverManager.getConnection(cs);
+        PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, itemId);
+            stmt.setInt(2, newQuantity);
+            stmt.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     //DELETE method : delete the record the table for the given id
+    public void deleteItem(int itemId){
+        String sqlQuery = "DELETE FROM InventoryTable WHERE itemId = ?";
+        try(Connection conn = DriverManager.getConnection(cs);
+        PreparedStatement stmt = conn.prepareStatement(sqlQuery)){
+            stmt.setInt(1, itemId);
+            stmt.executeUpdate();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
  
     public static void main(String[] args) {
+ 
         InventoryDAO items = new InventoryDAO();
-        List<Inventory> item = items.getAllItems();
+        //List<Inventory> item = items.getAllItems();
 
-        System.out.println(item);
+        //System.out.println(item);
+        
+        Inventory item = new Inventory(0, "Camera", "Electronics", 5000, 10, 2);
+        items.addItem(item);
     }
 }
