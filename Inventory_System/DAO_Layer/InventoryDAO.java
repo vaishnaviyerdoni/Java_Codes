@@ -1,10 +1,6 @@
 package Inventory_System.DAO_Layer;
 
 import java.util.*;
-
-import javax.swing.plaf.SliderUI;
-
-import java.math.BigDecimal;
 import java.sql.*;
 import Inventory_System.Model_Layer.Inventory;
 
