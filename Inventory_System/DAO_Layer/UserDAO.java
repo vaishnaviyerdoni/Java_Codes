@@ -52,22 +52,33 @@ public class UserDAO {
         }
     }
     //UPDATE method to update the user details.
-    public void UpdatePassCode(int userId, String newPassCode, String Name) throws SQLException{
-        String sql1 = "SELECT userName FROM Users WHERE userId = ?";
+    public void updatePassCode(int userId, String newPasscode, String name) throws SQLException{
+        String sql1 = "SELECT userName FROM Users where userId = ?";
         String sql2 = "UPDATE Users SET passcode = ? WHERE userId = ?";
-        try(PreparedStatement stmt = conn.prepareStatement();
-            ResultSet res = executeQuery()){
-                String name = res.getString("userName");
-                if(name.equalsIgnoreCase(Name)){
-                    try(PreparedStatement smt = conn.prepareStatement(sql2)){
-                        smt.setString(1, passcode);
-                        smt.setInt(2, userId);
-                        smt.executeUpdate();
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql1)){
+            stmt.setInt(1, userId);
+                try(ResultSet rs = stmt.executeQuery()){
+                    if (rs.next()){
+                        String user_name = rs.getString("userName");
+                        if(user_name.equalsIgnoreCase(name)){
+                            try(PreparedStatement stm = conn.prepareStatement(sql2)){
+                                stm.setString(1, newPasscode);
+                                stm.setInt(2, userId);
+                                stm.executeUpdate();
+                            }
+                        }
+                        else{
+                            System.out.println("Username not matched!");
+                        }
+                    }
+                    else{
+                        System.out.println("user not found!");
                     }
                 }
             }
-            
         }
+    
 
     //DELETE method to delete the specified user.
     public void deleteUser(int userId) throws SQLException{
@@ -122,5 +133,11 @@ public class UserDAO {
             e.printStackTrace();
         }
         */
+        try{
+            newUser.updatePassCode(2, "Hi@SQL", "Helena3107");
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        
     }
 }
