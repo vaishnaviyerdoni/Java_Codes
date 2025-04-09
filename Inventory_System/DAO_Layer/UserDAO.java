@@ -51,6 +51,18 @@ public class UserDAO {
             return users;
         }
     }
+    //UPDATE method to update the user details.
+
+
+    //DELETE method to delete the specified user.
+    public void deleteUser(int userId) throws SQLException{
+        String sql = "DELETE FROM Users WHERE UserId = ?";
+        try(PreparedStatement stmt  = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            stmt.executeUpdate();
+            System.out.println("Deleted User!");
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -72,6 +84,7 @@ public class UserDAO {
             e.printStackTrace();
         }
         */
+        /* 
         try{
             List<User> users = newUser.getAllUsers();
             for(int i = 0; i < users.size(); i++){
@@ -83,6 +96,13 @@ public class UserDAO {
                 System.out.println("role = " + user.get_role ());
                 System.out.println("----------------");
             }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        */
+        /* */
+        try{
+            newUser.deleteUser(5);
         }catch(SQLException e){
             e.printStackTrace();
         }
