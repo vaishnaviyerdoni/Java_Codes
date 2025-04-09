@@ -52,17 +52,32 @@ public class UserDAO {
         }
     }
     //UPDATE method to update the user details.
-
+    public void UpdatePassCode(int userId, String newPassCode, String Name) throws SQLException{
+        String sql1 = "SELECT userName FROM Users WHERE userId = ?";
+        String sql2 = "UPDATE Users SET passcode = ? WHERE userId = ?";
+        try(PreparedStatement stmt = conn.prepareStatement();
+            ResultSet res = executeQuery()){
+                String name = res.getString("userName");
+                if(name.equalsIgnoreCase(Name)){
+                    try(PreparedStatement smt = conn.prepareStatement(sql2)){
+                        smt.setString(1, passcode);
+                        smt.setInt(2, userId);
+                        smt.executeUpdate();
+                    }
+                }
+            }
+            
+        }
 
     //DELETE method to delete the specified user.
     public void deleteUser(int userId) throws SQLException{
         String sql = "DELETE FROM Users WHERE UserId = ?";
-        try(PreparedStatement stmt  = conn.prepareStatement(sql)){
-            stmt.setInt(1, userId);
-            stmt.executeUpdate();
-            System.out.println("Deleted User!");
+            try(PreparedStatement stmt  = conn.prepareStatement(sql)){
+                stmt.setInt(1, userId);
+                stmt.executeUpdate();
+                System.out.println("Deleted User!");
+            }
         }
-    }
 
     public static void main(String[] args) {
 
@@ -100,11 +115,12 @@ public class UserDAO {
             e.printStackTrace();
         }
         */
-        /* */
+        /*
         try{
             newUser.deleteUser(5);
         }catch(SQLException e){
             e.printStackTrace();
         }
+        */
     }
 }
