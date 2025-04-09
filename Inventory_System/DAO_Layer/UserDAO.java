@@ -31,6 +31,27 @@ public class UserDAO {
         }
     }
 
+    //READ method to fetch all the user records.
+    public List<User> getAllUsers() throws SQLException{
+        List<User> users = new ArrayList<>();
+        String sql = "SELECT * FROM Users";
+        try(PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet res = stmt.executeQuery()){
+            while(res.next()){
+                User user = new User(
+                    res.getInt("userId"),
+                    res.getString("userName"),
+                    res.getString("email"),
+                    res.getString("passcode"),
+                    res.getString("roleUser"));
+
+                    users.add(user);
+            }
+
+            return users;
+        }
+    }
+
     public static void main(String[] args) {
 
         Connection conn = null;
@@ -41,11 +62,27 @@ public class UserDAO {
         }
         UserDAO newUser = new UserDAO(conn);
 
+        /* 
         //To test the create method to add or register new user.
         User user = new User(0,"Helena3107", "Helena2@gmail.com", "hello@sql", "admin");
 
         try{
             newUser.addUser(user);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        */
+        try{
+            List<User> users = newUser.getAllUsers();
+            for(int i = 0; i < users.size(); i++){
+                User user = users.get(i);
+                System.out.println("User ID = " + user.get_userId());
+                System.out.println("User name = " + user.get_userName());
+                System.out.println("email id = " + user.get_email());
+                System.out.println("passcode = " + user.get_passcode());
+                System.out.println("role = " + user.get_role ());
+                System.out.println("----------------");
+            }
         }catch(SQLException e){
             e.printStackTrace();
         }
