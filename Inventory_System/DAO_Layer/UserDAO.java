@@ -2,6 +2,9 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
+
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import Inventory_System.Model_Layer.User;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 
@@ -15,19 +18,24 @@ public class UserDAO {
     //CREATE method to add/register new Users.
     public void addUser(User user) throws SQLException{
         String sql = "INSERT INTO Users (UserName, email, passcode, roleUser) VALUES (?,?,?,?)";
-
-        try(PreparedStatement stmt = conn.prepareStatement(sql)){
-            stmt.setString(1, user.get_userName());
-            stmt.setString(2, user.get_email());
-            stmt.setString(3, user.get_passcode());
-            stmt.setString(4, user.get_role());
-            int rows = stmt.executeUpdate();
-            if (rows > 0){
-                System.out.println("New User Registered!");
+        try{
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setString(1, user.get_userName());
+                stmt.setString(2, user.get_email());
+                stmt.setString(3, user.get_passcode());
+                stmt.setString(4, user.get_role());
+                int rows = stmt.executeUpdate();
+                if (rows > 0){
+                    System.out.println("New User Registered!");
+                }
+                else{
+                    System.out.println("User Registration failed!");
+                }
             }
-            else{
-                System.out.println("User Registration failed!");
-            }
+        }
+        catch(SQLServerException e){
+            System.out.println("User name has to be unique!");
+            System.out.println("Enter a new User name.");
         }
     }
 
@@ -66,6 +74,7 @@ public class UserDAO {
                                 stm.setString(1, newPasscode);
                                 stm.setInt(2, userId);
                                 stm.executeUpdate();
+                                System.out.println("Updated Successfully!");
                             }
                         }
                         else{
@@ -100,17 +109,19 @@ public class UserDAO {
         }
         UserDAO newUser = new UserDAO(conn);
 
-        /* 
+         
         //To test the create method to add or register new user.
         User user = new User(0,"Helena3107", "Helena2@gmail.com", "hello@sql", "admin");
-
+         
         try{
             newUser.addUser(user);
         }catch(SQLException e){
+            System.out.println("User Name has to be unique, enter another user name!");
             e.printStackTrace();
         }
-        */
+        
         /* 
+        //to test the read method 
         try{
             List<User> users = newUser.getAllUsers();
             for(int i = 0; i < users.size(); i++){
@@ -126,18 +137,19 @@ public class UserDAO {
             e.printStackTrace();
         }
         */
-        /*
+        /* 
+        //trying the delete method
         try{
-            newUser.deleteUser(5);
+            newUser.deleteUser(8);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        /* 
+        try{
+            newUser.updatePassCode(2, "Hi@1999", "Helena3107");
         }catch(SQLException e){
             e.printStackTrace();
         }
         */
-        try{
-            newUser.updatePassCode(2, "Hi@SQL", "Helena3107");
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
-        
     }
 }
