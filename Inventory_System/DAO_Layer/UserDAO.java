@@ -2,9 +2,7 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
-
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import Inventory_System.Model_Layer.User;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 
@@ -82,7 +80,36 @@ public class UserDAO {
                         }
                     }
                     else{
-                        System.out.println("user not found!");
+                        System.out.println("User not found!");
+                    }
+                }
+            }
+        }
+
+        //UPDATE Method to update email
+        public void updateEmail(int userId, String newEmail, String name) throws SQLException{
+            String sql1 = "SELECT userName FROM Users WHERE userId = ?";
+            String sql2 = "UPDATE Users SET email = ? WHERE userId = ?";
+            
+            try(PreparedStatement stmt = conn.prepareStatement(sql1)){
+                stmt.setInt(1, userId);
+                try(ResultSet rs = stmt.executeQuery()){
+                    if (rs.next()){
+                        String user_name = rs.getString("userName");
+                        if (user_name.equalsIgnoreCase(name)){
+                            try(PreparedStatement stm = conn.prepareStatement(sql2)){
+                                stm.setString(1, newEmail);
+                                stm.setInt(2, userId);
+                                stm.executeUpdate();
+                                System.out.println("Updated Successfully");
+                            }
+                        }
+                        else{
+                        System.out.println("Username not matched");
+                        }
+                    }
+                    else{
+                        System.out.println("User not found");
                     }
                 }
             }
@@ -109,7 +136,7 @@ public class UserDAO {
         }
         UserDAO newUser = new UserDAO(conn);
 
-         
+         /* 
         //To test the create method to add or register new user.
         User user = new User(0,"Helena3107", "Helena2@gmail.com", "hello@sql", "admin");
          
@@ -119,7 +146,7 @@ public class UserDAO {
             System.out.println("User Name has to be unique, enter another user name!");
             e.printStackTrace();
         }
-        
+        */
         /* 
         //to test the read method 
         try{
@@ -144,12 +171,14 @@ public class UserDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
+        */
         /* 
         try{
-            newUser.updatePassCode(2, "Hi@1999", "Helena3107");
+            newUser.updateEmail(2, "Helena2@gmsil.com", "Helena3107");
         }catch(SQLException e){
             e.printStackTrace();
         }
         */
+    
     }
 }
