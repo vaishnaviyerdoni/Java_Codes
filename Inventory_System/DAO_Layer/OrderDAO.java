@@ -2,9 +2,7 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
-
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import java.text.SimpleDateFormat;
 import Inventory_System.Model_Layer.Order;
 import Inventory_System.Model_Layer.User;
@@ -18,7 +16,7 @@ public class OrderDAO {
     }
 
     //Create method to place new orders, before placing order, the user must register themselves
-    public void placeOrder(user_name, usr_id, Order order) throws SQLException{
+    public void placeOrder(String user_name, int usr_id, Order order) throws SQLException{
         String sql1 = "SELECT userId FROM Users WHERE userName = ?";
         String sql2 = "INSERT INTO Orders (OrderDate, CustomerName, OrderStatus) VALUES (?,?,?)";
 
@@ -29,7 +27,7 @@ public class OrderDAO {
                     int uID = rs.getInt("userId");
                     if(usr_id == uID){
                         try(PreparedStatement stm = conn.prepareStatement(sql2)){
-                            stm.setDate(1, order.get_Orderdate());
+                            stm.setDate(1, java.sql.Date(order.get_Orderdate().getTime()));
                             stm.setString(2, order.get_customerName());
                             stm.setString(3, order.get_status());
                             int rows = stm.executeUpdate();
@@ -53,6 +51,25 @@ public class OrderDAO {
         }
         catch(SQLServerException e){
             System.out.println("Cannot place order if user does not exist!");
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args){
+        Connection conn = null;
+        try{
+            conn = DatabaseConnection.getConn();
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        User user = new User();
+        int user_id = user.get_userId(); 
+        OrderDAO obj = new OrderDAO(conn);
+        Order order = new Order(0, user ,"2025-03-22", "Helena Wayne", "Shipped");
+        try{
+            obj.placeOrder("Helena3107", 2, order);
+        }catch(SQLException e){
             e.printStackTrace();
         }
     }
