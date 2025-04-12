@@ -17,7 +17,7 @@ public class OrderDAO {
 
     //Create method to place new orders, before placing order, the user must register themselves
     public void placeOrder(String user_name, int usr_id, Order order) throws SQLException{
-        String sql1 = "SELECT userId FROM Users";
+        String sql1 = "SELECT userId FROM Users where userName = ?";
         String sql2 = "INSERT INTO Orders (OrderDate, CustomerName, OrderStatus) VALUES (?,?,?)";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql1)){
