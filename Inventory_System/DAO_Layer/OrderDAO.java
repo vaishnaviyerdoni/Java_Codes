@@ -16,41 +16,25 @@ public class OrderDAO {
     }
 
     //Create method to place new orders, before placing order, the user must register themselves
-    public void placeOrder(String user_name, int usr_id, Order order) throws SQLException{
-        String sql1 = "SELECT userId FROM Users where userName = ?";
+    public void placeOrder() throws SQLException{
+        String sql1 = "SELECT userId FROM Users";
         String sql2 = "INSERT INTO Orders (OrderDate, CustomerName, OrderStatus) VALUES (?,?,?)";
 
+        List<User> userID = new ArrayList<>();
         try(PreparedStatement stmt = conn.prepareStatement(sql1)){
-            stmt.setString(1, user_name);
             try(ResultSet rs = stmt.executeQuery()){
-                if(rs.next()){
-                    int uID = rs.getInt("userId");
-                    if(usr_id == uID){
-                        try(PreparedStatement stm = conn.prepareStatement(sql2)){
-                            stm.setDate(1, java.sql.Date(order.get_Orderdate().getTime()));
-                            stm.setString(2, order.get_customerName());
-                            stm.setString(3, order.get_status());
-                            int rows = stm.executeUpdate();
-                            if (rows > 0){
-                                System.out.println("Order placed Successfully!");
-                            }
-                            else{
-                                System.out.println("Couldn't place Order!");
-                            }
-                        }
-                    }
-                    else{
-                        System.out.println("User Id not matched!");
-                    }
+                while(rs.next()){
+                    User user = new User(
+                        rs.getInt("userId"),
+                    rs.getDate("orderDate")
+                    rs.getString());
 
-                }
-                else{
-                    System.out.println("User Id not found");
+                    userID.add(user);
                 }
             }
-        }
-        catch(SQLServerException e){
-            System.out.println("Cannot place order if user does not exist!");
+            return userID;
+
+        }catch(SQLException e){
             e.printStackTrace();
         }
     }
@@ -63,13 +47,15 @@ public class OrderDAO {
         catch(SQLException e){
             e.printStackTrace();
         }
-        User user = new User();
-        int user_id = user.get_userId(); 
         OrderDAO obj = new OrderDAO(conn);
-        Order order = new Order(0, user ,"2025-03-22", "Helena Wayne", "Shipped");
         try{
-            obj.placeOrder("Helena3107", 2, order);
-        }catch(SQLException e){
+            List<User> userIDs = obj.placeOrder();
+            for(int i = 0; i < userIDs.size(); i++){
+                User user = userIDs.get(i);
+                System.out.println(user.get_userId());
+            }
+        }
+        catch(SQLException e){
             e.printStackTrace();
         }
     }
