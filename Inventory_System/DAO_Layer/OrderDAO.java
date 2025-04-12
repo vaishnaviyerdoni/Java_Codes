@@ -16,25 +16,24 @@ public class OrderDAO {
     }
 
     //Create method to place new orders, before placing order, the user must register themselves
-    public void placeOrder() throws SQLException{
-        String sql1 = "SELECT userId FROM Users";
-        String sql2 = "INSERT INTO Orders (OrderDate, CustomerName, OrderStatus) VALUES (?,?,?)";
-
-        List<User> userID = new ArrayList<>();
-        try(PreparedStatement stmt = conn.prepareStatement(sql1)){
-            try(ResultSet rs = stmt.executeQuery()){
-                while(rs.next()){
-                    User user = new User(
-                        rs.getInt("userId"),
-                    rs.getDate("orderDate")
-                    rs.getString());
-
-                    userID.add(user);
+    public void placeOrder(Order order) throws SQLException{
+        String sql = "INSERT INTO Orders (userId, OrderDate, CustomerName, OrderStatus) VALUES  (?,?,?,?)";
+        try{
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, order.get_UserId().get_userId());
+                stmt.setDate(2, new java.sql.Date((order.get_Orderdate().getTime())));
+                stmt.setString(3, order.get_customerName());
+                stmt.setString(4, order.get_status());
+                int rows = stmt.executeUpdate();
+                if (rows > 0){
+                    System.out.println("Order placed");
+                }
+                else{
+                    System.out.println("Order denied");
                 }
             }
-            return userID;
-
-        }catch(SQLException e){
+        }
+        catch(SQLServerException e){
             e.printStackTrace();
         }
     }
@@ -47,16 +46,13 @@ public class OrderDAO {
         catch(SQLException e){
             e.printStackTrace();
         }
+
+        String date = "2025-03-22";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date orderdate = format.parse(date);
+
         OrderDAO obj = new OrderDAO(conn);
-        try{
-            List<User> userIDs = obj.placeOrder();
-            for(int i = 0; i < userIDs.size(); i++){
-                User user = userIDs.get(i);
-                System.out.println(user.get_userId());
-            }
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
+        User user = new User();
+        Order order = new Order(0, user, orderdate , "Helena Wayne", "Shipped" );
     }
 }
