@@ -47,12 +47,20 @@ public class OrderDAO {
             e.printStackTrace();
         }
 
-        String date = "2025-03-22";
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Date orderdate = format.parse(date);
-
         OrderDAO obj = new OrderDAO(conn);
         User user = new User();
-        Order order = new Order(0, user, orderdate , "Helena Wayne", "Shipped" );
+
+        
+        user.set_userId(2);
+        String dstr = "2025-05-19";
+        java.sql.Date date = java.sql.Date.valueOf(dstr);
+        Order order = new Order(0, user, date , "Helena Wayne", "Shipped" );
+
+        try{
+            obj.placeOrder(order);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
