@@ -37,7 +37,33 @@ public class OrderDAO {
             e.printStackTrace();
         }
     }
+    
+    public List<Order> fetchAllOrders() throws SQLException{
+        String sql = "SELECT * FROM Orders";
+        List<Order> orders = new ArrayList<>();
 
+        try(PreparedStatement stmt = conn.prepareStatement(sql);
+        ResultSet rs  = stmt.executeQuery()){
+            while(rs.next()){
+                //to get to the foreign key, wehich is the user id in the users table
+                int userid = rs.getInt("userId");
+                User user = new User();
+                user.set_userId(userid);
+
+                //getting the columns from orders table
+                Order order = new Order(
+                rs.getInt("orderId"),
+                user,
+                rs.getDate("orderDate"),
+                rs.getString("customerName"),
+                rs.getString("orderStatus"));
+
+                orders.add(order);
+            }
+            return orders;
+        }
+    }
+    
     public static void main(String[] args){
         Connection conn = null;
         try{
@@ -50,11 +76,11 @@ public class OrderDAO {
         OrderDAO obj = new OrderDAO(conn);
         User user = new User();
 
-        
-        user.set_userId(2);
-        String dstr = "2025-05-19";
+        /* 
+        user.set_userId(14);
+        String dstr = "2025-05-21";
         java.sql.Date date = java.sql.Date.valueOf(dstr);
-        Order order = new Order(0, user, date , "Helena Wayne", "Shipped" );
+        Order order = new Order(0, user, date , "Selina Wayne", "Shipped" );
 
         try{
             obj.placeOrder(order);
@@ -62,5 +88,22 @@ public class OrderDAO {
         catch(SQLException e){
             e.printStackTrace();
         }
+        */
+        try{
+            List<Order> orders = obj.fetchAllOrders();
+            for(int i = 0; i < orders.size(); i++){
+                Order order = orders.get(i);
+                System.out.println("Order id: " + order.get_orderId());
+                System.out.println("User ID: " + order.get_UserId().get_userId());
+                System.out.println("Order Date: " + order.get_Orderdate());
+                System.out.println("Customer Name: " + order.get_customerName());
+                System.out.println("Status of order: " + order.get_status());
+                System.out.println("---------------");
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+
+
     }
 }
