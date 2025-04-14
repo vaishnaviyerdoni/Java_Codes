@@ -58,33 +58,31 @@ public class OrderDAO {
             }
         }
 
-        public List<Order> fetchOrderbyUserId(int id) throws SQLException{
+        public List<Order> fetchOrderbyUserId(User user) throws SQLException{
             String sql = "SELECT * FROM Orders WHERE userId = ?";
             List<Order> orders = new ArrayList<>();
 
-            try(PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery()){
-                while(rs.next()){
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, user.get_userId());
+                try(ResultSet rs = stmt.executeQuery()){
+                    while(rs.next()){
+                        int userid = rs.getInt("userId");
+                        user.set_userId(userid);
 
-                    int userid = rs.getInt("userId");
-                    User user = new User();
-                    user.set_userId(userid);
+                        Order order = new Order(
+                            rs.getInt("orderId"),
+                            user,
+                            rs.getDate("orderDate"),
+                            rs.getString("customerName"),
+                            rs.getString("orderStatus"));
 
-                    Order order = new Order(
-                        rs.getInt("orderId"),
-                        user,
-                        rs.getDate("orderDate"),
-                        rs.getString("customerName"),
-                        rs.getString("orderStatus"));
-
-                        orders.add(order);
+                            orders.add(order);
                     }
                     return orders;
                 }
             }
         }
-    
+         
 
     public static void main(String[] args){
         Connection conn = null;
@@ -119,7 +117,8 @@ public class OrderDAO {
         
         //To test the read all method for given userid
         try{
-            List<Order> orders = obj.fetchOrderbyUserId(2);
+            List<Order> orders = obj.fetchOrderbyUserId(user);
+            Order order = new Order();
 
                 System.out.println("Order id: " + order.get_orderId());
                 System.out.println("User ID: " + order.get_UserId().get_userId());
