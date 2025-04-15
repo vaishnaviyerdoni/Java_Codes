@@ -33,6 +33,7 @@ public class OrderDAO {
         }
     }
     
+    //to fetch all the orders from the database
     public List<Order> fetchAllOrders() throws SQLException{
         String sql = "SELECT * FROM Orders";
         List<Order> orders = new ArrayList<>();
@@ -58,35 +59,30 @@ public class OrderDAO {
             }
         }
 
-        public List<Order> fetchOrderbyUserId(User user) throws SQLException{
-            String sql = "SELECT * FROM Orders WHERE userId = ?";
-            List<Order> orders = new ArrayList<>();
+        //Update the order status method
+        public void updateStatus(String newStatus, int order_Id) throws SQLException{
+            String sql = "UPDATE Orders SET orderStatus = ? WHERE orderId = ?";
 
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setInt(1, user.get_userId());
-                try(ResultSet rs = stmt.executeQuery()){
-                    while(rs.next()){
-                        int userid = rs.getInt("userId");
-                        user.set_userId(userid);
+                stmt.setString(1, newStatus);
+                stmt.setInt(2, order_Id);
+                stmt.executeUpdate();
 
-                        Order order = new Order(
-                            rs.getInt("orderId"),
-                            user,
-                            rs.getDate("orderDate"),
-                            rs.getString("customerName"),
-                            rs.getString("orderStatus"));
-
-                            orders.add(order);
-                    }
-                    return orders;
-                }
+                System.out.println("Your Order is " + newStatus);
             }
         }
-        //Update the order status method
 
         //Delete the Order
+        public void deleteOrder(int orderID) throws SQLException{
+            String sql = "DELETE FROM Orders WHERE orderId = ?";
 
-        
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, orderID);
+                stmt.executeUpdate();
+
+                System.out.println("Your Order was deleted!");
+            }
+        }
          
 
     public static void main(String[] args){
@@ -119,22 +115,43 @@ public class OrderDAO {
         }
         */
         
-        
+        /* 
         //To test the read all method for given userid
         try{
-            List<Order> orders = obj.fetchOrderbyUserId(user);
-            Order order = new Order();
-
-                System.out.println("Order id: " + order.get_orderId());
-                System.out.println("User ID: " + order.get_UserId().get_userId());
-                System.out.println("Order Date: " + order.get_Orderdate());
-                System.out.println("Customer Name: " + order.get_customerName());
-                System.out.println("Status of order: " + order.get_status());
-                System.out.println("---------------");
-            
+            List<Order> orders = obj.fetchAllOrders();
+                for (int i = 0; i < orders.size(); i++){
+                    Order order = orders.get(i);
+                
+                    System.out.println("Order id: " + order.get_orderId());
+                    System.out.println("User ID: " + order.get_UserId().get_userId());
+                    System.out.println("Order Date: " + order.get_Orderdate());
+                    System.out.println("Customer Name: " + order.get_customerName());
+                    System.out.println("Status of order: " + order.get_status());
+                    System.out.println("---------------");
+                }
+                
         }catch(SQLException e){
             e.printStackTrace();
         }
-        
+        */
+
+        /* 
+        //To test the update Status method
+
+        try{
+            obj.updateStatus("Canceled", 16);
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        */
+
+        //To test the delete method
+
+        try{
+            obj.deleteOrder(16);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 }
