@@ -115,7 +115,7 @@ public class OrderDAO {
         }
         */
         
-        /* 
+        
         //To test the read all method for given userid
         try{
             List<Order> orders = obj.fetchAllOrders();
@@ -133,25 +133,26 @@ public class OrderDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
-        */
+        
 
-        /* 
+         /* 
         //To test the update Status method
 
         try{
-            obj.updateStatus("Canceled", 16);
+            obj.updateStatus("cancelled", 15);
         }catch(SQLException e){
             e.printStackTrace();
         }
-        */
+        
 
+        /* 
         //To test the delete method
-
         try{
             obj.deleteOrder(16);
         }
         catch(SQLException e){
             e.printStackTrace();
         }
+        */
     }
 }
