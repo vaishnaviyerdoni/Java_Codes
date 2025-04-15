@@ -40,7 +40,7 @@ public class OrderDAO {
             try(PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs  = stmt.executeQuery()){
                 while(rs.next()){
-                    //to get to the foreign key, wehich is the user id in the users table
+                    //to get to the foreign key, which is the user id in the users table
                     int userid = rs.getInt("userId");
                     User user = new User();
                     user.set_userId(userid);
