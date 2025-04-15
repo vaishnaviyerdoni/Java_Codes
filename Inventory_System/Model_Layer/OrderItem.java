@@ -6,17 +6,19 @@ public class OrderItem {
     private Inventory inventoryId;
     private int quantity;
     private double subtotal;
+    private User userid;
 
     //constructor
 
     public OrderItem(){}
 
-    public OrderItem(int itemsId, Order OrderId, Inventory inventoryId, int quantity, double subtotal){
+    public OrderItem(int itemsId, Order OrderId, Inventory inventoryId, int quantity, double subtotal, User userid){
         this.itemsId = itemsId;
         this.OrderId = OrderId;
         this.inventoryId = inventoryId;
         this.quantity = quantity;
         this.subtotal = subtotal;
+        this.userid = userid;
     }
 
     //getters
@@ -40,6 +42,10 @@ public class OrderItem {
         return subtotal;
     }
 
+    public User get_userid(){
+        return userid;
+    }
+
     //setters
     public void set_itemId(int itemsId){
         this.itemsId = itemsId;
@@ -61,6 +67,10 @@ public class OrderItem {
         this.subtotal = subtotal;
     }
 
+    public void set_userid(User userid){
+        this.userid = userid;
+    }
+
     public String toString(){
         return "OrderItems{" +
                 "itemsId=" + itemsId +
@@ -68,6 +78,7 @@ public class OrderItem {
                 ", inventoryID='" + inventoryId + '\'' +
                 ", quantity=" + quantity +
                 ", subtotal=" + subtotal +
+                ", userid=" + userid +
                 '}';                 
     }
 }
