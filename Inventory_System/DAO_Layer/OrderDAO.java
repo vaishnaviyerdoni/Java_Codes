@@ -58,6 +58,32 @@ public class OrderDAO {
                 return orders;
             }
         }
+        //to fetch the order by its order id
+        public Order fetchOrderbyId(int orderId, Order order) throws SQLException{
+            String sql = "SELECT * FROM Orders WHERE orderId = ?";
+
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, orderId);
+                try(ResultSet rs = stmt.executeQuery()){
+                    while(rs.next()){
+                        //to get the user id which is a foreign key
+                        int userid = rs.getInt("userId");
+                        User user = new User();
+                        user.set_userId(userid);
+
+                        //to get the rest of the columns from orders
+                        Order order = new Order(
+                            rs.getInt("orderId"),
+                            user,
+                            rs.getDate("orderDate"),
+                            rs.getString("customerName"),
+                            rs.getString("orderStatus"));
+                            return order;
+                    }
+                    return order;
+                }
+            }
+        }
 
         //Update the order status method
         public void updateStatus(String newStatus, int order_Id) throws SQLException{
@@ -115,7 +141,7 @@ public class OrderDAO {
         }
         */
         
-        
+        /* 
         //To test the read all method for given userid
         try{
             List<Order> orders = obj.fetchAllOrders();
@@ -133,8 +159,16 @@ public class OrderDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
-        
-
+        */
+        //to test get by order id
+        //Order order = new Order();
+        try{
+            Order order = obj.fetchOrderbyId(4,order);
+            System.out.println(order);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
          /* 
         //To test the update Status method
 
