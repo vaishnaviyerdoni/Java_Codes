@@ -71,6 +71,23 @@ public class OrderItemDAO {
             }
         }
     }
+    
+    //Update method for updating the quantity and hence subtotal
+    public void UpdateQuantityAndTotal(int quantity, double Newsubtotal) throws SQLException{
+
+    }
+
+    //Delete the record for given items number
+    public void deleteOrderItem(int itemsId) throws SQLException{
+        String sql = "DELETE FROM OrderItems WHERE ItemsID = ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, itemsId);
+            stmt.executeUpdate();
+
+            System.out.println("Deleted Successfully!");
+        }
+    }
 
     public static void main(String[] args){
 
@@ -118,5 +135,15 @@ public class OrderItemDAO {
             e.printStackTrace();
         }
         */
+
+        /* 
+        //to test the delete Method
+        try{
+            items.deleteOrderItem(8);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        */ 
     }
 }
