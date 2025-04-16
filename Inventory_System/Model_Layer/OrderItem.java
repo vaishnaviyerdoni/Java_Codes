@@ -7,7 +7,7 @@ public class OrderItem {
     private int quantity;
     private double subtotal;
     private User userid;
-
+    
     //constructor
 
     public OrderItem(){}
@@ -22,7 +22,7 @@ public class OrderItem {
     }
 
     //getters
-    public int get_item(){
+    public int get_itemsId(){
         return itemsId;
     }
 
@@ -47,11 +47,11 @@ public class OrderItem {
     }
 
     //setters
-    public void set_itemId(int itemsId){
+    public void set_itemsId(int itemsId){
         this.itemsId = itemsId;
     }
 
-    public void set_orderid(Order orderId){
+    public void set_orderid(Order OrderId){
         this.OrderId = OrderId;
     }
 
