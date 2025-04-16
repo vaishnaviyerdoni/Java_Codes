@@ -58,6 +58,7 @@ public class OrderDAO {
                 return orders;
             }
         }
+        /* 
         //to fetch the order by its order id
         public Order fetchOrderbyId(int orderId, Order order) throws SQLException{
             String sql = "SELECT * FROM Orders WHERE orderId = ?";
@@ -84,6 +85,7 @@ public class OrderDAO {
                 }
             }
         }
+            */
 
         //Update the order status method
         public void updateStatus(String newStatus, int order_Id) throws SQLException{
@@ -141,7 +143,7 @@ public class OrderDAO {
         }
         */
         
-        /* 
+        
         //To test the read all method for given userid
         try{
             List<Order> orders = obj.fetchAllOrders();
@@ -159,7 +161,8 @@ public class OrderDAO {
         }catch(SQLException e){
             e.printStackTrace();
         }
-        */
+        
+        /* 
         //to test get by order id
         //Order order = new Order();
         try{

@@ -4,7 +4,7 @@ import Inventory_System.DAO_Layer.*;
 import Inventory_System.Model_Layer.*;
 import java.util.*;
 import java.sql.*;
-import java.text.ListFormat.Style;
+
 
 public class OrderItemDAO {
     //constructor for database connection
@@ -40,7 +40,7 @@ public class OrderItemDAO {
         String sql = "SELECT * FROM OrderItems";
         List<OrderItem> items = new ArrayList<>();
 
-        try(PreparedStatement stmt =  conn.prepareStatement(sql)){
+        try(PreparedStatement stmt  = conn.prepareStatement(sql)){
             try(ResultSet rs = stmt.executeQuery()){
                 while(rs.next()){
                     //to fetch the foreign keys
@@ -48,26 +48,25 @@ public class OrderItemDAO {
                     Order order = new Order();
                     order.set_OrderId(orderid);
 
-                    int inventoryId = rs.getInt("inventoryId");
+                    int inventoryid = rs.getInt("inventoryId");
                     Inventory inventory = new Inventory();
-                    inventory.set_itemId(inventoryId);
+                    inventory.set_itemId(inventoryid);
 
                     int userid = rs.getInt("userId");
                     User user = new User();
                     user.set_userId(userid);
 
-                    //to fetch other order details from database
+                    //to fetch other Orders Items
                     OrderItem item = new OrderItem(
                         rs.getInt("itemsId"),
                         order,
                         inventory,
                         rs.getInt("quantity"),
-                        rs.getDouble("subtotal"),
+                        rs.getDouble("Subtotal"),
                         user);
 
                     items.add(item);
                 }
-
                 return items;
             }
         }
@@ -86,12 +85,12 @@ public class OrderItemDAO {
 
         /* 
         Inventory inventory = new Inventory();
-        inventory.set_itemId(1);
+        inventory.set_itemId(5);
         User user = new User();
-        user.set_userId(15);
+        user.set_userId(14);
         Order order = new Order();
-        order.set_OrderId(15);
-        OrderItem item = new OrderItem(0, order, inventory, 1, 200000, user);
+        order.set_OrderId(6);
+        OrderItem item = new OrderItem(0, order, inventory, 1, 14000, user);
         try{
             items.addOrderItem(item);
         }
@@ -99,14 +98,14 @@ public class OrderItemDAO {
             e.printStackTrace();
         }
         */
-
         
+        /* 
         //to test read function
         try{
             List<OrderItem> item = items.fetchAll();
             for(int i = 0; i < item.size(); i++){
                 OrderItem myItem = item.get(i);
-                System.out.println("Items id: " + myItem.get_inventoryId().get_itemId());
+                System.out.println("Items id: " + myItem.get_itemsId());
                 System.out.println("Order id: " + myItem.get_orderid().get_orderId());
                 System.out.println("Inventory item id: "+ myItem.get_inventoryId().get_itemId());
                 System.out.println("Quantity: " + myItem.getOrder_quantity());
@@ -118,6 +117,6 @@ public class OrderItemDAO {
         catch(SQLException e){
             e.printStackTrace();
         }
-        
+        */
     }
 }

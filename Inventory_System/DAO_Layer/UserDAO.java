@@ -136,7 +136,7 @@ public class UserDAO {
         }
         UserDAO newUser = new UserDAO(conn);
 
-         
+        /*  
         //To test the create method to add or register new user.
         User user = new User(0,"Michell bell", "michell23@gmail.com", "DogParty3", "customer");
          
@@ -146,7 +146,8 @@ public class UserDAO {
             System.out.println("User Name has to be unique, enter another user name!");
             e.printStackTrace();
         }
-        
+        */
+
         /* 
         //to test the read method 
         try{
@@ -164,6 +165,7 @@ public class UserDAO {
             e.printStackTrace();
         }
         */
+        
         /* 
         //trying the delete method
         try{
