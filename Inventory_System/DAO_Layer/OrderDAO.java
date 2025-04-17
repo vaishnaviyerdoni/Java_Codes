@@ -58,10 +58,11 @@ public class OrderDAO {
                 return orders;
             }
         }
-        /* 
+         
         //to fetch the order by its order id
-        public Order fetchOrderbyId(int orderId, Order order) throws SQLException{
+        public List<Order> fetchOrderbyId(int orderId) throws SQLException{
             String sql = "SELECT * FROM Orders WHERE orderId = ?";
+            List<Order> orders = new ArrayList<>();
 
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setInt(1, orderId);
@@ -79,13 +80,14 @@ public class OrderDAO {
                             rs.getDate("orderDate"),
                             rs.getString("customerName"),
                             rs.getString("orderStatus"));
-                            return order;
+                            
+                            orders.add(order);
                     }
-                    return order;
+                    return orders;
                 }
             }
         }
-            */
+            
 
         //Update the order status method
         public void updateStatus(String newStatus, int order_Id) throws SQLException{
@@ -146,10 +148,10 @@ public class OrderDAO {
         
         //To test the read all method for given userid
         try{
-            List<Order> orders = obj.fetchAllOrders();
+            List<Order> orders = obj.fetchOrderbyId(15);
                 for (int i = 0; i < orders.size(); i++){
                     Order order = orders.get(i);
-                
+                    System.out.println("--------------");
                     System.out.println("Order id: " + order.get_orderId());
                     System.out.println("User ID: " + order.get_UserId().get_userId());
                     System.out.println("Order Date: " + order.get_Orderdate());
