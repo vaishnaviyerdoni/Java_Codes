@@ -73,10 +73,61 @@ public class OrderItemDAO {
     }
     
     //Update method for updating the quantity and hence subtotal
-    public void UpdateQuantityAndTotal(int quantity, double Newsubtotal) throws SQLException{
+    public void UpdateQuantity(int Newquantity, int id) throws SQLException{
+        String sql = "UPDATE OrderItems SET quantity = ? WHERE ItemsId = ?";
 
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, Newquantity);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+
+            System.out.println("Updated the quantity Successfully");
+        }
     }
 
+    
+    //Update method for updating the subtotal because if quantity changes, subtotal changes
+    public void updateSubtotal(int itemId, int itemsId) throws SQLException{
+        String sql1 = "SELECT price FROM InventoryTable WHERE itemId =?";
+        String sql2 = "SELECT quantity FROM OrderItems WHERE itemsId = ?";
+        String sql3 = "UPDATE OrderItems SET Subtotal = ? WHERE itemsId = ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql1)){
+            stmt.setInt(1, itemId);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    int price = rs.getInt("price");
+
+                    try(PreparedStatement st = conn.prepareStatement(sql2)){
+                        st.setInt(1, itemsId);
+                        try(ResultSet res = st.executeQuery()){
+                            if(res.next()){
+                                int quantity = res.getInt("quantity");
+
+                                try(PreparedStatement stm = conn.prepareStatement(sql3)){
+                                    Double subtotal = (double)(price * quantity);
+
+                                    stm.setDouble(1, subtotal);
+                                    stm.setInt(2, itemsId);
+
+                                    stm.executeUpdate();
+
+                                    System.out.println("Updated the Subtotal Successfully!");
+                                }
+                            }
+                            else{
+                                System.out.println("Quantity not found!");
+                            }
+                        }
+                    }
+                }
+                else{
+                    System.out.println("Price not found!");
+                }                
+            }
+        }
+    }
+    
     //Delete the record for given items number
     public void deleteOrderItem(int itemsId) throws SQLException{
         String sql = "DELETE FROM OrderItems WHERE ItemsID = ?";
@@ -101,6 +152,7 @@ public class OrderItemDAO {
         OrderItemDAO items = new OrderItemDAO(conn);
 
         /* 
+        //to test create method
         Inventory inventory = new Inventory();
         inventory.set_itemId(5);
         User user = new User();
@@ -135,6 +187,24 @@ public class OrderItemDAO {
             e.printStackTrace();
         }
         */
+
+        /* 
+        //to test the update quantity method
+        try{
+            items.UpdateQuantity(3, 10);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        */
+
+        //to test the update subtotal method
+        try{
+            items.updateSubtotal(5, 10);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
 
         /* 
         //to test the delete Method
