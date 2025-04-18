@@ -56,20 +56,21 @@ public class InventoryDAO {
 
     public List<List<Integer>> getLowStockThreshold() throws SQLException{
         String sql = "SELECT ItemId, LowStockThreshold FROM InventoryTable";
-        List<Inventory> items = new ArrayList<>();
+        List<List<Integer>> items = new ArrayList<>();
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
-            try(ResultSet res = stmt.executeQuery()){
-                List<Integer> itemId = res.getInt("itemId");
-                List<Integer> LowStock = res.getInt("LowStockThreshold");
-                
-                List<Integer> Row = new ArrayList<>();
-                Row.add(itemId);
-                Row.add(LowStock);
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    List<Integer> row = new ArrayList<>();
 
-                items.add(Row);
+                    row.add(rs.getInt("itemId"));
+                    row.add(rs.getInt("LowStockThreshold"));
+
+                    items.add(row);
+                }
+
+                return items;
             }
-            return items
         }
     }
     
