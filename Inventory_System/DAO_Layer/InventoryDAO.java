@@ -53,6 +53,25 @@ public class InventoryDAO {
             return items;
         }
     }
+
+    public List<List<Integer>> getLowStockThreshold() throws SQLException{
+        String sql = "SELECT ItemId, LowStockThreshold FROM InventoryTable";
+        List<Inventory> items = new ArrayList<>();
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            try(ResultSet res = stmt.executeQuery()){
+                List<Integer> itemId = res.getInt("itemId");
+                List<Integer> LowStock = res.getInt("LowStockThreshold");
+                
+                List<Integer> Row = new ArrayList<>();
+                Row.add(itemId);
+                Row.add(LowStock);
+
+                items.add(Row);
+            }
+            return items
+        }
+    }
     
     //UPDATE method: update the columns from inventory table wrt quantity
     public void updateItembyQuantity(int itemId, int newQuantity) throws SQLException{
