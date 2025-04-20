@@ -15,10 +15,11 @@ public class InventorySevice {
         InventoryDAO dao = new InventoryDAO(conn);
         try{
             List<List<Integer>> idAndLowStock = dao.getLowStockThreshold();
+            System.out.println(idAndLowStock);
             for(int i = 0; i < idAndLowStock.size(); i++){
                 int itemId = idAndLowStock.get(i).get(0);
                 int LowStockThreshold = idAndLowStock.get(i).get(1);
-                System.out.println(itemId + " : " + LowStockThreshold);
+                //System.out.println(LowStockThreshold);
             }
         }
         catch(SQLException e){
