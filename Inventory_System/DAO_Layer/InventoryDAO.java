@@ -98,6 +98,18 @@ public class InventoryDAO {
         }
     }
 
+    //UPDATE method: update price for given itemID
+    public void updatePricebyItemId(int itemId, int newPrice) throws SQLException{
+        String sql = "UPDATE InventoryTable SET price = ? WHERE itemId = ?";
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, newPrice);
+            stmt.setInt(2, itemId);
+            stmt.executeUpdate();
+
+            System.out.println("Price updated Successfully!");
+        }
+    }
+
     //DELETE method : delete the record the table for the given id
     public void deleteItem(int itemId) throws SQLException{
         String sql = "DELETE FROM InventoryTable WHERE itemId = ?";

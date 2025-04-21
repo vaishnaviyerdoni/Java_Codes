@@ -57,6 +57,24 @@ public class UserDAO {
             return users;
         }
     }
+
+    //READ method to fetch the user role 
+    public String getRole(int userId) throws SQLException{
+        String sql = "SELECT roleUser FROM Users WHERE userId = ?";
+        String role = " ";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            try(ResultSet res = stmt.executeQuery()){
+                if(res.next()){
+                    role = res.getString("roleUser");
+                }
+                return role;
+
+            }
+
+        }
+    }
     //UPDATE method to update the user details.
     public void updatePassCode(int userId, String newPasscode, String name) throws SQLException{
         String sql1 = "SELECT userName FROM Users where userId = ?";
