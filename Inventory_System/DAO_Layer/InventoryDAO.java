@@ -54,14 +54,31 @@ public class InventoryDAO {
         }
     }
 
-    public int getLowStockThreshold() throws SQLException{
+    //To get the quantity
+    public int getQuantity(int itemId) throws SQLException{
+        String sql = "SELECT quantity FROM InventoryTable WHERE itemId = ?";
+        int quantity = -1;
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, itemId);
+            try(ResultSet res = stmt.executeQuery()){
+                if(res.next()){
+                    quantity = res.getInt("quantity");
+                }
+
+                return quantity;
+            }
+        }
+    }
+
+    //To get the low stock threshold
+    public int getLowStockThreshold(int itemId) throws SQLException{
         String sql = "SELECT LowStockThreshold FROM InventoryTable WHERE itemId = ?";
-        
+        int LowStockThreshold = -1;
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, itemId); 
             try(ResultSet rs = stmt.executeQuery()){
-                while(rs.next()){
-                    int LowStockThreshold = rs.getInt("LowStockThreshold");
+                if(rs.next()){
+                    LowStockThreshold = rs.getInt("LowStockThreshold");
                 }
 
                 return LowStockThreshold;
