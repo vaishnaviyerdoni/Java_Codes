@@ -70,6 +70,25 @@ public class InventoryDAO {
         }
     }
 
+    //to get an item by its category
+    public List<String> getitemByCategory(String category) throws SQLException{
+        String sql = "SELECT itemName FROM InventoryTable WHERE category = ?";
+        List<String> itemsList = new ArrayList<>();
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, category);
+            try(ResultSet rs = stmt.executeQuery()){
+                while (rs.next()){
+                    String items = rs.getString("itemName");
+
+                    itemsList.add(items);
+                }
+
+                return itemsList;
+            }
+        }
+    }
+
     //To get the low stock threshold
     public int getLowStockThreshold(int itemId) throws SQLException{
         String sql = "SELECT LowStockThreshold FROM InventoryTable WHERE itemId = ?";
