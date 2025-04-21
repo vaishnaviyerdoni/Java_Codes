@@ -6,10 +6,12 @@ import Inventory_System.Model_Layer.User;
 
 public class InventoryService{
     private InventoryDAO inventoryDAO;
+    private UserDAO userDAO;
 
     //constructor
-    public InventoryService(InventoryDAO inventoryDAO){
+    public InventoryService(InventoryDAO inventoryDAO, UserDAO userDAO){
         this.inventoryDAO = inventoryDAO;
+        this.userDAO = userDAO;
     }
 
     //alert message for Low Quantity
@@ -57,7 +59,7 @@ public class InventoryService{
 
     //get the user role, if user is admin then they are allowed to update price
     public void updatePrice(int itemId, int userId, int newPrice){
-        UserDAO userDAO = new UserDAO(null);
+    
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("admin")){
