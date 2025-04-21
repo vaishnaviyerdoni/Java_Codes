@@ -1,7 +1,9 @@
 package Inventory_System.Business_Layer;
+
 import java.util.*;
 import java.sql.*;
 import Inventory_System.DAO_Layer.*;
+import Inventory_System.Model_Layer.Inventory;
 import Inventory_System.Model_Layer.User;
 
 public class InventoryService{
@@ -75,7 +77,77 @@ public class InventoryService{
             e.printStackTrace();
         }
     }
+    
+    //to view all the items from inventory table
+    public void viewAllItems() throws SQLException{
+        try{
+            List<Inventory> items = inventoryDAO.getAllItems();
 
+            for (int i = 0; i < items.size(); i++){
+                Inventory myitem = items.get(i);
+                System.out.println("Item Id = " + myitem.get_itemId());
+                System.out.println("item Name = " + myitem.get_itemName());
+                System.out.println("category = " + myitem.get_category());
+                System.out.println("price = " + myitem.get_price());
+                System.out.println("quantity = " + myitem.get_price());
+                System.out.println("Low Stock Threshold = " + myitem.get_LowStock());
+                System.out.println("-----------------");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    //to get the items by category
+    public void viewItemsByCategory(String category) throws SQLException{
+        try{
+            List<String> itemsBycategory = new ArrayList<>();
+
+            itemsBycategory = inventoryDAO.getitemByCategory(category);
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    //Only admin and staff can insert items in Inventory table
+    public void insertItems(int itemId, int userId, String itemName, String category, Double price, int quantity, int LowStockThreshold) throws SQLException{
+        try{
+            String role = userDAO.getRole(userId);
+            if (role.equalsIgnoreCase("staff") || role.equalsIgnoreCase("Admin")){
+                try{
+                    Inventory item = new Inventory(0, itemName, category, price, quantity, LowStockThreshold);
+                    inventoryDAO.addItem(item);
+                }
+                catch(SQLException e){
+                    e.printStackTrace();
+                }
+            }
+            else{
+                System.out.print("Customer cannot insert an item in Inventory!");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    //Only admin can delete items from inventory table
+    public void deleteByAdmin(int itemId, int userId) throws SQLException{
+        try{
+            String role = userDAO.getRole(userId);
+            if (role.equalsIgnoreCase("Admin")){
+                inventoryDAO.deleteItem(itemId);
+            }
+            else{
+                System.out.print("Customer or Staff do not have authority to delete items from Inventory!");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     
         
 }
