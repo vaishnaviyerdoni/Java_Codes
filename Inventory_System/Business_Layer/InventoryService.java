@@ -78,8 +78,8 @@ public class InventoryService{
         }
     }
     
-    //to view all the items from inventory table
-    public void viewAllItems() throws SQLException{
+    //to view all the items from inventory table //work on return value
+    public List<Inventory> viewAllItems() throws SQLException, NullPointerException{
         try{
             List<Inventory> items = inventoryDAO.getAllItems();
 
@@ -93,9 +93,12 @@ public class InventoryService{
                 System.out.println("Low Stock Threshold = " + myitem.get_LowStock());
                 System.out.println("-----------------");
             }
+
+            return items;
         }
         catch(SQLException e){
             e.printStackTrace();
+            return null;
         }
     }
 

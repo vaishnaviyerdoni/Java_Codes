@@ -63,4 +63,44 @@ public class UserService {
             e.printStackTrace();
         }
     }
+
+    // Only Staff and Admin can read the information about all Users
+    public List<User> ReadAllUsers(int userId) throws SQLException, NullPointerException{
+        try{
+            String role = userDAO.getRole(userId);
+            List<User> users = userDAO.getAllUsers();
+
+            if (role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("staff")){
+                for (int i = 0; i < users.size(); i++){
+
+                    User user = users.get(i);
+                    System.out.println("User ID = " + user.get_userId());
+                    System.out.println("User name = " + user.get_userName());
+                    System.out.println("email id = " + user.get_email());
+                    System.out.println("passcode = " + user.get_passcode());
+                    System.out.println("role = " + user.get_role());
+                    System.out.println("----------------");
+    
+                }
+                return users;
+            }
+            else{
+                System.out.println("Customer cannot view User Information!");
+                return null;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //update the passcode if username is correct
+
+    //Update the email if username is correct
+
+    //Only admin can delete user
+
+    //user name and passcode rules
+
 }
