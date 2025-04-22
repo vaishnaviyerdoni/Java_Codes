@@ -96,6 +96,24 @@ public class UserDAO {
         }
     }
 
+    //READ method to fetch the usernames
+    public List<String> getAllNames() throws SQLException{
+        String sql = "SELECT userName FROM Users";
+        List<String> names = new ArrayList<>();
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            try(ResultSet res = stmt.executeQuery()){
+                while(res.next()){
+                    String name = res.getString("userName");
+
+                    names.add(name);
+                }
+
+                return names;
+            }
+        }
+    }
+
     //UPDATE method to update the user details.
     public void updatePassCode(int userId, String newPasscode, String name) throws SQLException{
         String sql1 = "SELECT userName FROM Users where userId = ?";
