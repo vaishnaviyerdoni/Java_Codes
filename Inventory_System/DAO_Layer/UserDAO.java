@@ -2,6 +2,9 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import Inventory_System.Model_Layer.User;
 import Inventory_System.DAO_Layer.DatabaseConnection;
@@ -72,9 +75,27 @@ public class UserDAO {
                 return role;
 
             }
-
         }
     }
+
+    //READ method to fetch the user roles
+    public List<String> getUserRoles() throws SQLException{
+        String sql = "SELECT roleUser FROM Users";
+        List<String> admins = new ArrayList<>();
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            try(ResultSet res = stmt.executeQuery()){
+                while(res.next()){
+                    String role = res.getString("roleUser");
+
+                    admins.add(role);
+                }
+
+                return admins;
+            }
+        }
+    }
+
     //UPDATE method to update the user details.
     public void updatePassCode(int userId, String newPasscode, String name) throws SQLException{
         String sql1 = "SELECT userName FROM Users where userId = ?";
