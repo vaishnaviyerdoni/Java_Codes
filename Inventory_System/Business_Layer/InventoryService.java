@@ -89,7 +89,7 @@ public class InventoryService{
                 System.out.println("item Name = " + myitem.get_itemName());
                 System.out.println("category = " + myitem.get_category());
                 System.out.println("price = " + myitem.get_price());
-                System.out.println("quantity = " + myitem.get_price());
+                System.out.println("quantity = " + myitem.get_quantity());
                 System.out.println("Low Stock Threshold = " + myitem.get_LowStock());
                 System.out.println("-----------------");
             }
