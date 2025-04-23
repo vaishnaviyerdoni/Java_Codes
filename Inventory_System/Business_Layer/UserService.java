@@ -193,19 +193,4 @@ public class UserService {
 
         return false;
     }
-
-    public static void main(String[] args) {
-        try{
-            Connection conn = null;
-            conn = DatabaseConnection.getConn();
-            UserDAO userDAO = new UserDAO(conn);
-            UserService service = new UserService(userDAO);
-            boolean val = service.isValiduserName("vaish1905_2000");
-            System.out.println(val);
-             
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
 }
