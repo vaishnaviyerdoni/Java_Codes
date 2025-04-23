@@ -170,8 +170,28 @@ public class UserService {
     }
 
     //user name and passcode rules
-    public boolean isValid(String passcode){
-        
+    public boolean isValiduserName(String username){
+        if (username.length() < 5 || username.length() > 15){
+            return false;
+        }
+
+        if (username.matches("^[a-zA-Z0-9_]{5,15}$")){
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isValidPasscode(String passcode) {
+        if (passcode.length() < 8 || passcode.length() > 15){
+            return false;
+        }
+    
+        if(passcode.matches("^[a-zA-Z0-9!@#$%&_*]{8,15}$")){
+            return true;
+        }
+
+        return false;
     }
 
     public static void main(String[] args) {
@@ -180,13 +200,8 @@ public class UserService {
             conn = DatabaseConnection.getConn();
             UserDAO userDAO = new UserDAO(conn);
             UserService service = new UserService(userDAO);
-            String val = service.LoginLogic(2, "Helena3107","npass@3490", "Admin");
-            if (val.equalsIgnoreCase("Login Successful")){
-                System.out.println(val);
-            }
-            else{
-                System.out.println(val);
-            }
+            boolean val = service.isValiduserName("vaish1905_2000");
+            System.out.println(val);
              
         }
         catch(SQLException e){
