@@ -96,11 +96,52 @@ public class UserService {
     }
 
     //update the passcode if username is correct
+    public void updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException{
+        
+        try{
+            List<String> names = userDAO.getAllNames();
+            for (int i = 0; i < names.size(); i++){
+                if (username.equals(names.get(i))){
+                    //System.out.println("User name exists");
+                    userDAO.updatePassCode(userId, nPasscode, username);
+                }
+            } 
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     //Update the email if username is correct
+    public void updateEmailifUserNameExits(int userId, String nEmail, String username) throws SQLException{
+        
+        try{
+            List<String> names = userDAO.getAllNames();
+            for (int i = 0; i < names.size(); i++){
+                if(username.equals(names.get(i))){
+                    userDAO.updateEmail(userId, nEmail, username);
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     //Only admin can delete user
 
     //user name and passcode rules
 
+    public static void main(String[] args) {
+        try{
+            Connection conn = null;
+            conn = DatabaseConnection.getConn();
+            UserDAO userDAO = new UserDAO(conn);
+            UserService service = new UserService(userDAO);
+            service.updateEmailifUserNameExits(2, "Helena2@gmail.com", "Helena3107");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
