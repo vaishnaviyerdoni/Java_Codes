@@ -143,9 +143,29 @@ public class UserService {
     }
 
     //Login Logic
-    public String LoginLogic(String username, String passcode, String role) throws SQLException{
+    public String LoginLogic(int userId, String username, String passcode, String roleUser) throws SQLException{
         try{
-            
+            String userName = userDAO.getUsername(userId);
+            String passCode = userDAO.getPasscode(userId);
+            String role = userDAO.getRole(userId);
+
+            /* 
+            System.out.println(userName);
+            System.out.println(role);
+            System.out.println(passCode);
+            */
+
+            if (userName.equals(username) && passCode.equals(passcode) && role.equalsIgnoreCase(roleUser)){
+                return "Login Successful";
+            }
+            else{
+                return "The credentials do not match!";
+            }
+                
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return "-1";
         }
     }
 
@@ -157,7 +177,14 @@ public class UserService {
             conn = DatabaseConnection.getConn();
             UserDAO userDAO = new UserDAO(conn);
             UserService service = new UserService(userDAO);
-            service.registerUser(0, "Ashu1993", "ashu@outlook.com", "Kvothe$86655", "Admin");;
+            String val = service.LoginLogic(2, "Helena3107","npass@3490", "Admin");
+            if (val.equalsIgnoreCase("Login Successful")){
+                System.out.println(val);
+            }
+            else{
+                System.out.println(val);
+            }
+             
         }
         catch(SQLException e){
             e.printStackTrace();
