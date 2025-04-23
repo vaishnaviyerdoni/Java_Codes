@@ -20,44 +20,42 @@ public class UserService {
     public void registerUser(int userId, String userName, String email, String passcode, String roleUser) throws SQLException{
         try{
             User user  = new User(userId, userName, email, passcode, roleUser);
-            List<String> roles = new ArrayList<>();
-
-            roles = userDAO.getUserRoles();
+            List<String> roles = userDAO.getUserRoles();
 
             int cntAdmin = 0;
             int cntStaff = 0;
 
-            if (roleUser.equalsIgnoreCase("customer")){
-                userDAO.addUser(user);
-            }
-            else if(roleUser.equalsIgnoreCase("admin") || roleUser.equalsIgnoreCase("staff")){
-                for (int i = 0; i < roles.size(); i++){
-                    if (roles.get(i).equalsIgnoreCase("admin")){
-                        cntAdmin++;
-
-                        if (cntAdmin < 5){
-                            userDAO.addUser(user);
-                        }
-                        else{
-                            System.out.println("Only 5 admin registrations are allowed!");
-                        }
-                    }
-                    else if (roles.get(i).equalsIgnoreCase("staff")){
-                        cntStaff++;
-
-                        if (cntStaff < 10){
-                            userDAO.addUser(user);
-                        }
-                        else{
-                            System.out.println("Only 10 Staff registrations are allowed");
-                        }
-                    }
-                    else{
-                        System.out.println("role should be customer, staff or admin");
-                    }
+            for (int i = 0; i < roles.size(); i++){
+                if(roles.get(i).equalsIgnoreCase("admin")){
+                    cntAdmin++;
+                }
+                
+                if (roles.get(i).equalsIgnoreCase("Staff")){
+                    cntStaff++;
                 }
             }
 
+            if (roleUser.equalsIgnoreCase("customer")){
+                userDAO.addUser(user);
+            }
+            
+            if(roleUser.equalsIgnoreCase("admin")){
+                if (cntAdmin < 5){
+                    userDAO.addUser(user);
+                }
+                else{
+                    System.out.println("Only 5 Admin registrations are allowed.");
+                }
+            }
+
+            if (roleUser.equalsIgnoreCase("staff")){
+                if (cntStaff < 10){
+                    userDAO.addUser(user);
+                }
+                else{
+                    System.out.println("Only 10 Staff registrations are allowed.");
+                }
+            }
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -129,6 +127,22 @@ public class UserService {
     }
 
     //Only admin can delete user
+    public void AdminDeletesUser(int AdminUserId, int deleteUserId) throws SQLException{
+        try{
+            String role = userDAO.getRole(AdminUserId);
+            if(role.equalsIgnoreCase("Admin")){
+                userDAO.deleteUser(deleteUserId);
+            }
+            else{
+                System.out.println("Staff and Cuustomer are not authorized to delete the user.");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    //Login Logic
 
     //user name and passcode rules
 
@@ -138,7 +152,7 @@ public class UserService {
             conn = DatabaseConnection.getConn();
             UserDAO userDAO = new UserDAO(conn);
             UserService service = new UserService(userDAO);
-            service.updateEmailifUserNameExits(2, "Helena2@gmail.com", "Helena3107");
+            service.registerUser(0, "Ashu1993", "ashu@outlook.com", "Kvothe$86655", "Admin");;
         }
         catch(SQLException e){
             e.printStackTrace();
