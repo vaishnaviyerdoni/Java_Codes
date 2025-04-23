@@ -2,9 +2,6 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
-
-import javax.naming.spi.DirStateFactory.Result;
-
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import Inventory_System.Model_Layer.User;
 import Inventory_System.DAO_Layer.DatabaseConnection;
@@ -74,6 +71,39 @@ public class UserDAO {
                 }
                 return role;
 
+            }
+        }
+    }
+
+    //READ method to fetch passcode
+    public String getPasscode(int userId) throws SQLException{
+        String sql = "SELECT passcode FROM Users WHERE userId = ?";
+        String passcode = " ";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            try(ResultSet res = stmt.executeQuery()){
+                if(res.next()){
+                    passcode = res.getString("passcode");
+                }
+                return passcode;
+
+            }
+        }
+    }
+
+    //READ method to fetch username
+    public String getUsername(int userId) throws SQLException{
+        String sql = "SELECT userName FROM Users FROM userId = ?";
+        String username = " ";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            try(ResultSet res = stmt.executeQuery()){
+                if(res.next()){
+                    username = res.getString("userName");
+                }
+                return username;
             }
         }
     }

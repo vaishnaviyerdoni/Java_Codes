@@ -143,6 +143,11 @@ public class UserService {
     }
 
     //Login Logic
+    public String LoginLogic(String username, String passcode, String role) throws SQLException{
+        try{
+            
+        }
+    }
 
     //user name and passcode rules
 
