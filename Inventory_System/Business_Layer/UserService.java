@@ -170,6 +170,9 @@ public class UserService {
     }
 
     //user name and passcode rules
+    public boolean isValid(String passcode){
+        
+    }
 
     public static void main(String[] args) {
         try{
