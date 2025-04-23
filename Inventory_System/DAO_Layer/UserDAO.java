@@ -94,7 +94,7 @@ public class UserDAO {
 
     //READ method to fetch username
     public String getUsername(int userId) throws SQLException{
-        String sql = "SELECT userName FROM Users FROM userId = ?";
+        String sql = "SELECT userName FROM Users WHERE userId = ?";
         String username = " ";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
