@@ -2,6 +2,9 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
+
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.text.SimpleDateFormat;
 import Inventory_System.Model_Layer.Order;
@@ -87,7 +90,35 @@ public class OrderDAO {
                 }
             }
         }
-            
+
+        //to fetch order its userId
+        public List<Order> fetchOrderbyUser(int userId) throws SQLException{
+            String sql = "SELECT * FROM Orders WHERE userId = ?";
+            List<Order> orders = new ArrayList<>();
+
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, userId);
+                try(ResultSet res = stmt.executeQuery()){
+                    while(res.next()){
+                        //to get the userId, which is a foreign key
+                        int userid = res.getInt("userId");
+                        User user = new User();
+                        user.set_userId(userid);
+
+                        //to get the rest of the columns from the order
+                        Order order = new Order(
+                            res.getInt("orderId"),
+                            user,
+                            res.getDate("orderDate"),
+                            res.getString("customerName"),
+                            res.getString("orderStatus"));
+
+                            orders.add(order);
+                    }
+                    return orders;
+                }
+            }
+        }
 
         //Update the order status method
         public void updateStatus(String newStatus, int order_Id) throws SQLException{

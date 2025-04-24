@@ -57,6 +57,24 @@ public class UserDAO {
             return users;
         }
     }
+    
+    //READ method to fetch all the user ids
+    public List<Integer> getUserIds() throws SQLException{
+        List<Integer> userIds = new ArrayList<>();
+        String sql = "SELECT userId FROM Users";
+
+        try(PreparedStatement stm = conn.prepareStatement(sql)){
+            try(ResultSet res = stm.executeQuery()){
+                while(res.next()){
+                    Integer userid = res.getInt("userId");
+
+                    userIds.add(userid);
+                }
+
+                return userIds;
+            }
+        }
+    }
 
     //READ method to fetch the user role 
     public String getRole(int userId) throws SQLException{
