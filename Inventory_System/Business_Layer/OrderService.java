@@ -41,8 +41,7 @@ public class OrderService {
 
     public java.sql.Date validate_Date(String orderDate){
         try{
-            java.sql.Date date = java.sql.Date.valueOf(orderDate);
-            return date;
+            return java.sql.Date.valueOf(orderDate);
         }
         catch(Exception e){
             e.printStackTrace();
