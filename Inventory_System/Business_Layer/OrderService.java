@@ -19,7 +19,8 @@ public class OrderService {
         this.inventoryDAO = inventoryDAO;
     }
 
-    public void addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus) throws SQLException, ItemAbsentException, UserNotFoundException{
+    //to place new order
+    public void addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus) throws SQLException, UserNotFoundException{
         try{
             List<Integer> userids = userDAO.getUserIds();
 
@@ -28,6 +29,9 @@ public class OrderService {
                 if(userID == userids.get(i)){
                     user.set_userId(userID);
                     break;
+                }
+                else{
+                    throw new UserNotFoundException("User for the" + userID + " not found!");
                 }
             }
             java.sql.Date date = validate_Date(orderDate);
@@ -39,6 +43,7 @@ public class OrderService {
         }
     }
 
+    //to convert string date to sql.Date format
     public java.sql.Date validate_Date(String orderDate){
         try{
             return java.sql.Date.valueOf(orderDate);
@@ -48,7 +53,12 @@ public class OrderService {
             return java.sql.Date.valueOf("1999-01-01");
         }
     } 
-            /* 
+
+    //only admin or staff can fetch the details of all the orders
+    public List<Order> getallOrdersforAdmin() throws SQLException{
+        
+    }
+             
     public static void main(String[] args) {
         try{
             Connection conn = null;
@@ -60,12 +70,15 @@ public class OrderService {
             OrderService service =  new OrderService(orderDAO, userDAO, inventoryDAO);
             
 
-            service.addOrder();
+            service.addOrder(0, 24, "2025-04-24", "Ashutosh", "Pending" );
         }
         catch(SQLException e){
             e.printStackTrace();
         }
+        catch(UserNotFoundException e){
+            e.getMessage();
+        }
     } 
-    */
+    
     
 }
