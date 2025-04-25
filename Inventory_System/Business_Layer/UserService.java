@@ -66,9 +66,9 @@ public class UserService {
     public List<User> ReadAllUsers(int userId) throws SQLException, NullPointerException{
         try{
             String role = userDAO.getRole(userId);
-            List<User> users = userDAO.getAllUsers();
 
             if (role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("staff")){
+                List<User> users = userDAO.getAllUsers();
                 for (int i = 0; i < users.size(); i++){
 
                     User user = users.get(i);

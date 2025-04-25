@@ -55,8 +55,33 @@ public class OrderService {
     } 
 
     //only admin or staff can fetch the details of all the orders
-    public List<Order> getallOrdersforAdmin() throws SQLException{
-        
+    public List<Order> getallOrdersforAdmin(int userId) throws SQLException, NullPointerException{
+        try{
+            String role = userDAO.getRole(userId);
+
+            if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("staff")){
+                List<Order> orders = orderDAO.fetchAllOrders();
+
+                for (int i = 0; i < orders.size(); i++){
+                    Order order = orders.get(i);
+                    System.out.println("Order id: " + order.get_orderId());
+                    System.out.println("User ID: " + order.get_UserId().get_userId());
+                    System.out.println("Order Date: " + order.get_Orderdate());
+                    System.out.println("Customer Name: " + order.get_customerName());
+                    System.out.println("Status of order: " + order.get_status());
+                    System.out.println("---------------");
+                }
+                return orders;
+            }
+            else{
+                System.out.println("Customers is not allowed to view order information");
+                return null;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
     }
              
     public static void main(String[] args) {
@@ -70,13 +95,13 @@ public class OrderService {
             OrderService service =  new OrderService(orderDAO, userDAO, inventoryDAO);
             
 
-            service.addOrder(0, 24, "2025-04-24", "Ashutosh", "Pending" );
+            service.getallOrdersforAdmin(15);
         }
         catch(SQLException e){
             e.printStackTrace();
         }
-        catch(UserNotFoundException e){
-            e.getMessage();
+        catch(NullPointerException e){
+            e.printStackTrace();
         }
     } 
     
