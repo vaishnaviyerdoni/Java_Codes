@@ -85,30 +85,22 @@ public class OrderService {
     }
 
     //Users who have placed Orders can have view their order by order id
-    public List<Order> viewOrderByID(int orderId, int userId) throws SQLException, NullPointerException {
+    public Order viewOrderByID(int orderId, int userId) throws SQLException, NullPointerException, UserNotFoundException {
         try{
-            int userID = 0;
-            // check if the user id we got is the same as the one that is passed, if not throw an error.
-            List<Order> orders = new ArrayList<>();
-            List<Integer> userids = userDAO.getUserIds();
-            for(int i = 0; i < userids.size(); i++){
-                if(userId == userids.get(i)){
-                    orders = orderDAO.fetchOrderbyId(orderId);
-                    for (int j = 0; j < orders.size(); j++){
-                        Order order = orders.get(j);
-                        int userid = order.get_UserId().get_userId();
-                        if (userid == userId){
-                            return orders;
-                        }
-                        else{
-                            return null;
-                        }
-                    }
+            Order order = null;
+            if (orderDAO.isUserValid(userId)){
+                order = orderDAO.fetchOrderbyId(orderId);
+
+                int userid = order.get_UserId().get_userId();
+                if(userid == userId){
+                    return order;
                 }
                 else{
-                    System.out.println("User is not registered");
                     return null;
                 }
+            }
+            else{
+                throw new UserNotFoundException("User not found for ID:" + userId);
             }
         }
         catch(SQLException e){
@@ -180,7 +172,7 @@ public class OrderService {
             return "error occurred when deleting the Order";
         }
     }
-             
+             /* 
     public static void main(String[] args) {
         try{
             Connection conn = null;
@@ -201,4 +193,5 @@ public class OrderService {
             e.printStackTrace();
         }
     } 
+        */
 }
