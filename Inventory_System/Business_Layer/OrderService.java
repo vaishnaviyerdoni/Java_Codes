@@ -83,6 +83,61 @@ public class OrderService {
             return null;
         }
     }
+
+    //Users who have placed Orders can have view their order by order id
+    public List<Order> viewOrderByID(int orderId, int userId) throws SQLException, NullPointerException {
+        try{
+            int userID = 0;
+            List<Order> orders = new ArrayList<>();
+            List<Integer> userids = userDAO.getUserIds();
+            for(int i = 0; i < userids.size(); i++){
+                if(userId == userids.get(i)){
+                    orders = orderDAO.fetchOrderbyId(orderId);
+                    for (int j = 0; j < orders.size(); j++){
+                        Order order = orders.get(j);
+                        System.out.println("-------------");
+                        System.out.println("Order id: " + order.get_orderId());
+                        System.out.println("User ID: " + order.get_UserId().get_userId());
+                        System.out.println("Order Date: " + order.get_Orderdate());
+                        System.out.println("Customer Name: " + order.get_customerName());
+                        System.out.println("Status of order: " + order.get_status());
+                        System.out.println("---------------");
+                    }
+                }
+            }
+            return orders;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    //user can access their user history by their userId
+    public List<Order> viewOrderByUserId(int userId) throws SQLException {
+        try{
+            List<Order> orderByUserID = orderDAO.fetchOrderbyUser(userId);
+            for (int j = 0; j < orderByUserID.size(); j++){
+                Order order = orderByUserID.get(j);
+                System.out.println("-------------");
+                System.out.println("Order id: " + order.get_orderId());
+                System.out.println("User ID: " + order.get_UserId().get_userId()); // check if this user id is the same as the one that is passed, if not throw an error.
+                System.out.println("Order Date: " + order.get_Orderdate());
+                System.out.println("Customer Name: " + order.get_customerName());
+                System.out.println("Status of order: " + order.get_status());
+                System.out.println("---------------");
+            }
+
+            return orderByUserID;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    //Admin or staff changes the status of the order
+    
              
     public static void main(String[] args) {
         try{
@@ -95,7 +150,7 @@ public class OrderService {
             OrderService service =  new OrderService(orderDAO, userDAO, inventoryDAO);
             
 
-            service.getallOrdersforAdmin(15);
+            service.viewOrderByUserId(14);
         }
         catch(SQLException e){
             e.printStackTrace();
