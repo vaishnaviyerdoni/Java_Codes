@@ -88,6 +88,7 @@ public class OrderService {
     public List<Order> viewOrderByID(int orderId, int userId) throws SQLException, NullPointerException {
         try{
             int userID = 0;
+            // check if the user id we got is the same as the one that is passed, if not throw an error.
             List<Order> orders = new ArrayList<>();
             List<Integer> userids = userDAO.getUserIds();
             for(int i = 0; i < userids.size(); i++){
@@ -95,17 +96,20 @@ public class OrderService {
                     orders = orderDAO.fetchOrderbyId(orderId);
                     for (int j = 0; j < orders.size(); j++){
                         Order order = orders.get(j);
-                        System.out.println("-------------");
-                        System.out.println("Order id: " + order.get_orderId());
-                        System.out.println("User ID: " + order.get_UserId().get_userId());
-                        System.out.println("Order Date: " + order.get_Orderdate());
-                        System.out.println("Customer Name: " + order.get_customerName());
-                        System.out.println("Status of order: " + order.get_status());
-                        System.out.println("---------------");
+                        int userid = order.get_UserId().get_userId();
+                        if (userid == userId){
+                            return orders;
+                        }
+                        else{
+                            return null;
+                        }
                     }
                 }
+                else{
+                    System.out.println("User is not registered");
+                    return null;
+                }
             }
-            return orders;
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -121,7 +125,7 @@ public class OrderService {
                 Order order = orderByUserID.get(j);
                 System.out.println("-------------");
                 System.out.println("Order id: " + order.get_orderId());
-                System.out.println("User ID: " + order.get_UserId().get_userId()); // check if this user id is the same as the one that is passed, if not throw an error.
+                System.out.println("User ID: " + order.get_UserId().get_userId());
                 System.out.println("Order Date: " + order.get_Orderdate());
                 System.out.println("Customer Name: " + order.get_customerName());
                 System.out.println("Status of order: " + order.get_status());
@@ -137,7 +141,45 @@ public class OrderService {
     }
     
     //Admin or staff changes the status of the order
-    
+    public String changeStatus(int userId, String Status, int CustomerId) throws SQLException, UserNotFoundException {
+        try{
+            String role = userDAO.getRole(userId);
+
+            if(role.equalsIgnoreCase("staff") || role.equalsIgnoreCase("admin")){
+
+                orderDAO.updateStatus(Status, CustomerId);
+
+                return "Order Status Updated!";
+
+            }
+            else{
+                return "Customer cannot update the Status!";
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return "Error Occurred while updating the Status.";
+        }
+    }
+
+    //Admin can delete the records about any order
+    public String AdminDeletesOrder(int userId, int orderId) throws SQLException {
+        try{
+            String role = userDAO.getRole(userId);
+            if(role.equalsIgnoreCase("admin")){
+                orderDAO.deleteOrder(orderId);
+                
+                return "Order records Deleted!";
+            }
+            else{
+                return "Only Admin is authorized to delete the order!";
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return "error occurred when deleting the Order";
+        }
+    }
              
     public static void main(String[] args) {
         try{
@@ -150,7 +192,7 @@ public class OrderService {
             OrderService service =  new OrderService(orderDAO, userDAO, inventoryDAO);
             
 
-            service.viewOrderByUserId(14);
+            service.viewOrderByID(4, 2);
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -159,6 +201,4 @@ public class OrderService {
             e.printStackTrace();
         }
     } 
-    
-    
 }

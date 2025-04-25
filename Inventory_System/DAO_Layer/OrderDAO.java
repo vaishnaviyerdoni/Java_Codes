@@ -63,9 +63,8 @@ public class OrderDAO {
         }
          
         //to fetch the order by its order id
-        public List<Order> fetchOrderbyId(int orderId) throws SQLException{
+        public Order fetchOrderbyId(int orderId) throws SQLException{
             String sql = "SELECT * FROM Orders WHERE orderId = ?";
-            List<Order> orders = new ArrayList<>();
 
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setInt(1, orderId);
@@ -83,10 +82,8 @@ public class OrderDAO {
                             rs.getDate("orderDate"),
                             rs.getString("customerName"),
                             rs.getString("orderStatus"));
-                            
-                            orders.add(order);
                     }
-                    return orders;
+                    return order;
                 }
             }
         }
@@ -95,7 +92,7 @@ public class OrderDAO {
         public List<Order> fetchOrderbyUser(int userId) throws SQLException{
             String sql = "SELECT * FROM Orders WHERE userId = ?";
             List<Order> orders = new ArrayList<>();
-
+ 
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setInt(1, userId);
                 try(ResultSet res = stmt.executeQuery()){
