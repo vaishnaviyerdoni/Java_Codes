@@ -65,7 +65,7 @@ public class OrderDAO {
         //to fetch the order by its order id
         public Order fetchOrderbyId(int orderId) throws SQLException{
             String sql = "SELECT * FROM Orders WHERE orderId = ?";
-
+            Order order = null;
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setInt(1, orderId);
                 try(ResultSet rs = stmt.executeQuery()){
@@ -76,7 +76,7 @@ public class OrderDAO {
                         user.set_userId(userid);
 
                         //to get the rest of the columns from orders
-                        Order order = new Order(
+                        order = new Order(
                             rs.getInt("orderId"),
                             user,
                             rs.getDate("orderDate"),
@@ -84,6 +84,23 @@ public class OrderDAO {
                             rs.getString("orderStatus"));
                     }
                     return order;
+                }
+            }
+        }
+
+        //to fetch the OrderId for the given UserID
+        public boolean isUserValid(int userId) throws SQLException{
+            String sql = "SELECT orderId FROM Orders WHERE userId = ?";
+
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, userId);
+                try(ResultSet rs = stmt.executeQuery()){
+                    if(rs.next()){
+                        return true;
+                    }
+                    else{
+                        return false;
+                    }
                 }
             }
         }
