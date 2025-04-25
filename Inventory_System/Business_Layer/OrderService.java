@@ -61,7 +61,7 @@ public class OrderService {
 
             if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("staff")){
                 List<Order> orders = orderDAO.fetchAllOrders();
-
+                /* 
                 for (int i = 0; i < orders.size(); i++){
                     Order order = orders.get(i);
                     System.out.println("Order id: " + order.get_orderId());
@@ -71,6 +71,7 @@ public class OrderService {
                     System.out.println("Status of order: " + order.get_status());
                     System.out.println("---------------");
                 }
+                */
                 return orders;
             }
             else{
@@ -172,7 +173,7 @@ public class OrderService {
             return "error occurred when deleting the Order";
         }
     }
-             /* 
+            /* 
     public static void main(String[] args) {
         try{
             Connection conn = null;
@@ -183,8 +184,16 @@ public class OrderService {
         
             OrderService service =  new OrderService(orderDAO, userDAO, inventoryDAO);
             
-
-            service.viewOrderByID(4, 2);
+            Order order = service.viewOrderByID(5, 14);
+                System.out.println("-------------");
+                System.out.println("Order id: " + order.get_orderId());
+                System.out.println("User ID: " + order.get_UserId().get_userId());
+                System.out.println("Order Date: " + order.get_Orderdate());
+                System.out.println("Customer Name: " + order.get_customerName());
+                System.out.println("Status of order: " + order.get_status());
+                System.out.println("---------------");
+            
+            
         }
         catch(SQLException e){
             e.printStackTrace();
@@ -192,6 +201,10 @@ public class OrderService {
         catch(NullPointerException e){
             e.printStackTrace();
         }
+        catch(UserNotFoundException e){
+            e.getMessage();
+        }
     } 
         */
+        
 }
