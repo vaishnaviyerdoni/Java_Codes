@@ -72,16 +72,59 @@ public class OrderItemDAO {
         }
     }
     
+    //to fetch ordered item details by the order id
+    public List<OrderItem> getItemsbyOrderid(int orderId) throws SQLException{
+        String sql = "SELECT * FROM OrderItems WHERE orderId = ?";
+        List<OrderItem> items = new ArrayList<>();
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, orderId);
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    //to fetch the foreign keys
+                    int orderid = rs.getInt("orderId");
+                    Order order = new Order();
+                    order.set_OrderId(orderid);
+
+                    int inventoryid = rs.getInt("inventoryId");
+                    Inventory inventory = new Inventory();
+                    inventory.set_itemId(inventoryid);
+
+                    int userid = rs.getInt("userId");
+                    User user = new User();
+                    user.set_userId(userid);
+
+                    //to fetch other Orders Items
+                    OrderItem item = new OrderItem(
+                        rs.getInt("itemsId"),
+                        order,
+                        inventory,
+                        rs.getInt("quantity"),
+                        rs.getDouble("Subtotal"),
+                        user);
+
+                    items.add(item);
+                }
+
+                return items;
+            }
+        }
+    }
+
     //Update method for updating the quantity and hence subtotal
-    public void UpdateQuantity(int Newquantity, int id) throws SQLException{
+    public boolean UpdateQuantity(int Newquantity, int id) throws SQLException{
         String sql = "UPDATE OrderItems SET quantity = ? WHERE ItemsId = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, Newquantity);
             stmt.setInt(2, id);
-            stmt.executeUpdate();
-
-            System.out.println("Updated the quantity Successfully");
+            int rows = stmt.executeUpdate();
+            if (rows > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 
