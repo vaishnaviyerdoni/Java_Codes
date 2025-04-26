@@ -15,7 +15,7 @@ public class OrderItemDAO {
     }
 
     //Create method for adding the order items 
-    public void addOrderItem(OrderItem items) throws SQLException{
+    public boolean addOrderItem(OrderItem items) throws SQLException{
         String sql = "INSERT INTO OrderItems (OrderId, inventoryId, quantity, Subtotal, userid) VALUES (?,?,?,?,?)";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -27,10 +27,10 @@ public class OrderItemDAO {
 
             int rows = stmt.executeUpdate();
             if (rows > 0){
-                System.out.println("Items are placed!");
+                return true;
             }
             else{
-                System.out.println("Items are not placed!");
+                return false;
             }
         }
     }
