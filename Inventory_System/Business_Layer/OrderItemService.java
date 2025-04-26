@@ -1,19 +1,132 @@
 package Inventory_System.Business_Layer;
 
-import Inventory_System.DAO_Layer.InventoryDAO;
-import Inventory_System.DAO_Layer.OrderDAO;
+import java.sql.*;
+import java.util.*;
+import Inventory_System.DAO_Layer.*;
+import Inventory_System.Exceptions.UserNotFoundException;
+import Inventory_System.Model_Layer.*;
 
 public class OrderItemService {
+    private OrderItemDAO orderItemDAO;
     private InventoryDAO inventoryDAO;
     private OrderDAO orderDAO;
     private UserDAO userDAO;
 
-    public OrderItemService(InventoryDAO inventoryDAO, OrderDAO orderDAO, UserDAO userDAO){
+    public OrderItemService(OrderItemDAO orderItemDAO, InventoryDAO inventoryDAO, OrderDAO orderDAO, UserDAO userDAO){
+        this.orderItemDAO = orderItemDAO;
         this.inventoryDAO = inventoryDAO;
         this.orderDAO = orderDAO;
         this.userDAO = userDAO;
     }
 
+    //Any registered user can place order
+    public boolean addItems(int itemsId, int orderId, int inventoryId, int quantity, Double Subtotal, int userId) throws SQLException, UserNotFoundException {
+        try{
+            if(orderDAO.isUserValid(userId)){
+
+                //setting the foreign keys
+                Order order = new Order();
+                order.set_OrderId(orderId);
+                Inventory inventory = new Inventory();
+                inventory.set_itemId(inventoryId);
+                User user = new User();
+                user.set_userId(userId);
+
+                OrderItem items = new OrderItem(itemsId, order, inventory, quantity, Subtotal, user);
+                boolean isPlaced = orderItemDAO.addOrderItem(items);
+                if (isPlaced){
+
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                throw new UserNotFoundException("The user is not registered, Register to place order!");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //Only admin or staff can view all the details of the Ordered items
+    public List<OrderItem> viewItems(int userId) throws SQLException, UserNotFoundException {
+
+        List<OrderItem> items = new ArrayList<>();
+        try{
+            String role = userDAO.getRole(userId);
+            if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("staff")){
+                items = orderItemDAO.fetchAll();
+                return items;
+            }
+            else{
+                throw new UserNotFoundException("Customer cannot view this information");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return items;
+        }
+    }
+
+    //Registered users can fetch the information for their order by using their order id
+    public List<OrderItem> getItemsbyOrderid(int userId, int orderId) throws SQLException, UserNotFoundException {
+        List<OrderItem> items = new ArrayList<>();
+        try{
+            if (orderDAO.isUserValid(userId)) {
+                items = orderItemDAO.getItemsbyOrderid(orderId);
+                return items;
+            }
+            else{
+                throw new UserNotFoundException("Only registered user can view this information");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return items;
+        }
+    }
+
+    //Update the quantity and update subtotal
+    public boolean UpdateQuantityAndSubtotal(int itemsId, int inventoryId, int userId, int nQuantity) throws SQLException, UserNotFoundException {
+        try{
+            if(orderDAO.isUserValid(userId)){
+                boolean isUpdated = orderItemDAO.UpdateQuantity(nQuantity, itemsId);
+                if(isUpdated){
+                    orderItemDAO.updateSubtotal(inventoryId, itemsId);
+
+                    return true;
+                }
+                else{
+                    return false;
+                }  
+            }
+            else{
+                throw new UserNotFoundException("Only registered users can update the quantity");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
     
-    
+    //Only Admin can delete the records
+    public void AdminDeletesItem(int userId, int itemsId) throws SQLException, UserNotFoundException {
+        try{
+            String role = userDAO.getRole(userId);
+            if(role.equalsIgnoreCase("admin")){
+                orderItemDAO.deleteOrderItem(itemsId);
+            }
+            else{
+                throw new UserNotFoundException("Only Admin can delete the records");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
