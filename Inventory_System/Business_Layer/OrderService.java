@@ -20,7 +20,7 @@ public class OrderService {
     }
 
     //to place new order
-    public void addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus) throws SQLException, UserNotFoundException{
+    public void addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus, Double totalPrice) throws SQLException, UserNotFoundException{
         try{
             List<Integer> userids = userDAO.getUserIds();
 
@@ -35,7 +35,7 @@ public class OrderService {
                 }
             }
             java.sql.Date date = validate_Date(orderDate);
-            Order order = new Order(orderId, user, date, customerName, "Pending");
+            Order order = new Order(orderId, user, date, customerName, "Pending", totalPrice);
             orderDAO.placeOrder(order);
         }
         catch(SQLException e){
@@ -130,6 +130,40 @@ public class OrderService {
         catch(SQLException e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    //Price update method, this method will get called from order items so that the sum of subtotals of the 
+    // items belonging to same order will be the total price.
+    public String updateTotalPrice(Double price, int orderId, int userId) throws SQLException, UserNotFoundException {
+        try{
+            if(orderDAO.isUserValid(userId)){
+                orderDAO.updateTotal(price, orderId);
+                return "Updated the total price successfully!";
+            }
+            else{
+                throw new UserNotFoundException("Only registered users can update price!");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return "Error occured when updating the price!";
+        }
+    }
+
+    //get the  total price
+    public Double getPricebyUserId(int userId) throws SQLException {
+        Double totalPrice = 0d;
+        try{
+            if (orderDAO.isUserValid(userId)){
+                totalPrice = orderDAO.getPrice(userId);
+            }
+
+            return totalPrice;
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return -1d;
         }
     }
     
