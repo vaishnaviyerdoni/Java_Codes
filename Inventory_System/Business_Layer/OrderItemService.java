@@ -35,11 +35,16 @@ public class OrderItemService {
                 OrderItem items = new OrderItem(itemsId, order, inventory, quantity, Subtotal, user);
                 boolean isPlaced = orderItemDAO.addOrderItem(items);
                 if (isPlaced){
-
-                    return true;
+                    InventoryService service = new InventoryService(inventoryDAO, userDAO, orderItemDAO);
+                    if (service.deductInventory(inventoryId, quantity)){
+                        return true; // return true if inventory deducted and order placed
+                    }
+                    else{
+                        return false; //will return false if inventory not deducted
+                    }
                 }
                 else{
-                    return false;
+                    return false; //returns false if order not placed
                 }
             }
             else{

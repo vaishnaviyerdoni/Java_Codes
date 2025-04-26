@@ -9,11 +9,13 @@ import Inventory_System.Model_Layer.User;
 public class InventoryService{
     private InventoryDAO inventoryDAO;
     private UserDAO userDAO;
+    private OrderItemDAO orderItemDAO;
 
     //constructor
-    public InventoryService(InventoryDAO inventoryDAO, UserDAO userDAO){
+    public InventoryService(InventoryDAO inventoryDAO, UserDAO userDAO, OrderItemDAO orderItemDAO){
         this.inventoryDAO = inventoryDAO;
         this.userDAO = userDAO;
+        this.orderItemDAO = orderItemDAO;
     }
 
     //alert message for Low Quantity
@@ -136,15 +138,26 @@ public class InventoryService{
         }
     }
 
-    /* 
+    
     //to deduct the Inventory after order placement or after updating inventory quantity
     public boolean deductInventory(int itemId, int newQuantity) throws SQLException {
         int oldQuantity = inventoryDAO.getQuantity(itemId);
-        int UpdateQuantity = oldQuantity - newQuantity;
+        int UpdatedQuantity = oldQuantity - newQuantity;
 
-        if()
+        try{
+            if(inventoryDAO.updateItembyQuantity(itemId, newQuantity)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
     }
-    */
+    
 
     //Only admin can delete items from inventory table
     public void deleteByAdmin(int itemId, int userId) throws SQLException{
