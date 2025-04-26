@@ -11,18 +11,19 @@ public class Order {
     private Date orderDate;
     private String customerName;
     private String status;
+    private Double total_Price;
     private List<OrderItem> orderItems;
 
     //constructor
     public Order(){}
 
-    public Order(int orderId, User userId, Date orderDate, String customerName, String status){
+    public Order(int orderId, User userId, Date orderDate, String customerName, String status, Double total_Price){
         this.orderId = orderId;
         this.userId = userId;
         this.orderDate = orderDate;
         this.customerName = customerName;
         this.status = status;
-        this.orderItems = orderItems;
+        this.total_Price = total_Price;
     }
 
     //getters
@@ -45,6 +46,10 @@ public class Order {
 
     public String get_status(){
         return status;
+    }
+
+    public Double get_total(){
+        return total_Price;
     }
 
     public List<OrderItem> get_orderItems(){
@@ -73,6 +78,10 @@ public class Order {
         this.status = status;
     }
 
+    public void set_total(Double total_Price){
+        this.total_Price = total_Price;
+    }
+
     public void set_orderItems(List<OrderItem> orderItems){
         this.orderItems = orderItems;
     }
@@ -84,6 +93,7 @@ public class Order {
                 ", Date='" + orderDate + '\'' +
                 ", customer_name=" + customerName +
                 ", status=" + status +
+                ", total_Price=" + total_Price +
                 '}';
     }
     
