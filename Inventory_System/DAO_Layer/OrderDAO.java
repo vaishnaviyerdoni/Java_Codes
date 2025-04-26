@@ -20,12 +20,13 @@ public class OrderDAO {
 
     //Create method to place new orders, before placing order, the user must register themselves
     public void placeOrder(Order order) throws SQLException{
-        String sql = "INSERT INTO Orders (userId, OrderDate, CustomerName, OrderStatus) VALUES  (?,?,?,?)";
+        String sql = "INSERT INTO Orders (userId, OrderDate, CustomerName, OrderStatus, total_Price) VALUES  (?,?,?,?,?)";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, order.get_UserId().get_userId());
             stmt.setDate(2, new java.sql.Date((order.get_Orderdate().getTime())));
             stmt.setString(3, order.get_customerName());
             stmt.setString(4, order.get_status());
+            stmt.setDouble(5, order.get_total());
             int rows = stmt.executeUpdate();
             if (rows > 0){
                 System.out.println("Order placed");
@@ -54,7 +55,9 @@ public class OrderDAO {
                     user,
                     rs.getDate("orderDate"),
                     rs.getString("customerName"),
-                    rs.getString("orderStatus"));
+                    rs.getString("orderStatus"),
+                    rs.getDouble("total_Price"));
+
 
                     orders.add(order);
                 }
@@ -81,7 +84,8 @@ public class OrderDAO {
                             user,
                             rs.getDate("orderDate"),
                             rs.getString("customerName"),
-                            rs.getString("orderStatus"));
+                            rs.getString("orderStatus"),
+                            rs.getDouble("total_Price"));
                     }
                     return order;
                 }
@@ -101,6 +105,39 @@ public class OrderDAO {
                     else{
                         return false;
                     }
+                }
+            }
+        }
+
+        //to fetch Price by the orderId
+        public Double getPricebyOrder(int orderId) throws SQLException {
+            String sql = "SELECT total_Price FROM Orders WHERE orderId = ?";
+            Double priceTotal = 0d;
+
+             try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setDouble(1, orderId);
+                try(ResultSet res = stmt.executeQuery()){
+                    if(res.next()){
+                        priceTotal = res.getDouble("total_Price");
+                    }
+
+                    return priceTotal;
+                }
+             }
+        }
+
+        //to fetch the total_Price by the userId
+        public Double getPrice(int userId) throws SQLException {
+            String sql = "SELECT total_Price FROM Orders WHERE userId = ?";
+            Double priceTotal = 0d;
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setInt(1, userId);
+                try(ResultSet res = stmt.executeQuery()){
+                    if (res.next()){
+                        priceTotal = res.getDouble("total_Price");
+                    }
+
+                    return priceTotal;
                 }
             }
         }
@@ -125,12 +162,27 @@ public class OrderDAO {
                             user,
                             res.getDate("orderDate"),
                             res.getString("customerName"),
-                            res.getString("orderStatus"));
+                            res.getString("orderStatus"),
+                            res.getDouble("total_price"));
 
                             orders.add(order);
                     }
                     return orders;
                 }
+            }
+        }
+
+        //Update Price method to update the price
+        public void updateTotal(Double newPrice, int orderId) throws SQLException {
+            String sql = "UPDATE Orders SET total_Price = ? WHERE orderId = ?";
+
+            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+                stmt.setDouble(1, newPrice);
+                stmt.setInt(2, orderId);
+                stmt.executeQuery();
+
+                System.out.println("price updated Successfully!");
+            
             }
         }
 
