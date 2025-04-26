@@ -136,6 +136,16 @@ public class InventoryService{
         }
     }
 
+    /* 
+    //to deduct the Inventory after order placement or after updating inventory quantity
+    public boolean deductInventory(int itemId, int newQuantity) throws SQLException {
+        int oldQuantity = inventoryDAO.getQuantity(itemId);
+        int UpdateQuantity = oldQuantity - newQuantity;
+
+        if()
+    }
+    */
+
     //Only admin can delete items from inventory table
     public void deleteByAdmin(int itemId, int userId) throws SQLException{
         try{
