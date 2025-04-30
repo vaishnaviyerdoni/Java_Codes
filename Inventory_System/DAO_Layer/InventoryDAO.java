@@ -13,7 +13,7 @@ public class InventoryDAO {
     }
 
     //CREATE method: Add items to the columns in the inventory table
-    public void addItem(Inventory item) throws SQLException{
+    public boolean addItem(Inventory item) throws SQLException{
         String sql = "INSERT INTO InventoryTable (itemName, category, price, quantity, LowStockThreshold) VALUES (?,?,?,?,?)";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
                 stmt.setString(1, item.get_itemName());
@@ -24,9 +24,9 @@ public class InventoryDAO {
             
                 int rows = stmt.executeUpdate();
                 if (rows > 0) {
-                    System.out.println("Inserted successfully!");
+                    return true;
                 } else {
-                    System.out.println("Insert failed.");
+                    return false;
                 }
             }
         }
@@ -140,12 +140,18 @@ public class InventoryDAO {
     }
 
     //DELETE method : delete the record the table for the given id
-    public void deleteItem(int itemId) throws SQLException{
+    public boolean deleteItem(int itemId) throws SQLException{
         String sql = "DELETE FROM InventoryTable WHERE itemId = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, itemId);
-            stmt.executeUpdate();
-            System.out.println("Deleted Successfully");
+            int rows = stmt.executeUpdate();
+            if(rows > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+            
         }
     }
 }
