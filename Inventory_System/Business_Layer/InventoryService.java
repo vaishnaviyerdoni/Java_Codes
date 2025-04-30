@@ -177,7 +177,7 @@ public class InventoryService{
     
 
     //Only admin can delete items from inventory table
-    public void deleteByAdmin(int itemId, int userId) throws SQLException{
+    public String deleteByAdmin(int itemId, int userId) throws SQLException{
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("Admin")){
