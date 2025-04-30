@@ -5,6 +5,7 @@ import java.util.*;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import Inventory_System.Model_Layer.User;
 import Inventory_System.DAO_Layer.DatabaseConnection;
+import Inventory_System.Exceptions.UserNotFoundException;
 
 public class UserDAO {
     private  Connection conn;
@@ -14,7 +15,7 @@ public class UserDAO {
     }
 
     //CREATE method to add/register new Users.
-    public void addUser(User user) throws SQLException{
+    public boolean addUser(User user) throws SQLException{
         String sql = "INSERT INTO Users (UserName, email, passcode, roleUser) VALUES (?,?,?,?)";
         try{
             try(PreparedStatement stmt = conn.prepareStatement(sql)){
@@ -24,16 +25,17 @@ public class UserDAO {
                 stmt.setString(4, user.get_role());
                 int rows = stmt.executeUpdate();
                 if (rows > 0){
-                    System.out.println("New User Registered!");
+                    return true;
                 }
                 else{
-                    System.out.println("User Registration failed!");
+                    return false;
                 }
             }
         }
         catch(SQLServerException e){
             System.out.println("User name has to be unique!");
             System.out.println("Enter a new User name.");
+            return false;
         }
     }
 
@@ -162,63 +164,73 @@ public class UserDAO {
         }
     }
 
-    //UPDATE method to update the user details.
-    public void updatePassCode(int userId, String newPasscode, String name) throws SQLException{
+    //UPDATE method to update the Passcode.
+    public boolean updatePassCode(int userId, String newPasscode, String name) throws SQLException, UserNotFoundException{
         String sql1 = "SELECT userName FROM Users where userId = ?";
-        String sql2 = "UPDATE Users SET passcode = ? WHERE userId = ?";
+        String sql2 = "UPDATE Users SET Email = ? WHERE userId = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql1)){
             stmt.setInt(1, userId);
                 try(ResultSet rs = stmt.executeQuery()){
                     if (rs.next()){
                         String user_name = rs.getString("userName");
-                        if(user_name.equalsIgnoreCase(name)){
+                        if(user_name.equals(name)){
                             try(PreparedStatement stm = conn.prepareStatement(sql2)){
                                 stm.setString(1, newPasscode);
                                 stm.setInt(2, userId);
-                                stm.executeUpdate();
-                                System.out.println("Updated Successfully!");
+                                int rows = stm.executeUpdate();
+                                if (rows > 0){
+                                    return true;
+                                }
+                                else{
+                                    return false;
+                                }
                             }
                         }
                         else{
-                            System.out.println("Username not matched!");
+                            throw new UserNotFoundException("user name not found");
                         }
                     }
                     else{
-                        System.out.println("User not found!");
+                        throw new UserNotFoundException("user not found");
                     }
                 }
             }
         }
 
-        //UPDATE Method to update email
-        public void updateEmail(int userId, String newEmail, String name) throws SQLException{
-            String sql1 = "SELECT userName FROM Users WHERE userId = ?";
-            String sql2 = "UPDATE Users SET email = ? WHERE userId = ?";
-            
-            try(PreparedStatement stmt = conn.prepareStatement(sql1)){
-                stmt.setInt(1, userId);
+    //UPDATE Method to update email
+    public boolean updateEmail(int userId, String newEmail, String name) throws SQLException, UserNotFoundException{
+        String sql1 = "SELECT userName FROM Users WHERE userId = ?";
+        String sql2 = "UPDATE Users SET email = ? WHERE userId = ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql1)){
+            stmt.setInt(1, userId);
                 try(ResultSet rs = stmt.executeQuery()){
                     if (rs.next()){
                         String user_name = rs.getString("userName");
-                        if (user_name.equalsIgnoreCase(name)){
-                            try(PreparedStatement stm = conn.prepareStatement(sql2)){
-                                stm.setString(1, newEmail);
-                                stm.setInt(2, userId);
-                                stm.executeUpdate();
-                                System.out.println("Updated Successfully");
+                        if(user_name.equals(name)){
+                        try(PreparedStatement stm = conn.prepareStatement(sql2)){
+                            stm.setString(1, newEmail);
+                            stm.setInt(2, userId);
+                            int rows = stm.executeUpdate();
+                            if (rows > 0){
+                                return true;
                             }
-                        }
-                        else{
-                        System.out.println("Username not matched");
+                            else{
+                                return false;
+                            }
                         }
                     }
                     else{
-                        System.out.println("User not found");
+                        throw new UserNotFoundException("user name not found");
                     }
+                }
+                else{
+                    throw new UserNotFoundException("user not found");
                 }
             }
         }
+    }
     
 
     //DELETE method to delete the specified user.
