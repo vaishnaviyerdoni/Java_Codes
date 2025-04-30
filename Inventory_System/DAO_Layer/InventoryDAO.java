@@ -123,14 +123,19 @@ public class InventoryDAO {
     }
 
     //UPDATE method: update price for given itemID
-    public void updatePricebyItemId(int itemId, int newPrice) throws SQLException{
+    public boolean updatePricebyItemId(int itemId, int newPrice) throws SQLException{
         String sql = "UPDATE InventoryTable SET price = ? WHERE itemId = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, newPrice);
             stmt.setInt(2, itemId);
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
 
-            System.out.println("Price updated Successfully!");
+            if (rows > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 
