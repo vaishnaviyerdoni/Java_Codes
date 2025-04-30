@@ -2,6 +2,7 @@ package Inventory_System.Business_Layer;
 
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.UserDAO;
+import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.User;
 import java.util.*;
 import java.sql.*;
@@ -17,7 +18,7 @@ public class UserService {
     }
 
     //to register the new users
-    public void registerUser(int userId, String userName, String email, String passcode, String roleUser) throws SQLException{
+    public String registerUser(int userId, String userName, String email, String passcode, String roleUser) throws SQLException{
         try{
             User user  = new User(userId, userName, email, passcode, roleUser);
             List<String> roles = userDAO.getUserRoles();
@@ -36,29 +37,46 @@ public class UserService {
             }
 
             if (roleUser.equalsIgnoreCase("customer")){
-                userDAO.addUser(user);
+                if(userDAO.addUser(user)){
+                    return "User Registered!";
+                }
+                else{
+                    return "Could not register user!";
+                }
             }
-            
-            if(roleUser.equalsIgnoreCase("admin")){
+            else if (roleUser.equalsIgnoreCase("admin")){
                 if (cntAdmin < 5){
-                    userDAO.addUser(user);
+                    if (userDAO.addUser(user)){
+                        return "User Registered!";
+                    }
+                    else{
+                        return "Could not register User!";
+                    }
                 }
                 else{
-                    System.out.println("Only 5 Admin registrations are allowed.");
+                    return "Only 5 Admin registrations are allowed.";
                 }
             }
-
-            if (roleUser.equalsIgnoreCase("staff")){
+            else if (roleUser.equalsIgnoreCase("staff")){
                 if (cntStaff < 10){
-                    userDAO.addUser(user);
+                    if (userDAO.addUser(user)){
+                        return "User Registered!";
+                    }
+                    else{
+                        return "Could not register User!";
+                    }
                 }
                 else{
-                    System.out.println("Only 10 Staff registrations are allowed.");
+                    return "Only 10 Admin registrations are allowed.";
                 }
+            }
+            else{
+                return "The user must be admin, staff or customer";
             }
         }
         catch(SQLException e){
             e.printStackTrace();
+            return "Error occurred when registering the user, Try again later";
         }
     }
 
@@ -69,8 +87,8 @@ public class UserService {
 
             if (role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("staff")){
                 List<User> users = userDAO.getAllUsers();
-                for (int i = 0; i < users.size(); i++){
-
+                /* 
+                for (int i = 0; i < users.size(); i++){    
                     User user = users.get(i);
                     System.out.println("User ID = " + user.get_userId());
                     System.out.println("User name = " + user.get_userName());
@@ -78,13 +96,13 @@ public class UserService {
                     System.out.println("passcode = " + user.get_passcode());
                     System.out.println("role = " + user.get_role());
                     System.out.println("----------------");
-    
                 }
+                */
+
                 return users;
             }
             else{
-                System.out.println("Customer cannot view User Information!");
-                return null;
+                throw new NullPointerException("Customer cannot view this information!");
             }
         }
         catch(SQLException e){
@@ -94,38 +112,59 @@ public class UserService {
     }
 
     //update the passcode if username is correct
-    public void updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException{
+    public String updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException{
         
         try{
-            List<String> names = userDAO.getAllNames();
-            for (int i = 0; i < names.size(); i++){
-                if (username.equals(names.get(i))){
-                    //System.out.println("User name exists");
-                    userDAO.updatePassCode(userId, nPasscode, username);
+            String name = userDAO.getUsername(userId);
+            if (name.equals(username)){
+                if(userDAO.updatePassCode(userId, nPasscode, name)){
+                    return "Passcode Updated!";
                 }
-            } 
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-    }
-
-    //Update the email if username is correct
-    public void updateEmailifUserNameExits(int userId, String nEmail, String username) throws SQLException{
-        
-        try{
-            List<String> names = userDAO.getAllNames();
-            for (int i = 0; i < names.size(); i++){
-                if(username.equals(names.get(i))){
-                    userDAO.updateEmail(userId, nEmail, username);
+                else{
+                    return "Passcode was not updated!";
                 }
+            }
+            else{
+                return "The user names do not match!";
             }
         }
         catch(SQLException e){
             e.printStackTrace();
+            return "Error occurred when updating passcode!";
+        }
+        catch(UserNotFoundException e){
+            e.getMessage();
+            return "User was not found!";
         }
     }
 
+    //Update the email if username is correct
+    public String updateEmailifUserNameExits(int userId, String nEmail, String username) throws SQLException{
+        
+        try{
+            String name = userDAO.getUsername(userId);
+            if(name.equals(username)){
+                if(userDAO.updateEmail(userId, nEmail, name)){
+                    return "Email Updated!";
+                }
+                else{
+                    return "Could not update the email";
+                }
+            }
+            else{
+                return "User names do not match!!";
+            }       
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return "Error Occurred when updating email.";
+        }
+        catch(UserNotFoundException e){
+            e.getMessage();
+            return "User was not found!";
+        }
+    }
+    
     //Only admin can delete user
     public void AdminDeletesUser(int AdminUserId, int deleteUserId) throws SQLException{
         try{
