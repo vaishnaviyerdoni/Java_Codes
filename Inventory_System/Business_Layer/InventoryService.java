@@ -20,7 +20,7 @@ public class InventoryService{
     }
 
     //check inventory and return boolean value after comparing quantity and Lowstockthreshold
-    public boolean AlertLowQuantity(int itemId, int userId) throws SQLException{
+    public boolean isLowStock(int itemId, int userId) throws SQLException{
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("Admin") || role.equalsIgnoreCase("staff")){
@@ -46,14 +46,14 @@ public class InventoryService{
 
     //method to compare the quantity and lowstock threshold and update the quantity if necessary
     //rule1: quantity cannot be lesser than or equal to low stock threshold
-    public String CompareQnt(int itemId, int userId, int newQuantity) throws SQLException{ 
+    public String addToQuantity(int itemId, int userId, int QuantityToAdd) throws SQLException{ 
         try{
             String role = userDAO.getRole(userId);
                 if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("staff")){
                 
-                    boolean isLow = AlertLowQuantity(itemId, userId);
+                    boolean isLow = isLowStock(itemId, userId);
                     if (isLow){
-                        if (inventoryDAO.updateItembyQuantity(itemId, newQuantity)){
+                        if (inventoryDAO.updateItembyQuantity(itemId, QuantityToAdd)){
                             return "Inventory Updated!";
                         }
                         else{
@@ -98,7 +98,7 @@ public class InventoryService{
 
 
     //to view all the items from inventory table //work on return value
-    public List<Inventory> viewAllItems() throws SQLException, NullPointerException{
+    public List<Inventory> viewAllItems() throws SQLException{
         try{
             List<Inventory> items = inventoryDAO.getAllItems();
             /* 
@@ -123,7 +123,7 @@ public class InventoryService{
     }
     
     //to get itemID based on the itemname passed
-    public int getItemIDfromTable(String itemName) throws  SQLException, ItemAbsentException {
+    public int getItemIDfromTable(String itemName) throws  SQLException, ItemAbsentException{
         try{
             Integer itemId = inventoryDAO.getItemId(itemName);
             if (itemId == null){
@@ -135,10 +135,6 @@ public class InventoryService{
         }
         catch(SQLException e){
             e.printStackTrace();
-            return -1;
-        }
-        catch(ItemAbsentException e){
-            e.getMessage();
             return -1;
         }
     }
@@ -184,7 +180,7 @@ public class InventoryService{
         int UpdatedQuantity = oldQuantity - newQuantity;
 
         try{
-            if(inventoryDAO.updateItembyQuantity(itemId, newQuantity)){
+            if(inventoryDAO.updateItembyQuantity(itemId, UpdatedQuantity)){
                 return true;
             }
             else{

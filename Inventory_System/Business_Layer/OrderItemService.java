@@ -12,12 +12,14 @@ public class OrderItemService {
     private InventoryDAO inventoryDAO;
     private OrderDAO orderDAO;
     private UserDAO userDAO;
+    private InventoryService service;
 
-    public OrderItemService(OrderItemDAO orderItemDAO, InventoryDAO inventoryDAO, OrderDAO orderDAO, UserDAO userDAO){
+    public OrderItemService(OrderItemDAO orderItemDAO, InventoryDAO inventoryDAO, OrderDAO orderDAO, UserDAO userDAO, InventoryService service){
         this.orderItemDAO = orderItemDAO;
         this.inventoryDAO = inventoryDAO;
         this.orderDAO = orderDAO;
         this.userDAO = userDAO;
+        this.service = service;
     }
 
     //Any registered user can place order
@@ -36,7 +38,6 @@ public class OrderItemService {
                 OrderItem items = new OrderItem(itemsId, order, inventory, quantity, Subtotal, user);
                 boolean isPlaced = orderItemDAO.addOrderItem(items);
                 if (isPlaced){
-                    InventoryService service = new InventoryService(inventoryDAO, userDAO, orderItemDAO);
                     if (service.deductInventory(inventoryId, quantity)){
                         return true; // return true if inventory deducted and order placed
                     }
@@ -97,7 +98,7 @@ public class OrderItemService {
     }
 
     //Update the quantity and update subtotal
-    public boolean UpdateQuantityAndSubtotal(int itemsId, int inventoryId, int userId, int nQuantity) throws SQLException, UserNotFoundException {
+    public boolean updateQuantityAndSubtotal(int itemsId, int inventoryId, int userId, int nQuantity) throws SQLException, UserNotFoundException {
         try{
             if(orderDAO.isUserValid(userId)){
                 boolean isUpdated = orderItemDAO.UpdateQuantity(nQuantity, itemsId);
@@ -128,7 +129,7 @@ public class OrderItemService {
     }
     
     //Only Admin can delete the records
-    public boolean AdminDeletesItem(int userId, int itemsId) throws SQLException, UserNotFoundException {
+    public boolean adminDeletesItem(int userId, int itemsId) throws SQLException, UserNotFoundException {
         try{
             String role = userDAO.getRole(userId);
             if(role.equalsIgnoreCase("admin")){

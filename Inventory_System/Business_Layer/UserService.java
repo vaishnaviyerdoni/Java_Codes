@@ -67,7 +67,7 @@ public class UserService {
                     }
                 }
                 else{
-                    return "Only 10 Admin registrations are allowed.";
+                    return "Only 10 Staff registrations are allowed.";
                 }
             }
             else{
@@ -214,7 +214,7 @@ public class UserService {
     }
 
     //Login Logic
-    public String LoginLogic(int userId, String username, String passcode, String roleUser) throws SQLException{
+    public boolean isValidUserForLogin(int userId, String username, String passcode, String roleUser) throws SQLException{
         try{
             String userName = userDAO.getUsername(userId);
             String passCode = userDAO.getPasscode(userId);
@@ -226,17 +226,12 @@ public class UserService {
             System.out.println(passCode);
             */
 
-            if (userName.equals(username) && passCode.equals(passcode) && role.equalsIgnoreCase(roleUser)){
-                return "Login Successful";
-            }
-            else{
-                return "The credentials do not match!";
-            }
+            return (userName.equals(username) && passCode.equals(passcode) && role.equalsIgnoreCase(roleUser));
                 
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "-1";
+            return false;
         }
     }
 

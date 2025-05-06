@@ -23,16 +23,18 @@ public class OrderService {
     public String addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus, Double totalPrice) throws SQLException, UserNotFoundException{
         try{
             List<Integer> userids = userDAO.getUserIds();
+            boolean foundUser = false;
 
             User user = new User();
             for (int i = 0; i < userids.size(); i++){
                 if(userID == userids.get(i)){
                     user.set_userId(userID);
+                    foundUser = true;
                     break;
                 }
-                else{
-                    throw new UserNotFoundException("User for the" + userID + " not found!");
-                }
+            }
+            (!foundUser){
+                throw new UserNotFoundException("User with ID " + userID + " not found!");
             }
             java.sql.Date date = validate_Date(orderDate);
             Order order = new Order(orderId, user, date, customerName, "Pending", totalPrice);
@@ -102,7 +104,7 @@ public class OrderService {
                     return order;
                 }
                 else{
-                    return null;
+                    throw new UserNotFoundException("User for " + userId + " not found!");
                 }
             }
             else{
