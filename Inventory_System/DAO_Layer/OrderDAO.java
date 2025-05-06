@@ -2,9 +2,6 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
-
-import javax.swing.text.html.HTMLDocument.HTMLReader.PreAction;
-
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import java.text.SimpleDateFormat;
 import Inventory_System.Model_Layer.Order;
@@ -19,7 +16,7 @@ public class OrderDAO {
     }
 
     //Create method to place new orders, before placing order, the user must register themselves
-    public void placeOrder(Order order) throws SQLException{
+    public boolean addOrderInDatabase(Order order) throws SQLException{
         String sql = "INSERT INTO Orders (userId, OrderDate, CustomerName, OrderStatus, total_Price) VALUES  (?,?,?,?,?)";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, order.get_UserId().get_userId());
@@ -29,10 +26,10 @@ public class OrderDAO {
             stmt.setDouble(5, order.get_total());
             int rows = stmt.executeUpdate();
             if (rows > 0){
-                System.out.println("Order placed");
+                return true;
             }
             else{
-                System.out.println("Order denied");
+                return false;
             }
         }
     }
