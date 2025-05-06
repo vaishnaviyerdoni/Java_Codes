@@ -54,6 +54,21 @@ public class InventoryDAO {
         }
     }
 
+    //to get the userId
+    public int getItemId(String itemName) throws SQLException{
+        String sql = "SELECT itemId FROM InventoryTable WHERE itemName = ?";
+        int itemID = 0;
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, itemName);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    itemID = rs.getInt("itemId");
+                }
+
+                return itemID;
+            }
+        }
+    }
     //To get the quantity
     public int getQuantity(int itemId) throws SQLException{
         String sql = "SELECT quantity FROM InventoryTable WHERE itemId = ?";

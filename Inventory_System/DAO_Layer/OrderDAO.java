@@ -62,149 +62,146 @@ public class OrderDAO {
             }
         }
          
-        //to fetch the order by its order id
-        public Order fetchOrderbyId(int orderId) throws SQLException{
-            String sql = "SELECT * FROM Orders WHERE orderId = ?";
-            Order order = null;
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setInt(1, orderId);
-                try(ResultSet rs = stmt.executeQuery()){
-                    while(rs.next()){
-                        //to get the user id which is a foreign key
-                        int userid = rs.getInt("userId");
-                        User user = new User();
-                        user.set_userId(userid);
+    //to fetch the order by its order id
+    public Order fetchOrderbyId(int orderId) throws SQLException{
+        String sql = "SELECT * FROM Orders WHERE orderId = ?";
+        Order order = null;
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, orderId);
+            try(ResultSet rs = stmt.executeQuery()){
+                while(rs.next()){
+                    //to get the user id which is a foreign key
+                    int userid = rs.getInt("userId");
+                    User user = new User();
+                    user.set_userId(userid);
 
-                        //to get the rest of the columns from orders
-                        order = new Order(
-                            rs.getInt("orderId"),
-                            user,
-                            rs.getDate("orderDate"),
-                            rs.getString("customerName"),
-                            rs.getString("orderStatus"),
-                            rs.getDouble("total_Price"));
+                    //to get the rest of the columns from orders
+                    order = new Order(
+                        rs.getInt("orderId"),
+                        user,
+                        rs.getDate("orderDate"),
+                        rs.getString("customerName"),
+                        rs.getString("orderStatus"),
+                        rs.getDouble("total_Price"));
                     }
-                    return order;
+                return order;
+            }
+        }
+    }
+
+    //to fetch the OrderId for the given UserID
+    public boolean isUserValid(int userId) throws SQLException{
+        String sql = "SELECT orderId FROM Orders WHERE userId = ?";
+
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
         }
+    }
 
-        //to fetch the OrderId for the given UserID
-        public boolean isUserValid(int userId) throws SQLException{
-            String sql = "SELECT orderId FROM Orders WHERE userId = ?";
+    //to fetch Price by the orderId
+    public Double getPricebyOrder(int orderId) throws SQLException {
+        String sql = "SELECT total_Price FROM Orders WHERE orderId = ?";
+        Double priceTotal = 0d;
 
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setInt(1, userId);
-                try(ResultSet rs = stmt.executeQuery()){
-                    if(rs.next()){
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setDouble(1, orderId);
+            try(ResultSet res = stmt.executeQuery()){
+                if(res.next()){
+                    priceTotal = res.getDouble("total_Price");
                 }
+                return priceTotal;
             }
         }
+    }
 
-        //to fetch Price by the orderId
-        public Double getPricebyOrder(int orderId) throws SQLException {
-            String sql = "SELECT total_Price FROM Orders WHERE orderId = ?";
-            Double priceTotal = 0d;
-
-             try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setDouble(1, orderId);
-                try(ResultSet res = stmt.executeQuery()){
-                    if(res.next()){
-                        priceTotal = res.getDouble("total_Price");
-                    }
-
-                    return priceTotal;
-                }
-             }
-        }
-
-        //to fetch the total_Price by the userId
-        public Double getPrice(int userId) throws SQLException {
-            String sql = "SELECT total_Price FROM Orders WHERE userId = ?";
-            Double priceTotal = 0d;
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setInt(1, userId);
-                try(ResultSet res = stmt.executeQuery()){
-                    if (res.next()){
-                        priceTotal = res.getDouble("total_Price");
-                    }
-
-                    return priceTotal;
-                }
+    //to fetch the total_Price by the userId
+    public Double getPrice(int userId) throws SQLException {
+    String sql = "SELECT total_Price FROM Orders WHERE userId = ?";
+    Double priceTotal = 0d;
+    try(PreparedStatement stmt = conn.prepareStatement(sql)){
+        stmt.setInt(1, userId);
+        try(ResultSet res = stmt.executeQuery()){
+            if (res.next()){
+                priceTotal = res.getDouble("total_Price");
+            }
+           return priceTotal;
             }
         }
+    }
 
-        //to fetch order its userId
-        public List<Order> fetchOrderbyUser(int userId) throws SQLException{
-            String sql = "SELECT * FROM Orders WHERE userId = ?";
-            List<Order> orders = new ArrayList<>();
- 
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setInt(1, userId);
-                try(ResultSet res = stmt.executeQuery()){
-                    while(res.next()){
-                        //to get the userId, which is a foreign key
-                        int userid = res.getInt("userId");
-                        User user = new User();
-                        user.set_userId(userid);
+    //to fetch order its userId
+    public List<Order> fetchOrderbyUser(int userId) throws SQLException{
+        String sql = "SELECT * FROM Orders WHERE userId = ?";
+        List<Order> orders = new ArrayList<>();
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            try(ResultSet res = stmt.executeQuery()){
+                while(res.next()){
+                    //to get the userId, which is a foreign key
+                    int userid = res.getInt("userId");
+                    User user = new User();
+                    user.set_userId(userid);
 
-                        //to get the rest of the columns from the order
-                        Order order = new Order(
-                            res.getInt("orderId"),
-                            user,
-                            res.getDate("orderDate"),
-                            res.getString("customerName"),
-                            res.getString("orderStatus"),
-                            res.getDouble("total_price"));
+                    //to get the rest of the columns from the order
+                    Order order = new Order(
+                        res.getInt("orderId"),
+                        user,
+                        res.getDate("orderDate"),
+                        res.getString("customerName"),
+                        res.getString("orderStatus"),
+                        res.getDouble("total_price"));
 
-                            orders.add(order);
+                        orders.add(order);
                     }
-                    return orders;
-                }
+                return orders;
             }
         }
+    }
 
-        //Update Price method to update the price
-        public void updateTotal(Double newPrice, int orderId) throws SQLException {
-            String sql = "UPDATE Orders SET total_Price = ? WHERE orderId = ?";
+    //Update Price method to update the price
+    public void updateTotal(Double newPrice, int orderId) throws SQLException {
+        String sql = "UPDATE Orders SET total_Price = ? WHERE orderId = ?";
 
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setDouble(1, newPrice);
-                stmt.setInt(2, orderId);
-                stmt.executeQuery();
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setDouble(1, newPrice);
+            stmt.setInt(2, orderId);
+            stmt.executeQuery();
 
-                System.out.println("price updated Successfully!");
+            System.out.println("price updated Successfully!");
             
-            }
         }
+    }
 
-        //Update the order status method
-        public void updateStatus(String newStatus, int order_Id) throws SQLException{
-            String sql = "UPDATE Orders SET orderStatus = ? WHERE orderId = ?";
+    //Update the order status method
+    public void updateStatus(String newStatus, int order_Id) throws SQLException{
+        String sql = "UPDATE Orders SET orderStatus = ? WHERE orderId = ?";
 
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setString(1, newStatus);
-                stmt.setInt(2, order_Id);
-                stmt.executeUpdate();
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, newStatus);
+            stmt.setInt(2, order_Id);
+            stmt.executeUpdate();
 
-                System.out.println("Your Order is " + newStatus);
-            }
+            System.out.println("Your Order is " + newStatus);
         }
+    }
 
-        //Delete the Order
-        public void deleteOrder(int orderID) throws SQLException{
-            String sql = "DELETE FROM Orders WHERE orderId = ?";
+    //Delete the Order
+    public void deleteOrder(int orderID) throws SQLException{
+        String sql = "DELETE FROM Orders WHERE orderId = ?";
 
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
-                stmt.setInt(1, orderID);
-                stmt.executeUpdate();
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, orderID);
+            stmt.executeUpdate();
 
-                System.out.println("Your Order was deleted!");
-            }
+            System.out.println("Your Order was deleted!");
         }
+    }
 }
