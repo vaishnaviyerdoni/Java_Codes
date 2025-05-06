@@ -187,6 +187,32 @@ public class UserService {
         }
     }
 
+    public String UserDeletesTheirAccount(int userId, String userName) throws SQLException, UserNotFoundException {
+        try{
+            String username = userDAO.getUsername(userId);
+            
+            if(username.equals(userName)){
+                if(userDAO.deleteUser(userId)){
+                    return "Account deleted!";
+                }
+                else{
+                    return "Account couldn't be deleted!";
+                }
+            }
+            else{
+                throw new UserNotFoundException("UserName and userID do not match!");
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return "Error occured when deleting account!";
+        }
+        catch(UserNotFoundException e){
+            e.getMessage();
+            return "User not Found!";
+        }
+    }
+
     //Login Logic
     public String LoginLogic(int userId, String username, String passcode, String roleUser) throws SQLException{
         try{
