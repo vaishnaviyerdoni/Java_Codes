@@ -122,7 +122,7 @@ public class InventoryDAO {
     
     //UPDATE method: update the columns from inventory table wrt quantity
     public boolean updateItembyQuantity(int itemId, int newQuantity) throws SQLException{
-        String sql  = "UPDATE InventoryTable SET quantity = ? WHERE itemId = ?";
+        String sql  = "UPDATE InventoryTable SET quantity = quantity + ? WHERE itemId = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, newQuantity);
             stmt.setInt(2, itemId);
