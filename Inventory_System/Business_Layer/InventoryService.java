@@ -3,6 +3,7 @@ package Inventory_System.Business_Layer;
 import java.util.*;
 import java.sql.*;
 import Inventory_System.DAO_Layer.*;
+import Inventory_System.Exceptions.ItemAbsentException;
 import Inventory_System.Model_Layer.Inventory;
 import Inventory_System.Model_Layer.User;
 
@@ -118,6 +119,27 @@ public class InventoryService{
         catch(SQLException e){
             e.printStackTrace();
             return null;
+        }
+    }
+    
+    //to get itemID based on the itemname passed
+    public int getItemIDfromTable(String itemName) throws  SQLException, ItemAbsentException {
+        try{
+            Integer itemId = inventoryDAO.getItemId(itemName);
+            if (itemId == null){
+                throw new ItemAbsentException("ItemID for given item name not found!");
+            }
+            else{
+                return itemId;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+            return -1;
+        }
+        catch(ItemAbsentException e){
+            e.getMessage();
+            return -1;
         }
     }
 
