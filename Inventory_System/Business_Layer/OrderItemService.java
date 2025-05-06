@@ -3,6 +3,7 @@ package Inventory_System.Business_Layer;
 import java.sql.*;
 import java.util.*;
 import Inventory_System.DAO_Layer.*;
+import Inventory_System.Exceptions.ItemAbsentException;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.*;
 
@@ -58,7 +59,7 @@ public class OrderItemService {
     }
 
     //Only admin or staff can view all the details of the Ordered items
-    public List<OrderItem> viewItems(int userId) throws SQLException, UserNotFoundException {
+    public List<OrderItem> viewItems(int userId) throws SQLException, UserNotFoundException, NullPointerException {
 
         List<OrderItem> items = new ArrayList<>();
         try{
@@ -73,12 +74,12 @@ public class OrderItemService {
         }
         catch(SQLException e){
             e.printStackTrace();
-            return items;
+            return null;
         }
     }
 
     //Registered users can fetch the information for their order by using their order id
-    public List<OrderItem> getItemsbyOrderid(int userId, int orderId) throws SQLException, UserNotFoundException {
+    public List<OrderItem> getItemsbyOrderid(int userId, int orderId) throws SQLException, UserNotFoundException, NullPointerException {
         List<OrderItem> items = new ArrayList<>();
         try{
             if (orderDAO.isUserValid(userId)) {
@@ -91,7 +92,7 @@ public class OrderItemService {
         }
         catch(SQLException e){
             e.printStackTrace();
-            return items;
+            return null;
         }
     }
 
@@ -101,30 +102,42 @@ public class OrderItemService {
             if(orderDAO.isUserValid(userId)){
                 boolean isUpdated = orderItemDAO.UpdateQuantity(nQuantity, itemsId);
                 if(isUpdated){
-                    orderItemDAO.updateSubtotal(inventoryId, itemsId);
-
-                    return true;
+                    if(orderItemDAO.updateSubtotal(inventoryId, itemsId)){
+                        return true; // return true is quantity is updated and then subtotal is updated
+                    }
+                    else{
+                        return false; // return false if quantity is updated, but subtotal is not updated
+                    }
                 }
                 else{
-                    return false;
+                    return false; // return false when quantity is not updated so we dont call the updatesubtotal method
                 }  
             }
             else{
-                throw new UserNotFoundException("Only registered users can update the quantity");
+                throw new UserNotFoundException("Only registered users can update the quantity"); //error is thrown when user not found
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return false;
+            return false; // return false if unexpected sql error is occurred
+        }
+        catch(ItemAbsentException e){
+            e.getMessage();
+            return false; //return false if item information was absent
         }
     }
     
     //Only Admin can delete the records
-    public void AdminDeletesItem(int userId, int itemsId) throws SQLException, UserNotFoundException {
+    public boolean AdminDeletesItem(int userId, int itemsId) throws SQLException, UserNotFoundException {
         try{
             String role = userDAO.getRole(userId);
             if(role.equalsIgnoreCase("admin")){
-                orderItemDAO.deleteOrderItem(itemsId);
+                if(orderItemDAO.deleteOrderItem(itemsId)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
             }
             else{
                 throw new UserNotFoundException("Only Admin can delete the records");
@@ -132,6 +145,7 @@ public class OrderItemService {
         }
         catch(SQLException e){
             e.printStackTrace();
+            return false;
         }
     }    
 }
