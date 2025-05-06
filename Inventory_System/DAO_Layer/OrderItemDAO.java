@@ -1,6 +1,7 @@
 package Inventory_System.DAO_Layer;
 
 import Inventory_System.DAO_Layer.*;
+import Inventory_System.Exceptions.ItemAbsentException;
 import Inventory_System.Model_Layer.*;
 import java.util.*;
 import java.sql.*;
@@ -130,7 +131,7 @@ public class OrderItemDAO {
 
     
     //Update method for updating the subtotal because if quantity changes, subtotal changes
-    public void updateSubtotal(int itemId, int itemsId) throws SQLException{
+    public boolean updateSubtotal(int itemId, int itemsId) throws SQLException, ItemAbsentException {
         String sql1 = "SELECT price FROM InventoryTable WHERE itemId =?";
         String sql2 = "SELECT quantity FROM OrderItems WHERE itemsId = ?";
         String sql3 = "UPDATE OrderItems SET Subtotal = ? WHERE itemsId = ?";
@@ -153,33 +154,43 @@ public class OrderItemDAO {
                                     stm.setDouble(1, subtotal);
                                     stm.setInt(2, itemsId);
 
-                                    stm.executeUpdate();
+                                    int rows = stm.executeUpdate();
 
-                                    System.out.println("Updated the Subtotal Successfully!");
+                                    if (rows > 0){
+                                        return true;
+                                    }
+                                    else{
+                                        return false;
+                                    }
                                 }
                             }
                             else{
-                                System.out.println("Quantity not found!");
+                                throw new ItemAbsentException("quantity for this item is not available!");
                             }
                         }
                     }
                 }
                 else{
-                    System.out.println("Price not found!");
+                    throw new ItemAbsentException("Price for this item not found!");
                 }                
             }
         }
     }
     
     //Delete the record for given items number
-    public void deleteOrderItem(int itemsId) throws SQLException{
+    public boolean deleteOrderItem(int itemsId) throws SQLException{
         String sql = "DELETE FROM OrderItems WHERE ItemsID = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, itemsId);
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
 
-            System.out.println("Deleted Successfully!");
+            if (rows > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
     }
 }
