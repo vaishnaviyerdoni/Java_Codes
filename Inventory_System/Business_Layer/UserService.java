@@ -166,18 +166,24 @@ public class UserService {
     }
     
     //Only admin can delete user
-    public void AdminDeletesUser(int AdminUserId, int deleteUserId) throws SQLException{
+    public String AdminDeletesUser(int AdminUserId, int deleteUserId) throws SQLException{
         try{
             String role = userDAO.getRole(AdminUserId);
             if(role.equalsIgnoreCase("Admin")){
-                userDAO.deleteUser(deleteUserId);
+                if(userDAO.deleteUser(deleteUserId)){
+                    return "User deleted Successfully!";
+                }
+                else{
+                    return "User couldn't be deleted!";
+                }
             }
             else{
-                System.out.println("Staff and Cuustomer are not authorized to delete the user.");
+                return "Staff and Cuustomer are not authorized to delete the user.";
             }
         }
         catch(SQLException e){
             e.printStackTrace();
+            return "Error occured when deleting the user!";
         }
     }
 
