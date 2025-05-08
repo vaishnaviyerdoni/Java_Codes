@@ -4,6 +4,7 @@ import java.util.*;
 import java.sql.*;
 import Inventory_System.DAO_Layer.*;
 import Inventory_System.Exceptions.ItemAbsentException;
+import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.Inventory;
 import Inventory_System.Model_Layer.User;
 
@@ -46,7 +47,7 @@ public class InventoryService{
 
     //method to compare the quantity and lowstock threshold and update the quantity if necessary
     //rule1: quantity cannot be lesser than or equal to low stock threshold
-    public String addToQuantity(int itemId, int userId, int QuantityToAdd) throws SQLException{ 
+    public boolean addToQuantity(int itemId, int userId, int QuantityToAdd) throws SQLException, UserNotFoundException{ 
         try{
             String role = userDAO.getRole(userId);
                 if (role.equalsIgnoreCase("admin") || role.equalsIgnoreCase("staff")){
@@ -54,23 +55,23 @@ public class InventoryService{
                     boolean isLow = isLowStock(itemId, userId);
                     if (isLow){
                         if (inventoryDAO.updateItembyQuantity(itemId, QuantityToAdd)){
-                            return "Inventory Updated!";
+                            return true; // if inventory is updated
                         }
                         else{
-                            return "Couldn't update inventory!";
+                            return false; // if inventory is not updated
                         }
                     }
                     else{
-                        return "Enough items are in inventory";
+                        return false; // if inventory has enough items and does not need to be updated
                     }
                 }
                 else{
-                    return "Customer is not authorized to update inventory!";
+                    throw new UserNotFoundException("Customer is not allowed to update inventory!");
                 }
             }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error Occurred during updating inventory!";
+            return false; // if error occured when updating quantity.
         }
     }
 
@@ -140,9 +141,9 @@ public class InventoryService{
     }
 
     //to get the items by category
-    public List<String> viewItemsByCategory(String category) throws SQLException{
+    public List<Inventory> viewItemsByCategory(String category) throws SQLException{
         try{
-            List<String> itemsBycategory = inventoryDAO.getitemByCategory(category);
+            List<Inventory> itemsBycategory = inventoryDAO.getitemByCategory(category);
             return itemsBycategory;
         }
         catch(SQLException e){
@@ -152,25 +153,27 @@ public class InventoryService{
     }
 
     //Only admin and staff can insert items in Inventory table
-    public String insertItems(int itemId, int userId, String itemName, String category, Double price, int quantity, int LowStockThreshold) throws SQLException{
+    public boolean insertItems(int itemId, int userId, String itemName, String category, Double price, int quantity, int LowStockThreshold) throws SQLException{
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("staff") || role.equalsIgnoreCase("Admin")){
                
                 Inventory item = new Inventory(0, itemName, category, price, quantity, LowStockThreshold);
                 if(inventoryDAO.addItem(item)){
-                    return "Item Added to the Inventory";
+                    return true;
+                }
+                else{
+                    return false;
                 }
             }
             else{
-                return "Customer cannot insert an item in Inventory!";
+                return false;
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error while adding item to Inventory";
+            return false;
         }
-        return "Items couldn't be added!";
     }
 
     
