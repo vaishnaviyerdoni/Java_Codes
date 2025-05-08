@@ -86,20 +86,25 @@ public class InventoryDAO {
     }
 
     //to get an item by its category
-    public List<String> getitemByCategory(String category) throws SQLException{
-        String sql = "SELECT itemName FROM InventoryTable WHERE category = ?";
-        List<String> itemsList = new ArrayList<>();
+    public List<Inventory> getitemByCategory(String category) throws SQLException{
+        String sql = "SELECT * FROM InventoryTable WHERE category = ?";
+        List<Inventory> items = new ArrayList<>();
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setString(1, category);
-            try(ResultSet rs = stmt.executeQuery()){
-                while (rs.next()){
-                    String items = rs.getString("itemName");
-
-                    itemsList.add(items);
-                }
-
-                return itemsList;
+            try(ResultSet res = stmt.executeQuery()){
+                while(res.next()){
+                    Inventory item = new Inventory(
+                        res.getInt("itemId"),
+                        res.getString("itemName"),
+                        res.getString("category"),
+                        res.getDouble("price"),
+                        res.getInt("quantity"),
+                        res.getInt("LowStockThreshold"));
+                        items.add(item);
+                        //System.out.println("Fetched item: " + item.get_itemId());
+                    }
+                return items;
             }
         }
     }
