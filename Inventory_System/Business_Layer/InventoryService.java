@@ -198,24 +198,24 @@ public class InventoryService{
     
 
     //Only admin can delete items from inventory table
-    public String deleteByAdmin(int itemId, int userId) throws SQLException{
+    public boolean deleteByAdmin(int itemId, int userId) throws SQLException, UserNotFoundException{
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("Admin")){
                 if(inventoryDAO.deleteItem(itemId)){
-                    return "Deleted the row Successfully";
+                    return true; // if deleted successfully
                 }
                 else{
-                    return "Row could not be deleted!";
+                    return false; // if the records were not deleted
                 }
             }
             else{
-                return "Only admin is authorized to delete inventory items!";
+                throw new UserNotFoundException("Only Admin can delete Records");
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occured when deleting inventory records";
+            return false; // if error occurred when deleting records
         }
     }  
 }
