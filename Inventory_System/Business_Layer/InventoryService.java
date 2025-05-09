@@ -76,24 +76,24 @@ public class InventoryService{
     }
 
     //get the user role, if user is admin then they are allowed to update price
-    public String updatePricebyAdmin(int itemId, int userId, int newPrice) throws SQLException{
+    public boolean updatePricebyAdmin(int itemId, int userId, double newPrice) throws SQLException, UserNotFoundException{
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("Admin")){
                 if(inventoryDAO.updatePricebyItemId(itemId, newPrice)){
-                    return "Price Updated!";
+                    return true;  // return true if Price Updated!
                 }
                 else{
-                    return "Couldnt update price!";
+                    return false; // returns false if Couldnt update price
                 }
             }
             else{
-                return "Only admin can update price!";
+                throw new UserNotFoundException("Only admin can update price!");
             }
         }    
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occurred while updating price!";
+            return false; // if error was occurred when updating price
         }    
     }
 
@@ -153,7 +153,7 @@ public class InventoryService{
     }
 
     //Only admin and staff can insert items in Inventory table
-    public boolean insertItems(int itemId, int userId, String itemName, String category, Double price, int quantity, int LowStockThreshold) throws SQLException{
+    public boolean insertItems(int itemId, int userId, String itemName, String category, Double price, int quantity, int LowStockThreshold) throws SQLException, UserNotFoundException{
         try{
             String role = userDAO.getRole(userId);
             if (role.equalsIgnoreCase("staff") || role.equalsIgnoreCase("Admin")){
@@ -167,7 +167,7 @@ public class InventoryService{
                 }
             }
             else{
-                return false;
+                throw new UserNotFoundException("Customer cannot update inventory");
             }
         }
         catch(SQLException e){
