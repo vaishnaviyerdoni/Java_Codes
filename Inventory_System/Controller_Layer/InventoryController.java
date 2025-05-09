@@ -9,6 +9,8 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
 import Inventory_System.Business_Layer.InventoryService;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.InventoryDAO;
@@ -117,7 +119,9 @@ public class InventoryController extends HttpServlet{
                 }
             }
 
-            Map<String, String> data = gson.fromJson(str.toString(), Map.class);
+            Type type = new TypeToken<Map<String, String>>(){}.getType();
+            Map<String, String> data = gson.fromJson(str.toString(), type);
+            
             String action = data.get("action");
 
             if(action.equals("updatePrice")){
