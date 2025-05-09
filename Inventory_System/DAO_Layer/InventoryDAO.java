@@ -143,10 +143,10 @@ public class InventoryDAO {
     }
 
     //UPDATE method: update price for given itemID
-    public boolean updatePricebyItemId(int itemId, int newPrice) throws SQLException{
+    public boolean updatePricebyItemId(int itemId, double newPrice) throws SQLException{
         String sql = "UPDATE InventoryTable SET price = ? WHERE itemId = ?";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
-            stmt.setInt(1, newPrice);
+            stmt.setDouble(1, newPrice);
             stmt.setInt(2, itemId);
             int rows = stmt.executeUpdate();
 
