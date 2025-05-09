@@ -3,7 +3,9 @@ package Inventory_System.Controller_Layer;
 import java.io.*;
 import java.net.http.HttpResponse;
 import java.sql.*;
-import java.util.*; 
+import java.util.*;
+
+import javax.print.DocFlavor.READER;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -12,6 +14,7 @@ import Inventory_System.Business_Layer.InventoryService;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.InventoryDAO;
 import Inventory_System.DAO_Layer.UserDAO;
+import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.DAO_Layer.OrderItemDAO;
 import Inventory_System.Model_Layer.Inventory;
 
@@ -65,6 +68,10 @@ public class InventoryController extends HttpServlet{
                 List<Inventory> items = inventoryService.viewItemsByCategory(category);
                 response.getWriter().write(gson.toJson(items));
             }
+            else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\" : \"Something went wrong\"}");
+            }
         }
         catch(SQLException | NullPointerException e){
             e.printStackTrace();
@@ -87,23 +94,88 @@ public class InventoryController extends HttpServlet{
             boolean isAdded = inventoryService.insertItems(0, userId, itemName, category, price, quantity, LowStockThreshold);
             response.getWriter().write(isAdded ? "Item Added succesfully" : "Failed to add an item!");
         }
-        catch(SQLException e){
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid input");
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
+            response.getWriter().write("{\"error\":\"Something Went Wrong\"}");
+        }
+    }
+    
+    
+    //to handle put request
+    @Override
+    @SuppressWarnings("unchecked")
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            response.setContentType("application/json");
+            Gson gson = new Gson();
+            StringBuilder str = new StringBuilder();
+            try(BufferedReader reader = request.getReader()){
+                String line;
+                while ((line = reader.readLine()) != null){
+                    str.append(line);
+                }
+            }
+
+            Map<String, String> data = gson.fromJson(str.toString(), Map.class);
+            String action = data.get("action");
+
+            if(action.equals("updatePrice")){
+                int itemId = Integer.parseInt(data.get("itemId"));
+                int userId = Integer.parseInt(data.get("userId"));
+                double newPrice = Double.parseDouble(data.get("newPrice"));
+                
+                boolean isUpdated = inventoryService.updatePricebyAdmin(itemId, userId, newPrice);
+
+                response.getWriter().write(isUpdated ? "Price Updated" : "Couldn't update price");
+            }
+
+            else if (action.equals("addtoQuantity")){
+                int itemId = Integer.parseInt(data.get("itemId"));
+                int userId = Integer.parseInt(data.get("userId"));
+                int newQuantity = Integer.parseInt(data.get("newQuantity"));
+
+                boolean isUpdated = inventoryService.addToQuantity(itemId, userId, newQuantity);
+                
+                response.getWriter().write(isUpdated ? "Quantity Updated" : "Failed to Update quantity");
+            }
+            
+            else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"Invalid method to update data\"}");
+            }
+        }
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\" : \"Something went wrong\"}");
         }
     }
 
 
-    /* 
-    //to handle put request
-    @Override
-    protected void doPut(HttpServletRequest request, HttpResponse response) throws IOException, ServletException {
-
-    }
-
     //to handle delete request
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        
+        try{
+            String action = request.getParameter("action");
+            if (action.equals("deleteItem")){
+                int itemId = Integer.parseInt(request.getParameter("itemId"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+
+                boolean isDeleted = inventoryService.deleteByAdmin(itemId, userId);
+                response.getWriter().write(isDeleted ? "Deleted Successfully" : "Could not be deleted!");
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\": \"Wrong method to delete information\"}");
+            }
+        }
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.getWriter().write("{\"error\": \"Something went wrong!\"}");
+        }
     }
-    */
 }
