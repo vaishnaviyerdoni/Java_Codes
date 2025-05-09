@@ -41,7 +41,7 @@ public class UserService {
                     return "User Registered!";
                 }
                 else{
-                    return "Could not register user!";
+                    return "Could not register User!";
                 }
             }
             else if (roleUser.equalsIgnoreCase("admin")){
@@ -112,91 +112,83 @@ public class UserService {
     }
 
     //update the passcode if username is correct
-    public String updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException{
+    public boolean updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException, UserNotFoundException {
         
         try{
             String name = userDAO.getUsername(userId);
             if (name.equals(username)){
                 if(userDAO.updatePassCode(userId, nPasscode, name)){
-                    return "Passcode Updated!";
+                    return true; //"Passcode Updated!";
                 }
                 else{
-                    return "Passcode was not updated!";
+                    return false; //"Passcode was not updated!";
                 }
             }
             else{
-                return "The user names do not match!";
+                throw new UserNotFoundException("Usernames do not match!");
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occurred when updating passcode!";
-        }
-        catch(UserNotFoundException e){
-            e.getMessage();
-            return "User was not found!";
+            return false; //"Error occurred when updating passcode!";
         }
     }
 
     //Update the email if username is correct
-    public String updateEmailifUserNameExits(int userId, String nEmail, String username) throws SQLException{
+    public boolean updateEmailifUserNameExits(int userId, String nEmail, String username) throws SQLException, UserNotFoundException {
         
         try{
             String name = userDAO.getUsername(userId);
             if(name.equals(username)){
                 if(userDAO.updateEmail(userId, nEmail, name)){
-                    return "Email Updated!";
+                    return true; //"Email Updated!";
                 }
                 else{
-                    return "Could not update the email";
+                    return false; //"Could not update the email";
                 }
             }
             else{
-                return "User names do not match!!";
+                throw new UserNotFoundException("Usernames do not match");
             }       
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error Occurred when updating email.";
-        }
-        catch(UserNotFoundException e){
-            e.getMessage();
-            return "User was not found!";
+            return false; //"Error Occurred when updating email.";
         }
     }
     
     //Only admin can delete user
-    public String AdminDeletesUser(int AdminUserId, int deleteUserId) throws SQLException{
+    public boolean AdminDeletesUser(int AdminUserId, int deleteUserId) throws SQLException, UserNotFoundException{
         try{
             String role = userDAO.getRole(AdminUserId);
             if(role.equalsIgnoreCase("Admin")){
                 if(userDAO.deleteUser(deleteUserId)){
-                    return "User deleted Successfully!";
+                    return true; //"User deleted Successfully!";
                 }
                 else{
-                    return "User couldn't be deleted!";
+                    return false; //"User couldn't be deleted!";
                 }
             }
             else{
-                return "Staff and Cuustomer are not authorized to delete the user.";
+                throw new UserNotFoundException("Staff and Cuustomer are not authorized to delete the user.");
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occured when deleting the user!";
+            return false; //"Error occured when deleting the user!";
         }
     }
 
-    public String UserDeletesTheirAccount(int userId, String userName) throws SQLException, UserNotFoundException {
+    public boolean UserDeletesTheirAccount(int userId, String userName) throws SQLException, UserNotFoundException {
         try{
             String username = userDAO.getUsername(userId);
             
             if(username.equals(userName)){
                 if(userDAO.deleteUser(userId)){
-                    return "Account deleted!";
+                    return true; //"Account deleted!";
                 }
                 else{
-                    return "Account couldn't be deleted!";
+                    return false; //"Account couldn't be deleted!";
                 }
             }
             else{
@@ -205,11 +197,7 @@ public class UserService {
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occured when deleting account!";
-        }
-        catch(UserNotFoundException e){
-            e.getMessage();
-            return "User not Found!";
+            return false; //"Error occured when deleting account!";
         }
     }
 
