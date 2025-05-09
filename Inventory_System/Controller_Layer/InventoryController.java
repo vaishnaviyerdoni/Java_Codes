@@ -4,7 +4,6 @@ import java.io.*;
 import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.*;
-
 import javax.print.DocFlavor.READER;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
