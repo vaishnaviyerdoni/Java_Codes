@@ -2,20 +2,15 @@ package Inventory_System.Controller_Layer;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Map;
-
+import java.sql.*;
+import java.util.*;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.Action;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import Inventory_System.Business_Layer.UserService;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.UserDAO;
@@ -62,31 +57,44 @@ public class UserController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
-            String userName = request.getParameter("userName");
-            String email = request.getParameter("email");
-            String passCode = request.getParameter("passCode");
-            String roleUser = request.getParameter("roleUser");
+            String action = request.getParameter("action");
+            if (action.equals("RegisterUser")){
+                if (action.equals("RegisterUser")){
+                    String userName = request.getParameter("userName");
+                    String email = request.getParameter("email");
+                    String passCode = request.getParameter("passCode");
+                    String roleUser = request.getParameter("roleUser");
 
-            if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
-                if(roleUser.equalsIgnoreCase("customer")){
-                    String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
-                }
+                if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
+                    if(roleUser.equalsIgnoreCase("customer")){
+                        String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                    }
 
-                else if (roleUser.equalsIgnoreCase("staff")){
-                    String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
-                }
+                    else if (roleUser.equalsIgnoreCase("staff")){
+                        String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                    }
                 
-                else if (roleUser.equalsIgnoreCase("admin")){
-                    String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                    else if (roleUser.equalsIgnoreCase("admin")){
+                        String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                    }
                 }
-
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\" : \"Something went wrong, try again later!\"}");
+                    }
                 }
+            }
+            else if (action.equals("isValidUser")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                String userName = request.getParameter("userName");
+                String roleUser = request.getParameter("roleUser");
+                String passCode = request.getParameter("passCode");
+
+                boolean isUserValid = userService.isValidUserForLogin(userId, userName, passCode, roleUser);
+                response.getWriter().write(isUserValid ? "Logged In : Welcome to Inventory!" : "Login Failed, Check your credentials!");
             }
         }
         catch(SQLException e){
@@ -95,6 +103,7 @@ public class UserController extends HttpServlet{
             response.getWriter().write("{\"error\":\"Something Went Wrong\"}");
         }
     }
+    
 
     //to handle put request
     @Override
