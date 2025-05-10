@@ -1,7 +1,6 @@
 package Inventory_System.Controller_Layer;
 
 import java.io.*;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,10 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.Action;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import Inventory_System.Business_Layer.UserService;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.UserDAO;
+import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.User;
 
 public class UserController extends HttpServlet{
@@ -99,20 +100,84 @@ public class UserController extends HttpServlet{
     @Override
 
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        response.setContentType("application/json");
-        StringBuilder str = new StringBuilder();
-        try(BufferedReader reader = request.getReader()){
-            String line;
-            while((line = reader.readLine()) != null){
-                reader.append(line);
+        try{
+            response.setContentType("application/json");
+            Gson gson = new Gson();
+            StringBuilder str = new StringBuilder();
+            try(BufferedReader reader = request.getReader()){
+                String line;
+                while ((line = reader.readLine()) != null){
+                    str.append(line);
+                }
+            }
+
+            Type type = new TypeToken<Map<String, String>>(){}.getType();
+            Map<String, String> data = gson.fromJson(str.toString(), type);
+
+            String action = data.get("action");
+
+            if (action.equals("UpdatePassCode")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                String nPassCode = request.getParameter("nPassCode");
+                String userName = request.getParameter("userName");
+
+                boolean isUpdated = userService.updatePasscodeIfuserNameExists(userId, nPassCode, userName);
+
+                response.getWriter().write(isUpdated ? "PassCode updated Successfully!" : "Failed to update the passcode!");
+            }
+            else if (action.equals("UpdateEmail")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                String nEmail = request.getParameter("nEmail");
+                String userName = request.getParameter("userName");
+
+                boolean isUpdated = userService.updateEmailifUserNameExits(userId, nEmail, userName);
+
+                response.getWriter().write(isUpdated ? "Email Updated" : "Failed to update the email");
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\" : \"Invalid method to update user information!\"}");
             }
         }
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\" : \"Someting wnet wring when updating user information\"}");
+        }
+    }
 
-        Type type = new TypeToken<Map<String, String>>(){}.getType();
-        Map<String, String> data = gson.toJson(reader.toString(), type);
+    //to handle the delete request
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
+            String action = request.getParameter("action");
+            if(action.equals("AdminDeletesuser")){
+                int AdminUserId = Integer.parseInt(request.getParameter("AdminUserId"));
+                int UserId = Integer.parseInt(request.getParameter("DeleteUserId"));
 
-        String action = data.get("action");
+                boolean isDeleted = userService.AdminDeletesUser(AdminUserId, UserId);
 
-        
+                response.getWriter().write(isDeleted ? "User was deleled successfully!" : "Failed to delete user");   
+            }
+            else if (action.equals("UserDeletesTheirAccount")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                String userName = request.getParameter("userName");
+
+                boolean isDeleted = userService.UserDeletesTheirAccount(userId, userName);
+
+                response.getWriter().write(isDeleted ? "Account deleted Successfully" : "Your account was not deleted, try again later!");
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\" : \"Not the correct method to delete user Account!\"}");
+            }
+        }
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\" : \"Sonething went wrong!\"}");
+        }
     }
 }
