@@ -5,6 +5,7 @@ import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.*;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import Inventory_System.DAO_Layer.UserDAO;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.User;
 
+@WebServlet("/user")
 public class UserController extends HttpServlet{
     
     private UserService userService;
@@ -59,11 +61,10 @@ public class UserController extends HttpServlet{
         try{
             String action = request.getParameter("action");
             if (action.equals("RegisterUser")){
-                if (action.equals("RegisterUser")){
-                    String userName = request.getParameter("userName");
-                    String email = request.getParameter("email");
-                    String passCode = request.getParameter("passCode");
-                    String roleUser = request.getParameter("roleUser");
+                String userName = request.getParameter("userName");
+                String email = request.getParameter("email");
+                String passCode = request.getParameter("passCode");
+                String roleUser = request.getParameter("roleUser");
 
                 if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
                     if(roleUser.equalsIgnoreCase("customer")){
@@ -73,14 +74,13 @@ public class UserController extends HttpServlet{
 
                     else if (roleUser.equalsIgnoreCase("staff")){
                         String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "Only 10 Staff registrations allowed!");
                     }
                 
                     else if (roleUser.equalsIgnoreCase("admin")){
                         String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "Only 5 Admin registrations allowed!");
                     }
-                }
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\" : \"Something went wrong, try again later!\"}");
