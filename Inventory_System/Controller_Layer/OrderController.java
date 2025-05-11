@@ -5,17 +5,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.StyledEditorKit;
 
 import com.google.gson.Gson;
-
+import com.google.gson.reflect.TypeToken;
+import java.lang.reflect.Type;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.sql.*;
 import java.util.*;
-
-import Inventory_System.Business_Layer.InventoryService;
-import Inventory_System.Business_Layer.OrderItemService;
-import Inventory_System.Business_Layer.OrderService;
+import Inventory_System.Business_Layer.*;
 import Inventory_System.DAO_Layer.*;
+import Inventory_System.Exceptions.ItemAbsentException;
+import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.*;
 
 @WebServlet("/order")
@@ -31,7 +33,7 @@ public class OrderController extends HttpServlet {
     private Connection conn;
 
     @Override
-    public init() throws ServletException {
+    public void init() throws ServletException {
         try{
             conn = DatabaseConnection.getConn();
             inventoryDAO = new InventoryDAO(conn);
@@ -56,7 +58,7 @@ public class OrderController extends HttpServlet {
             String action = request.getParameter("action");
             if (action.equals("getAllOrders")){
                 int userId = Integer.parseInt(request.getParameter("userId"));
-                Order orders = orderService.getallOrders(userId);
+                List<Order> orders = orderService.getallOrders(userId);
 
                 response.getWriter().write(gson.toJson(orders));
             }
@@ -64,7 +66,7 @@ public class OrderController extends HttpServlet {
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
 
-                List<Order> orders = orderService.viewOrderByID(orderId, userId);
+                Order orders = orderService.viewOrderByID(orderId, userId);
 
                 response.getWriter().write(gson.toJson(orders));
             }
@@ -102,7 +104,7 @@ public class OrderController extends HttpServlet {
                 response.getWriter().write("{\"error\" : \"the spectifed method is not correct\"}");
             }
         }
-        catch(SQLException | NullPointerException e){
+        catch(SQLException | NullPointerException | UserNotFoundException e){
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -138,7 +140,106 @@ public class OrderController extends HttpServlet {
 
                 response.getWriter().write(itemsAdded ? "Items added to order" : "Failed to add item to order!");
             }
+            else{
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.getWriter().write("{\"error\" : \"not a correct method to place order!\"}");
+            }
+        }
+        catch(SQLException | ItemAbsentException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
         }
     }
 
+    //to handle the put request
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
+            response.setContentType("application/json");
+            Gson gson = new Gson();
+            StringBuilder str = new StringBuilder();
+            try(BufferedReader reader = request.getReader()){
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    str.append(line);
+                }
+            }
+
+            Type type = new TypeToken<Map<String, String>>(){}.getType();
+            Map<String, String> data = gson.fromJson(str.toString(), type);
+            String action = data.get("action");
+
+            if (action.equals("updateTotalPrice")){
+                Double price = Double.parseDouble(request.getParameter("totalPrice"));
+                int orderId = Integer.parseInt(request.getParameter("orderId"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+
+                boolean isUpdated = orderService.updateTotalPrice(price, orderId, userId);
+
+                response.getWriter().write(isUpdated ? "total price updated" : "Failed to update the total price");
+            }
+            else if (action.equals("changeStatus")){
+                String status = request.getParameter("status");
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int customerId = Integer.parseInt(request.getParameter("customerId"));
+
+                boolean isUpdated = orderService.changeStatus(userId, status, customerId);
+
+                response.getWriter().write(isUpdated ? "Status updated!" : "Failed to update status");
+            }
+            else if (action.equals("updateQuantity")){
+                int itemsId = Integer.parseInt(request.getParameter("itemsId"));
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int nQuantity = Integer.parseInt(request.getParameter("nQuantity"));
+                int inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
+
+                boolean isUpdated = orderItemService.updateQuantityAndSubtotal(itemsId, inventoryId, userId, nQuantity);
+
+                response.getWriter().write(isUpdated ? "quantity and hence subtotal!" : "Failed to update the quantity and subtotal!");
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.getWriter().write("{\"error\" : \"Incoorect method to update the information\"}");
+            }
+        }
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
+    }
+     
+    //to handle the delete request
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        try{
+            String action = request.getParameter("action");
+            if (action.equals("AdminDeletesUser")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int orderId = Integer.parseInt(request.getParameter("orderId"));
+
+                boolean isDeleted = orderItemService.adminDeletesItem(userId, orderId);
+
+                response.getWriter().write(isDeleted ? "order Deleted" : "Failed to delete order");
+            }
+            else if (action.equals("AdminDeletesItem")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                int itemsId = Integer.parseInt(request.getParameter("itemsId"));
+
+                boolean isDeleted = orderItemService.adminDeletesItem(userId, itemsId);
+
+                response.getWriter().write(isDeleted ? "item deleted from order" : "Failed to delete order");
+            }
+            else{
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.getWriter().write("{\"error\" : \"incorrect method to delete information\"}");
+            }
+        }
+        catch(SQLException | UserNotFoundException e){
+            e.printStackTrace();
+            System.err.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+        }
+    }
 }
