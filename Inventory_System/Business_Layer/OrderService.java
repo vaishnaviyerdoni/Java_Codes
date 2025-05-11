@@ -33,7 +33,7 @@ public class OrderService {
                     break;
                 }
             }
-            (!foundUser){
+            if (!foundUser){
                 throw new UserNotFoundException("User with ID " + userID + " not found!");
             }
             java.sql.Date date = validate_Date(orderDate);
@@ -208,7 +208,7 @@ public class OrderService {
                 return true; //"Order records Deleted!";
             }
             else{
-                return throw new UserNotFoundException("Only Admin can delete order!");
+                throw new UserNotFoundException("Only Admin can delete order!");
             }
         }
         catch(SQLException e){
