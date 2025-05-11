@@ -20,7 +20,7 @@ public class OrderService {
     }
 
     //to place new order
-    public String addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus, Double totalPrice) throws SQLException, UserNotFoundException{
+    public boolean addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus, Double totalPrice) throws SQLException, UserNotFoundException{
         try{
             List<Integer> userids = userDAO.getUserIds();
             boolean foundUser = false;
@@ -39,15 +39,15 @@ public class OrderService {
             java.sql.Date date = validate_Date(orderDate);
             Order order = new Order(orderId, user, date, customerName, "Pending", totalPrice);
             if(orderDAO.addOrderInDatabase(order)){
-                return "Order added!";
+                return true; //"Order added!";
             }
             else{
-                return "Order could not be added!";
+                return false; //"Order could not be added!";
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occurred while adding order!"; 
+            return false; //"Error occurred while adding order!"; 
         }
     }
 
@@ -144,11 +144,11 @@ public class OrderService {
 
     //Price update method, this method will get called from order items so that the sum of subtotals of the 
     // items belonging to same order will be the total price.
-    public String updateTotalPrice(Double price, int orderId, int userId) throws SQLException, UserNotFoundException {
+    public boolean updateTotalPrice(Double price, int orderId, int userId) throws SQLException, UserNotFoundException {
         try{
             if(orderDAO.isUserValid(userId)){
                 orderDAO.updateTotal(price, orderId);
-                return "Updated the total price successfully!";
+                return true; //"Updated the total price successfully!";
             }
             else{
                 throw new UserNotFoundException("Only registered users can update price!");
@@ -156,7 +156,7 @@ public class OrderService {
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occured when updating the price!";
+            return true; //"Error occured when updating the price!";
         }
     }
 
@@ -177,7 +177,7 @@ public class OrderService {
     }
     
     //Admin or staff changes the status of the order
-    public String changeStatus(int userId, String Status, int CustomerId) throws SQLException, UserNotFoundException {
+    public boolean changeStatus(int userId, String Status, int CustomerId) throws SQLException, UserNotFoundException {
         try{
             String role = userDAO.getRole(userId);
 
@@ -185,69 +185,35 @@ public class OrderService {
 
                 orderDAO.updateStatus(Status, CustomerId);
 
-                return "Order Status Updated!";
+                return true; //"Order Status Updated!";
 
             }
             else{
-                return "Customer cannot update the Status!";
+                throw new UserNotFoundException("Customer cannot update status!");
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error Occurred while updating the Status.";
+            return false; //"Error Occurred while updating the Status.";
         }
     }
 
     //Admin can delete the records about any order
-    public String AdminDeletesOrder(int userId, int orderId) throws SQLException {
+    public boolean AdminDeletesOrder(int userId, int orderId) throws SQLException, UserNotFoundException {
         try{
             String role = userDAO.getRole(userId);
             if(role.equalsIgnoreCase("admin")){
                 orderDAO.deleteOrder(orderId);
                 
-                return "Order records Deleted!";
+                return true; //"Order records Deleted!";
             }
             else{
-                return "Only Admin is authorized to delete the order!";
+                return throw new UserNotFoundException("Only Admin can delete order!");
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "error occurred when deleting the Order";
+            return false; //"error occurred when deleting the Order";
         }
     }
-            /* 
-    public static void main(String[] args) {
-        try{
-            Connection conn = null;
-            conn = DatabaseConnection.getConn();
-            UserDAO userDAO = new UserDAO(conn);
-            OrderDAO orderDAO = new OrderDAO(conn);
-            InventoryDAO inventoryDAO = new InventoryDAO(conn);
-        
-            OrderService service =  new OrderService(orderDAO, userDAO, inventoryDAO);
-            
-            Order order = service.viewOrderByID(5, 14);
-                System.out.println("-------------");
-                System.out.println("Order id: " + order.get_orderId());
-                System.out.println("User ID: " + order.get_UserId().get_userId());
-                System.out.println("Order Date: " + order.get_Orderdate());
-                System.out.println("Customer Name: " + order.get_customerName());
-                System.out.println("Status of order: " + order.get_status());
-                System.out.println("---------------");
-            
-            
-        }
-        catch(SQLException e){
-            e.printStackTrace();
-        }
-        catch(NullPointerException e){
-            e.printStackTrace();
-        }
-        catch(UserNotFoundException e){
-            e.getMessage();
-        }
-    } 
-        */
-        
 }
