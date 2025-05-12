@@ -170,29 +170,30 @@ public class OrderController extends HttpServlet {
             Map<String, String> data = gson.fromJson(str.toString(), type);
             String action = data.get("action");
 
+            // Send JSON format like this : { "action": "updateQuantity", "itemId": 1, "quantity": 100 }
             if (action.equals("updateTotalPrice")){
-                Double price = Double.parseDouble(request.getParameter("totalPrice"));
-                int orderId = Integer.parseInt(request.getParameter("orderId"));
-                int userId = Integer.parseInt(request.getParameter("userId"));
+                Double price = Double.parseDouble(data.get("price"));
+                int orderId = Integer.parseInt(data.get("orderId"));
+                int userId = Integer.parseInt(data.get("userId"));
 
                 boolean isUpdated = orderService.updateTotalPrice(price, orderId, userId);
 
                 response.getWriter().write(isUpdated ? "total price updated" : "Failed to update the total price");
             }
             else if (action.equals("changeStatus")){
-                String status = request.getParameter("status");
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                int customerId = Integer.parseInt(request.getParameter("customerId"));
+                String status = data.get("status");
+                int userId = Integer.parseInt(data.get("userId"));
+                int customerId = Integer.parseInt(data.get("customerId"));
 
                 boolean isUpdated = orderService.changeStatus(userId, status, customerId);
 
                 response.getWriter().write(isUpdated ? "Status updated!" : "Failed to update status");
             }
             else if (action.equals("updateQuantity")){
-                int itemsId = Integer.parseInt(request.getParameter("itemsId"));
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                int nQuantity = Integer.parseInt(request.getParameter("nQuantity"));
-                int inventoryId = Integer.parseInt(request.getParameter("inventoryId"));
+                int itemsId = Integer.parseInt(data.get("itemsId"));
+                int userId = Integer.parseInt(data.get("userId"));
+                int nQuantity = Integer.parseInt(data.get("nQuantity"));
+                int inventoryId = Integer.parseInt(data.get("inventoryId"));
 
                 boolean isUpdated = orderItemService.updateQuantityAndSubtotal(itemsId, inventoryId, userId, nQuantity);
 

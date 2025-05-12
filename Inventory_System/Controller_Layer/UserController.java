@@ -124,27 +124,27 @@ public class UserController extends HttpServlet{
             Map<String, String> data = gson.fromJson(str.toString(), type);
 
             String action = data.get("action");
-
+            // Send JSON format like this : { "action": "updateQuantity", "itemId": 1, "quantity": 100 }
             if (action.equals("UpdatePassCode")){
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                String nPassCode = request.getParameter("nPassCode");
-                String userName = request.getParameter("userName");
+                int userId = Integer.parseInt(data.get("userId"));
+                String nPassCode = data.get("nPasscode");
+                String userName = data.get("userName");
 
                 boolean isUpdated = userService.updatePasscodeIfuserNameExists(userId, nPassCode, userName);
 
                 response.getWriter().write(isUpdated ? "PassCode updated Successfully!" : "Failed to update the passcode!");
             }
             else if (action.equals("UpdateEmail")){
-                int userId = Integer.parseInt(request.getParameter("userId"));
-                String nEmail = request.getParameter("nEmail");
-                String userName = request.getParameter("userName");
+                int userId = Integer.parseInt(data.get("userId"));
+                String nEmail = data.get("nEmail");
+                String userName = data.get("userName");
 
                 boolean isUpdated = userService.updateEmailifUserNameExits(userId, nEmail, userName);
 
                 response.getWriter().write(isUpdated ? "Email Updated" : "Failed to update the email");
             }
             else{
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 response.getWriter().write("{\"error\" : \"Invalid method to update user information!\"}");
             }
         }

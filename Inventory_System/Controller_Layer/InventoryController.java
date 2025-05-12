@@ -124,6 +124,7 @@ public class InventoryController extends HttpServlet{
             
             String action = data.get("action");
 
+            // Send JSON format like this : { "action": "updateQuantity", "itemId": 1, "quantity": 100 }
             if(action.equals("updatePrice")){
                 int itemId = Integer.parseInt(data.get("itemId"));
                 int userId = Integer.parseInt(data.get("userId"));
@@ -145,7 +146,7 @@ public class InventoryController extends HttpServlet{
             }
             
             else{
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
                 response.getWriter().write("{\"error\": \"Invalid method to update data\"}");
             }
         }
