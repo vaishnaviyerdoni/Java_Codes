@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <meta charset = "UTF-8">
+    <title>Welcome to Inventory</title>
+    <link rel = "stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+  </head>
+  <body>
+    <h2>Login</h2>
+    <form id="loginform">
+      <label for="userName">Username:</label>
+      <input type="text" id="userName" required><br><br>
+
+      <label for="passCode">PassCode:</label>
+      <input type="text" id="passCode" required><br><br>
+
+      <label for="role">Role:</label>
+        <select id="role">
+          <option value="admin">Admin</option>
+          <option value="staff">Staff</option>
+          <option value="customer">Customer</option>
+        </select><br><br>
+
+        <button type="submit">Login</button>
+        <p id="message"></p>
+        <script src="script.js"></script>
+    </form>
+  </body>
+</html>
