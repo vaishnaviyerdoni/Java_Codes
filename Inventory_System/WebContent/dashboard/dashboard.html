@@ -1,0 +1,27 @@
+<!--dashboard.html-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title style="color: indigo;">Dashboard</title>
+        <style>
+            h2 {
+                color: darkslateblue;
+            }
+            input[type="button"]{
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <h2 style="color: darkslateblue;">Welcome to Inventory!</h2>
+            <label for="Inventory">View Inventory</label>
+            <input type="button" onclick="window.location.href=inventory.html" value="go to inventory"><br><br>
+
+            <label for="Order">Place Order</label>
+            <input type="button" onclick="window.location.href=orders.html" value="Place Order"><br><br>
+
+            <label for="logout">logout</label>
+            <input type="button" onclick="window.location.href=logout.html" value="logout"><br><br>
+    </body>
+</html>

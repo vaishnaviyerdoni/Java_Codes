@@ -1,0 +1,30 @@
+<!--Register.html-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>User Registration</title>
+        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+    </head>
+    <body>
+        <h2>Register</h2>
+        <form id="RegistrationForm">
+            <label for="userName">Username:</label>
+            <input type="text" id="userName" required>
+
+            <label for="passCode">PassCode:</label>
+            <input type="text" id="passCode" required>
+
+            <label for="role">Role:</label>
+            <select id="role">
+                <option value="admin">Admin</option>
+                <option value="Staff">Staff</option>
+                <option value="Customer">Customer</option>
+            </select>
+
+            <button type="submit">Register</button>
+            <p id="message"></p>
+            <script src="E:\Programs\Java_Codes\Inventory_System\WebContent\register\register.js"></script>
+        </form>
+    </body>
+</html>
