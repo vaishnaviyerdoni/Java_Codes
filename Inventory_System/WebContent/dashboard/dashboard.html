@@ -4,24 +4,23 @@
     <head>
         <meta charset="UTF-8">
         <title style="color: indigo;">Dashboard</title>
-        <style>
-            h2 {
-                color: darkslateblue;
-            }
-            input[type="button"]{
-                margin-bottom: 10px;
-            }
-        </style>
+        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
     </head>
     <body>
-        <h2 style="color: darkslateblue;">Welcome to Inventory!</h2>
+        <h2>Welcome to Inventory!</h2>
             <label for="Inventory">View Inventory</label>
-            <input type="button" onclick="window.location.href=inventory.html" value="go to inventory"><br><br>
-
+            <input type="button" 
+            onclick="window.location.href='inventory.html'" 
+            value="go to inventory">
+            
             <label for="Order">Place Order</label>
-            <input type="button" onclick="window.location.href=orders.html" value="Place Order"><br><br>
-
+            <input type="button" 
+            onclick="window.location.href='orders.html'" 
+            value="Place Order">
+            
             <label for="logout">logout</label>
-            <input type="button" onclick="window.location.href=logout.html" value="logout"><br><br>
+            <input type="button" 
+            onclick="window.location.href='logout.html'" 
+            value="logout">
     </body>
 </html>
