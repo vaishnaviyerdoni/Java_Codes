@@ -28,7 +28,7 @@ input[type="button"]{
     display: block;
     width: 200px;
     margin: 10px auto;
-    background-color: rgb(83, 1, 63);
+    background-color: rgb(68, 2, 99);
     color: whitesmoke;
     border: none;
     border-radius: 5px;
@@ -43,9 +43,18 @@ button{
     display: block;
     width: 200px;
     margin: 10px auto;
-    background-color: rgb(83, 1, 63);
+    background-color: rgb(68, 2, 99);
     color: whitesmoke;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.dashboard-sections {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* space between the 3 sections */
+    align-items: flex-start;
+    flex-wrap: wrap; /* wraps if screen is small */
+    margin-top: 20px;
 }
