@@ -28,7 +28,7 @@ input[type="button"]{
     display: block;
     width: 200px;
     margin: 10px auto;
-    background-color: rgb(44, 27, 150);
+    background-color: rgb(83, 1, 63);
     color: whitesmoke;
     border: none;
     border-radius: 5px;
@@ -43,7 +43,7 @@ button{
     display: block;
     width: 200px;
     margin: 10px auto;
-    background-color: rgb(44, 27, 150);
+    background-color: rgb(83, 1, 63);
     color: whitesmoke;
     border: none;
     border-radius: 5px;
