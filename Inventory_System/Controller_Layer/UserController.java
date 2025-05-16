@@ -60,7 +60,7 @@ public class UserController extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if (action.equals("RegisterUser")){
+            if (action.equals("RegisterUser")){ // for user registration
                 String userName = request.getParameter("userName");
                 String email = request.getParameter("email");
                 String passCode = request.getParameter("passCode");
@@ -87,7 +87,7 @@ public class UserController extends HttpServlet{
                     }
                 }
             }
-            else if (action.equals("isValidUser")){
+            else if (action.equals("isValidUser")){ //for user login
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String userName = request.getParameter("userName");
                 String roleUser = request.getParameter("roleUser");
@@ -107,7 +107,6 @@ public class UserController extends HttpServlet{
 
     //to handle put request
     @Override
-
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             response.setContentType("application/json");
