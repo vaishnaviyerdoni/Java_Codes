@@ -2,6 +2,16 @@ h2{
     color: darkslateblue;
     margin-bottom: 30px;
 }
+
+h4{
+    color: purple;
+    margin-bottom: 30px;
+}
+
+h3{
+    color: purple;
+    margin-bottom: 30px;
+}
 body {
     display: flex;
     flex-direction: column;
@@ -21,6 +31,7 @@ form {
 
 
 label{
+    color: rgb(82, 0, 82);
     font-weight: bold;
 }
 
