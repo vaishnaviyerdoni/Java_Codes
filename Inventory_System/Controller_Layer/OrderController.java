@@ -216,11 +216,11 @@ public class OrderController extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if (action.equals("AdminDeletesUser")){
+            if (action.equals("AdminDeletesOrder")){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
 
-                boolean isDeleted = orderItemService.adminDeletesItem(userId, orderId);
+                boolean isDeleted = orderService.AdminDeletesOrder(userId, orderId);
 
                 response.getWriter().write(isDeleted ? "order Deleted" : "Failed to delete order");
             }
