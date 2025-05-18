@@ -11,32 +11,51 @@
         <h2>Delete & Update Inventory</h2>
         <div class="dashboard-sections">
             <div>
-                <h4>Update Price</h4>
-                <label for="userID">userID:</label>
-                <input type="text" id="userID" required><br><br>
+                <form id="UpdateItemPrice">
+                    <h4>Update Price</h4>
+                    <label for="priceUserID">userID:</label>
+                    <input type="text" id="priceUserID" required><br><br>
 
-                <label for="itemID">ItemID:</label>
-                <input type="text" id="itemID" required><br><br>
+                    <label for="priceItemID">ItemID:</label>
+                    <input type="text" id="priceItemID" required><br><br>
 
-                <label for="newPrice">New Price</label>
-                <input type="text" id="newPrice" required><br><br>
+                    <label for="newPrice">New Price</label>
+                    <input type="text" id="newPrice" required><br><br>
 
-                <button type="submit">Update</button>
-                <p id="message"></p>
-                <script src=""></script>
+                    <button type="submit">Update Price</button>
+                    <p id="PriceMessage"></p>
+                    <script src=""></script>
+                </form>
             </div>
 
             <div>
-                <h4>Update Stock</h4>
-                <label for="userID">userID:</label>
-                <input type="text" id="userID" required><br><br>
+                <form id="UpdateStock">
+                    <h4>Update Stock</h4>
+                    <label for="StockUserID">userID:</label>
+                    <input type="text" id="StockUserID" required><br><br>
 
-                <label for="itemID">itemID:</label>
-                <input type="text" id="itemID" required><br><br>
+                    <label for="StockItemID">itemID:</label>
+                    <input type="text" id="StockItemID" required><br><br>
 
-                <button type="submit">Update</button>
-                <p id="message"></p>
-                <script src=""></script>
+                    <button type="submit">Update Stock</button>
+                    <p id="StockMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="DeleteItem">
+                    <h4>Delete item</h4>
+                    <label for="DeleteUserID">UserID:</label>
+                    <input type="text" id="DeleteUserID" required><br><br>
+
+                    <label for="DeleteItemID">ItemID:</label>
+                    <input type="text" id="DeleteItemID" required><br><br>
+
+                    <button type="submit">Delete item</button>
+                    <p id="DeleteMessage"></p>
+                    <script src=""></script>
+                </form>
             </div>
         </div>
     </body>
