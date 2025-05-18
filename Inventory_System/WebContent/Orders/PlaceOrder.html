@@ -1,0 +1,48 @@
+<!--To place Orders-->
+<!--POST request from order and orderItem Controller-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+        <title>Place Orders</title>
+    </head>
+    <body>
+        <h2>Welcome to Inventory</h2>
+        <h3>Manage your Orders here!</h3>
+        <div class="dashboard-sections">
+            <div>
+                <form id="placeOrder">
+                    <h4>Place Order</h4>
+                    <label for="userID">userID:</label>
+                    <input type="text" id="userID" required><br><br>
+
+                    <label for="orderDate">Order Date:</label>
+                    <input type="text" id="orderDate" required><br><br>
+
+                    <label for="customerName">Customer Name:</label>
+                    <input type="text" id="customerName" required><br><br>
+
+                    <button type="submit">Place</button>
+                    <p id="placeOrderMessage"></p>
+                </form>
+            </div>
+
+            <div>
+                <form id="addItemstoOrder">
+                    <h4>Click place order button before adding items</h4>
+                    <label for="itemsID">itemsID:</label>
+                    <input type="text" id="itemsID" required><br><br>
+
+                    <label for="orderID">orderID:</label>
+                    <input type="text" id="orderID" required><br><br>
+
+                    <label for="itemName">itemName:</label> <!--get a drop down-->
+                    <input type="text" id="itemName" required><br><br>
+
+                    <label for=" "></label>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

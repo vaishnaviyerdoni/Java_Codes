@@ -120,10 +120,10 @@ public class OrderController extends HttpServlet {
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String orderDate = request.getParameter("orderDate");
                 String customerName = request.getParameter("customerName");
-                String orderStatus = request.getParameter("orderStatus");
-                Double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
+                //String orderStatus = request.getParameter("orderStatus"); default=pending
+                Double totalPrice = Double.parseDouble(request.getParameter("totalPrice")); //get it from database, hence update backend
 
-                boolean isOrderAdded = orderService.addOrder(0, userId, orderDate, customerName, orderStatus, totalPrice);
+                boolean isOrderAdded = orderService.addOrder(0, userId, orderDate, customerName, "pending", totalPrice);
 
                 response.getWriter().write(isOrderAdded ? "Order Added, Now please enter the items you like to purchase!" : "Couldnt add order!");
             }
