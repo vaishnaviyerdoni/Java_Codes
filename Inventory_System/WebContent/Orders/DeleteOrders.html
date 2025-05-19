@@ -1,0 +1,45 @@
+<!--DELETE request from Order/orderitem controller-->
+<!--delete orders-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Delete Orders</title>
+        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+    </head>
+    <body>
+        <h2>Welcome to Inventory</h2>
+        <h3>Manage your Orders here!</h3>
+        <div class="dashboard-sections">
+            <div>
+                <form id="DeleteOrders">
+                    <h4>Delete Order</h4>
+                    <label for="userID">userID:</label>
+                    <input type="text" id="userID" required><br><br>
+
+                    <label for="orderID">orderID:</label>
+                    <input type="text" id="orderID" required><br><br>
+
+                    <button type="submit">Delete</button>
+                    <p id="DeleteOrderMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="DeleteItems">
+                    <h4>Delete Items</h4>
+                    <label for="AdminID">AdminID:</label>
+                    <input type="text" id="AdminID" required><br><br>
+
+                    <label for="ItemsID">itemsID:</label>
+                    <input type="text" id="itemsID" required><br><br>
+
+                    <button id="submit">Delete</button>
+                    <p id="DeleteItemMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
