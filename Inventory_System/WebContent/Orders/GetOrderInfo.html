@@ -1,0 +1,66 @@
+<!--GET Request from order/orderitem controller-->
+<!--get orders details-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+        <title>Get order Information</title>
+    </head>
+    <body>
+        <h2>Welcome to Inventory</h2>
+        <h3>Manage your Orders here!</h3>
+        <div class="dashboard-sections">
+            <div>
+                <form id="getAllOrders">
+                    <h4>Get Order Information</h4>
+                    <label for="userID">userID:</label>
+                    <input type="text" id="userID" required><br><br>
+
+                    <button type="submit">get Info</button>
+                    <p id="getAllOrdersMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="viewOrderbyOrderID">
+                    <h4>View by OrderID</h4>
+                    <label for="orderID">orderID:</label>
+                    <input type="text" id="orderID" required><br><br>
+
+                    <label for="userID">userID:</label>
+                    <input type="text" id="userID" required><br><br>
+
+                    <button type="submit">get Info</button>
+                    <p id="viewbyIDMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="viewbyUserID">
+                    <h4>View by UserID:</h4>
+                    <label for="viewUserID">userID:</label>
+                    <input type="text" id="viewUserID" required><br><br>
+
+                    <button type="submit">get Info</button>
+                    <p id="viewByIDMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="getPrice">
+                    <h4>View Price</h4>
+                    <label for="viewPriceID">userID:</label>
+                    <input type="text" id="viewPriceID" required><br><br>
+
+                    <button type="submit">get Price</button>
+                    <p id="getPriceMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
