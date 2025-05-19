@@ -1,0 +1,74 @@
+<!--PUT request from order/orderItem Controller-->
+<!--update orders-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Update Orders</title>
+        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+    </head>
+    <body>
+        <h2>Welcome to Inventory</h2>
+        <h3>Manage your Orders here</h3>
+
+        <div class="dashboard-sections">
+            <div>
+                <form id="updatePrice">
+                  <h4>Update Total Price of an Order</h4>
+                  <label for="userID">userID:</label>
+                  <input type="text" id="userID" required><br><br>
+
+                  <label for="orderID">orderID:</label>
+                  <input type="text" id="orderID" required><br><br>
+
+                  <label for="TotalPrice">Total Price</label>
+                  <input type="text" id="TotalPrice" required><br><br>
+
+                  <button type="submit">Update</button>
+                  <p id="updatePriceMessage"></p>
+                  <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="changeStatus">
+                    <h4>Update the Order Status</h4>
+                    <label for="AdminORStaffID">userID:</label>
+                    <input type="text" id="AdminORStaffID" required><br><br>
+
+                    <label for="OrderStatus">Status:</label>
+                    <input type="text" id="OrderStatus" required><br><br>
+
+                    <label for="customerID">CustomerID:</label>
+                    <input type="text" id="customerID" required><br><br>
+
+                    <button type="submit">Update</button>
+                    <p id="changeStatusMessage"></p>
+                    <script src=""></script>
+                </form>
+            </div>
+
+            <div>
+                <form id="updateQuantity">
+                    <h4>Update Quantity</h4>
+                    <label for="itemsID">itemsID:</label>
+                    <input type="text" id="itemsID" required><br><br>
+
+                    <label for="inventoryID">inventoryID:</label>
+                    <input type="text" id="inventoryID" required><br><br>
+
+                    <label for="userID">userID:</label>
+                    <input type="text" id="userID" required><br><br>
+
+                    <label for="updatedQuantity">Quantity:</label>
+                    <input type="text" id="updatedQuantity" required><br><br>
+
+                    <button type="submit">Update</button>
+                    <p id="updateQuantityMessage"></p>
+                    <script src=""></script>
+               </form>
+            </div>
+        </div>
+    </body>
+
+</html>
