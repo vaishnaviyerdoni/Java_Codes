@@ -71,11 +71,11 @@ public class InventoryDAO {
     }
 
     //to get Price from DB
-    public double getPriceForItem(String itemName) throws SQLException {
-        String sql = "SELECT price FROM InventoryTable WHERE itemName = ?";
+    public double getPriceForItem(int itemId) throws SQLException {
+        String sql = "SELECT price FROM InventoryTable WHERE itemId = ?";
         double itemPrice = 0d;
         try(PreparedStatement smt = conn.prepareStatement(sql)){
-            smt.setString(1, itemName);
+            smt.setInt(1, itemId);
             try(ResultSet res = smt.executeQuery()){
                 if(res.next()){
                     itemPrice = res.getDouble("price");
