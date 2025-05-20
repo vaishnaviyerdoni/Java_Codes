@@ -15,6 +15,7 @@ import Inventory_System.Business_Layer.InventoryService;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.InventoryDAO;
 import Inventory_System.DAO_Layer.UserDAO;
+import Inventory_System.Exceptions.ItemAbsentException;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.DAO_Layer.OrderItemDAO;
 import Inventory_System.Model_Layer.Inventory;
@@ -69,12 +70,21 @@ public class InventoryController extends HttpServlet{
                 List<Inventory> items = inventoryService.viewItemsByCategory(category);
                 response.getWriter().write(gson.toJson(items));
             }
+
+            else if (action.equals("getPricebyItemID")){
+                String itemName = request.getParameter("itemName");
+                int itemId =  Integer.parseInt(request.getParameter("itemId"));
+
+                Double price = inventoryService.getPricebyItemName(itemName, itemId);
+
+                response.getWriter().write(gson.toJson(price));
+            }
             else{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\" : \"Something went wrong\"}");
             }
         }
-        catch(SQLException | NullPointerException e){
+        catch(SQLException | NullPointerException | ItemAbsentException e){
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
             response.getWriter().write("{\"error\":\"Something Went Wrong\"}");
