@@ -140,6 +140,23 @@ public class InventoryService{
         }
     }
 
+    //to get the Price of an item from DB
+    public double getPricebyItemName(String itemName, int itemId) throws SQLException, ItemAbsentException {
+        Double price = 0d;
+        try{
+            int itemID = getItemIDfromTable(itemName);
+            if (itemID == itemId){
+                price = inventoryDAO.getPriceForItem(itemID);
+            }
+
+            return price;
+        }
+        catch (SQLException | ItemAbsentException e){
+            e.printStackTrace();
+            return -1d;
+        }
+    }
+
     //to get the items by category
     public List<Inventory> viewItemsByCategory(String category) throws SQLException{
         try{
