@@ -7,35 +7,39 @@
         <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
     </head>
     <body>
+      <header>
         <h2>Welcome to Inventory</h2>
         <h3>Manage your Orders here!</h3>
-        <div class="dashboard-sections">
-            <div>
-                <form id="viewItems">
+      </header>
+
+        <main class="dashboard-sections">
+            <section>
+                <form id="viewItemsForm" method="get">
                     <h4>View Items by userID</h4>
-                    <label for="userID">userID:</label>
-                    <input type="text" id="userID" required><br><br>
+                    <label for="ViewItemsUserID">userID:</label>
+                    <input type="text" id="ViewItemsUserID" name="userId" required><br><br>
 
                     <button type="submit">View</button>
                     <p id="viewItemsMessage"></p>
-                    <script src=""></script>
+                    
                 </form>
-            </div>
+            </section>
 
-            <div>
-                <form id="viewItemsbyOrderID">
+            <section>
+                <form id="viewItemsbyOrderIDForm" method="get">
                     <h4>View all Items by OrderID</h4>
                     <label for="viewUserID">userID:</label>
-                    <input type="text" id="viewUserID" required><br><br>
+                    <input type="text" id="viewUserID" name="userId" required><br><br>
 
-                    <label for="orderID">orderID:</label>
-                    <input type="text" id="orderID" required><br><br>
+                    <label for="ViewOrdersOrderID">orderID:</label>
+                    <input type="text" id="ViewOrdersOrderID" name="orderId" required><br><br>
 
                     <button type="submit">View</button>
                     <p id="viewByOrderIDMessage"></p>
-                    <script src=""></script>
+                    
                 </form>
-            </div>
-        </div>
+            </section>
+        </main>
+        <script src=""></script>
     </body>
 </html>

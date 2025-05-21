@@ -4,50 +4,55 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+        <link rel="stylesheet" href="../style.css">
         <title>Place Orders</title>
     </head>
     <body>
-        <h2>Welcome to Inventory</h2>
-        <h3>Manage your Orders here!</h3>
-        <div class="dashboard-sections">
-            <div>
-                <form id="placeOrder">
+        <header>
+          <h2>Welcome to Inventory</h2>
+          <h3>Manage your Orders here!</h3>
+        </header>
+
+        <main class="dashboard-sections">
+            <section>
+                <form id="placeOrderForm" method="post">
                     <h4>Place Order</h4>
-                    <label for="userID">userID:</label>
-                    <input type="text" id="userID" required><br><br>
+                    <label for="PlaceUserID">UserID:</label>
+                    <input type="text" id="PlaceUserID" name="userId" required><br><br>
 
                     <label for="orderDate">Order Date:</label>
-                    <input type="text" id="orderDate" required><br><br>
+                    <input type="text" id="orderDate" name="orderDate" required><br><br>
 
                     <label for="customerName">Customer Name:</label>
-                    <input type="text" id="customerName" required><br><br>
+                    <input type="text" id="customerName" name="customerName" required><br><br>
 
                     <button type="submit">Place</button>
                     <p id="placeOrderMessage"></p>
+
                 </form>
-            </div>
+            </section>
 
-            <div>
-                <form id="addItemstoOrder">
+            <section>
+                <form id="addItemstoOrderForm" method="post">
                     <h4>Click place order button before adding items</h4>
-                    <label for="itemsID">itemsID:</label>
-                    <input type="text" id="itemsID" required><br><br>
+                    <label for="AddItemsID">ItemsID:</label>
+                    <input type="text" id="AddItemsID" name="itemsId" required><br><br>
 
-                    <label for="orderID">orderID:</label>
-                    <input type="text" id="orderID" required><br><br>
+                    <label for="AddItemsOrderID">OrderID:</label>
+                    <input type="text" id="AddItemsOrderID" name="orderId" required><br><br>
 
-                    <label for="itemName">itemName:</label> <!--get a drop down-->
-                    <input type="text" id="itemName" required><br><br>
+                    <label for="itemName">ItemName:</label> <!--get a drop down-->
+                    <input type="text" id="itemName" name="itemName" required><br><br>
 
-                    <label for="quantity">quantity:</label>
-                    <input type="text" id="quantity" required><br><br>
+                    <label for="quantityToAddInOrders">quantity:</label>
+                    <input type="number" id="quantityToAddInOrders" name="quantity" step="1" min="0" required><br><br>
 
                     <button type="submit">Add to Order</button>
                     <p id="addMessage"></p>
-                    <script src=""></script>
+                    
                 </form>
-            </div>
-        </div>
+            </section>
+        </main>
+        <script src=""></script>
     </body>
 </html>

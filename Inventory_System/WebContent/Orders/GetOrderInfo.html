@@ -4,63 +4,67 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+        <link rel="stylesheet" href="../style.css">
         <title>Get order Information</title>
     </head>
     <body>
-        <h2>Welcome to Inventory</h2>
-        <h3>Manage your Orders here!</h3>
-        <div class="dashboard-sections">
-            <div>
-                <form id="getAllOrders">
-                    <h4>Get Order Information</h4>
-                    <label for="userID">userID:</label>
-                    <input type="text" id="userID" required><br><br>
+        <header>
+          <h2>Welcome to Inventory</h2>
+          <h3>Manage your Orders here!</h3>
+        </header>
 
-                    <button type="submit">get Info</button>
+        <main class="dashboard-sections">
+            <section>
+                <form id="getAllOrdersForm" method="get">
+                    <h4>Get All Orders</h4>
+                    <label for="GetAllUserID">userID:</label>
+                    <input type="text" id="GetAllUserID" name="userId" required><br><br>
+
+                    <button type="submit">Get Info</button>
                     <p id="getAllOrdersMessage"></p>
-                    <script src=""></script>
+            
                 </form>
-            </div>
+            </section>
 
-            <div>
-                <form id="viewOrderbyOrderID">
-                    <h4>View by OrderID</h4>
+            <section>
+                <form id="viewOrderbyOrderIDForm" method="get">
+                    <h4>View Orders by OrderID</h4>
                     <label for="orderID">orderID:</label>
-                    <input type="text" id="orderID" required><br><br>
+                    <input type="text" id="orderID" name="orderId" required><br><br>
 
-                    <label for="userID">userID:</label>
-                    <input type="text" id="userID" required><br><br>
+                    <label for="ViewUserID">userID:</label>
+                    <input type="text" id="ViewUserID" name="userId" required><br><br>
 
-                    <button type="submit">get Info</button>
+                    <button type="submit">Get Info</button>
                     <p id="viewbyIDMessage"></p>
-                    <script src=""></script>
+                    
                 </form>
-            </div>
+            </section>
 
-            <div>
-                <form id="viewbyUserID">
+            <section>
+                <form id="viewbyUserIDForm" method="get">
                     <h4>View by UserID:</h4>
                     <label for="viewUserID">userID:</label>
-                    <input type="text" id="viewUserID" required><br><br>
+                    <input type="text" id="viewUserID" name="userId" required><br><br>
 
-                    <button type="submit">get Info</button>
-                    <p id="viewByIDMessage"></p>
-                    <script src=""></script>
+                    <button type="submit">Get Info</button>
+                    <p id="viewByUserIDMessage"></p>
+                   
                 </form>
-            </div>
+            </section>
 
-            <div>
-                <form id="getPrice">
+            <section>
+                <form id="getPriceForm" method="get">
                     <h4>View Price</h4>
                     <label for="viewPriceID">userID:</label>
-                    <input type="text" id="viewPriceID" required><br><br>
+                    <input type="text" id="viewPriceID" name="userId" required><br><br>
 
-                    <button type="submit">get Price</button>
+                    <button type="submit">Get Price</button>
                     <p id="getPriceMessage"></p>
-                    <script src=""></script>
+                    
                 </form>
-            </div>
-        </div>
+            </section>
+        </main>
+        <script src=""></script>
     </body>
 </html>
