@@ -5,7 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <title>Inventory Management</title>
-    <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
+    <link rel="stylesheet" href="../style.css">
   </head>
   <body>
     <header>
@@ -15,7 +15,7 @@
 
     <main class="dashboard-sections">
       <section>
-        <form id="viewAllItems" method="get">
+        <form id="ViewAllItemsForm" method="get">
           <h4>All Items:</h4>
           <button type="submit">View</button>
           <p id="viewItemMessage"></p>
@@ -24,7 +24,7 @@
       </section>
 
       <section>
-        <form id="view by Category" method="get">
+        <form id="viewByCategoryForm" method="get">
             <h4>View Items by Category:</h4>
             <label for="ItemsByCategory">Category:</label>
             <input type="text" id="ItemsByCategory" name="category" required><br><br>

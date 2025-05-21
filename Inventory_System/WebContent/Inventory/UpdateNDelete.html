@@ -15,13 +15,13 @@
 
         <main class="dashboard-sections">
             <section>
-                <form id="UpdateItemPrice" method="post">
+                <form id="UpdateItemPriceForm" method="post">
             
                     <label for="priceUserID">userID:</label>
-                    <input type="text" id="priceUserID" name="userID" required><br><br>
+                    <input type="text" id="priceUserID" name="userId" required><br><br>
 
                     <label for="priceItemID">ItemID:</label>
-                    <input type="text" id="priceItemID" name="itemID" required><br><br>
+                    <input type="text" id="priceItemID" name="itemId" required><br><br>
 
                     <label for="newPrice">New Price:</label>
                     <input type="number" id="newPrice" name="price" step="0.01" min="0" required><br><br>
@@ -33,13 +33,13 @@
             </section>
 
             <section>
-                <form id="UpdateStock" method="post">
+                <form id="UpdateStockForm" method="post">
                     <h4>Update Stock</h4>
                     <label for="StockUserID">userID:</label>
-                    <input type="text" id="StockUserID" name="userID" required><br><br>
+                    <input type="text" id="StockUserID" name="userId" required><br><br>
 
                     <label for="StockItemID">itemID:</label>
-                    <input type="text" id="StockItemID" name="itemID" required><br><br>
+                    <input type="text" id="StockItemID" name="itemId" required><br><br>
 
                     <label for="newQuantity">New Quantity:</label>
                     <input type="number" id="newQuantity" name="quantity" step="1" min="0" required><br><br>
@@ -51,13 +51,13 @@
             </section>
 
             <section>
-                <form id="DeleteItem" method="post">
+                <form id="DeleteItemForm" method="post">
                     <h4>Delete item</h4>
                     <label for="DeleteUserID">UserID:</label>
-                    <input type="text" id="DeleteUserID" name="userID" required><br><br>
+                    <input type="text" id="DeleteUserID" name="userId" required><br><br>
 
                     <label for="DeleteItemID">ItemID:</label>
-                    <input type="text" id="DeleteItemID" name="itemID" required><br><br>
+                    <input type="text" id="DeleteItemID" name="itemId" required><br><br>
 
                     <button type="submit">Delete item</button>
                     <p id="DeleteMessage"></p>
