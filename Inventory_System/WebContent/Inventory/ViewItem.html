@@ -8,33 +8,34 @@
     <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
   </head>
   <body>
-    <h2>Welcome to Inventory</h2>
-    <h3>Manage your Inventory here!</h3>
+    <header>
+      <h2>Welcome to Inventory</h2>
+      <h3>Manage your Inventory here!</h3>
+    </header>
 
-    <div class="dashboard-sections">
-      <div>
-        <form id="viewAllItems">
-            <h4>View All Items:</h4>
-            <label for="All items">All Items:</label>
-            <button type="submit">View</button>
-            <p id="viewItemsMessage"></p>
-            <script src=""></script>
+    <main class="dashboard-sections">
+      <section>
+        <form id="viewAllItems" method="get">
+          <h4>All Items:</h4>
+          <button type="submit">View</button>
+          <p id="viewItemMessage"></p>
         </form>
-      </div>
 
-      <div>
-        <form id="view by Category">
-            <h4>View Items:</h4>
-            <label for="Items by Category">Username:</label>
-            <input type="text" id="Items by Category" required><br><br>
+      </section>
+
+      <section>
+        <form id="view by Category" method="get">
+            <h4>View Items by Category:</h4>
+            <label for="ItemsByCategory">Category:</label>
+            <input type="text" id="ItemsByCategory" name="category" required><br><br>
             <button type="submit">View</button>
             <p id="viewCategorymessage"></p>
-            <script src=""></script>
+          
         </form>
-      </div>
+      </section>
 
-    </div>
-
+    </main>
+      <script src=""></script>
   </body>
 </html>
 
