@@ -33,23 +33,40 @@
             </section>
 
             <section>
-                <form id="addItemstoOrderForm" method="post">
-                    <h4>Click place order button before adding items</h4>
-                    <label for="AddItemsID">ItemsID:</label>
-                    <input type="text" id="AddItemsID" name="itemsId" required><br><br>
+                <form id="addItemsToOrderForm">
+                    <h4>Click Add Order button before adding items</h4>
+                    <h4>Add Items to Order</h4>
 
-                    <label for="AddItemsOrderID">OrderID:</label>
-                    <input type="text" id="AddItemsOrderID" name="orderId" required><br><br>
+                    <label for="itemsOrderID">OrderID:</label>
+                    <input type="text" id="itemsOrderID" name="orderId" required><br><br>
 
-                    <label for="itemName">ItemName:</label> <!--get a drop down-->
-                    <input type="text" id="itemName" name="itemName" required><br><br>
-
-                    <label for="quantityToAddInOrders">quantity:</label>
-                    <input type="number" id="quantityToAddInOrders" name="quantity" step="1" min="0" required><br><br>
-
-                    <button type="submit">Add to Order</button>
-                    <p id="addMessage"></p>
+                    <label for="ordersUserID">UserID:</label>
+                    <input type="text" id="ordersUserID" name="userId" required><br><br>
                     
+                    <div id="itemsList">
+                        <!--Template for item row-->
+                        <div class="item-Row">
+
+                            <label for="itemName">Item:</label>
+                            <select name="itemName" class="select-item" required><br>
+                                <option value="">--Select Items--</option> <!--Options will be added from JavaScript-->
+                            </select>
+                            <br><br>
+
+                            <label for="quantityItems">Quantity:</label>
+                            <input type="number" id="quantityItems" name="quantity" required min="1"><br><br>
+
+                            <label for="SubtotalItems">Subtotal:</label>
+                            <input type="number" id="SubtotalItems" readonly>
+
+                            <button type="button" class="removeItem">Remove Item</button>
+                        </div>
+                    </div>
+
+                    <button type="button" id="addItem">+ Add Another Item</button>
+                    <button type="submit">Submit All</button>
+                    <p id="AddItem/message"></p>
+
                 </form>
             </section>
         </main>
