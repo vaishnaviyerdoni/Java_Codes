@@ -7,9 +7,13 @@
     <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
   </head>
   <body>
+    <header>
     <h2>User Management</h2>
-      <div class="dashboard-sections">
-        <div>
+    <h3>Manage users here!</h3>
+    </header>
+
+      <main class="dashboard-sections">
+        <section>
           <h3>View Users</h3>
           <form id="ViewUsers">
               <label for="userID">userID:</label>
@@ -17,11 +21,11 @@
 
               <button type="submit">View User Records</button>
               <p id="viewMessage"></p>
-              <script src=""></script>
+         
           </form>
-        </div>
+        </section>
 
-        <div>
+        <section>
           <h3>Delete User</h3>
           <form id="delete">
             <label for="AdminID">AdminID</label>
@@ -32,10 +36,11 @@
 
             <button type="submit">Delete user</button>
             <p id="DeleteMessage"></p>
-            <script src=""></script>
+            
           </form>
-        </div>
-      </div>
+        </section>
+      </main>
+    <script src=""></script>
   </body>
 
 </html>
