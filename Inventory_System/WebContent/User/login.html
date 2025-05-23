@@ -12,7 +12,9 @@
     </header>
 
     <main class="dashboard-sections">
-      <form id="loginform">
+      <form id="loginform" method="post" action="/user">
+        <input type="hidden" name="action" value="isValidUser">
+
         <label for="userId">UserID:</label>
         <input type="text" id="userId" name="userId" required><br><br>
     
