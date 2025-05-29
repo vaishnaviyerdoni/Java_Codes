@@ -1,74 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="E:\Programs\Java_Codes\Inventory_System\WebContent\style.css">
-    <title>Place Orders</title>
+    <title>Document Object Model:30 Days Of JavaScript</title>
 </head>
+
 <body>
-    <header>
-        <h2>Welcome to Inventory</h2>
-        <h3>Manage your Orders here!</h3>
-    </header>
 
-    <main class="dashboard-sections">
-        <!-- Section for placing order -->
-        <section>
-            <form id="placeOrderForm" method="post">
-                <h4>Place Order</h4>
+    <script>
+        let title = document.createElement('h1')
+        title.className = 'title'
+        title.style.fontSize = '24px'
+        title.textContent = 'Creating HTML element DOM Day 2'
 
-                <label for="userIdInput">UserID:</label>
-                <input type="text" id="userIdInput" name="userId" required><br><br>
-
-                <label for="orderDateInput">Order Date:</label>
-                <input type="text" id="orderDateInput" name="orderDate" required><br><br>
-
-                <label for="customerNameInput">Customer Name:</label>
-                <input type="text" id="customerNameInput" name="customerName" required><br><br>
-
-                <button type="submit">Place</button>
-                <p id="placeOrderMessage"></p>
-            </form>
-        </section>
-
-        <!-- Section for adding items to an order -->
-        <section>
-            <form id="addItemsToOrderForm">
-                <h4>Click Add Order button before adding items</h4>
-                <h4>Add Items to Order</h4>
-
-                <label for="orderIdInput">OrderID:</label>
-                <input type="text" id="orderIdInput" name="orderId" required><br><br>
-
-                <label for="orderUserIdInput">UserID:</label>
-                <input type="text" id="orderUserIdInput" name="userId" required><br><br>
-
-                <div id="itemsList">
-                    <div class="item-row">
-                        <label>Item:</label>
-                        <select name="itemName" class="select-item" required>
-                            <option value="">--Select Item--</option>
-                            <!-- JS will populate options -->
-                        </select>
-
-                        <label>Quantity:</label>
-                        <input type="number" class="quantity" name="quantity" required min="1">
-
-                        <label>Subtotal:</label>
-                        <input type="number" class="subtotal" readonly>
-
-                        <button type="button" class="removeItem">Remove Item</button>
-                    </div>
-                </div>
-
-                <br>
-                <button type="button" id="addItem">+ Add Another Item</button>
-                <button type="submit">Submit All</button>
-                <p id="addItemMessage"></p>
-            </form>
-        </section>
-    </main>
-
-    <script src=""></script>
+        console.log(title)
+    </script>
 </body>
+
 </html>
