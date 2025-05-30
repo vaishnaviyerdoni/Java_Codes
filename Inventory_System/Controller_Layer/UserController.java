@@ -97,7 +97,7 @@ public class UserController extends HttpServlet{
                 String passCode = request.getParameter("passCode");
 
                 boolean isUserValid = userService.isValidUserForLogin(userId, userName, passCode, roleUser);
-                response.getWriter().write(isUserValid ? "Logged In : Welcome to Inventory!" : "Login Failed, Check your credentials!");
+                response.getWriter().write(isUserValid ? "Logged In,  Welcome to Inventory!" : "Login Failed, Check your credentials!");
             }
         }
         catch(SQLException e){

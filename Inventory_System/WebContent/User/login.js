@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await res.text();
-            if(res.ok && result.includes("Logged In : Welcome to Inventory!")){
+            if(res.ok && result.includes("Logged In, Welcome to Inventory!")){
 
                 //save all parameters to localStorage
                 localStorage.setItem("userId", userId);
