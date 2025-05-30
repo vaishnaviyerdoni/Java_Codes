@@ -35,32 +35,7 @@
           <p id="LoginMessage"></p>
       </form>
     </main>
-    <script>
-       const userName = localStorage.getItem('userName');
-       const role = localStorage.getItem('role');
-       const userId = localStorage.getItem('userId');
-       const PassCode = localStorage.getItem('PassCode');
-
-       button.addEventListener('click', () => {
-        alert('Logged in!')
-       })
-
-       if(role === 'Admin' || role === 'Staff'){
-        window.location.href = '../dashboard/AdminAndStaffDashboard.html';
-       }
-       else if (role === 'Customer'){
-        window.location.href = '../dashboard/CustomerDashboard.html';
-       }
-
-       document.getElementById('logoutBtn').addEventListener('click', () => {
-        localStorage.removeItem('role');
-        localStorage.removeItem('userId');
-        localStorage.removeItem('userName');
-        localStorage.removeItem('PassCode');
-
-        window.location.href = "../logout.html";
-       })
-    </script>
+    <script src ="login.js"></script>
     <p>If not Registered, Register here: <a href="../User/register.html">Register here!</a></p>
   </body>
 </html>
