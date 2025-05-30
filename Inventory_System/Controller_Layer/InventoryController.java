@@ -95,15 +95,19 @@ public class InventoryController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            String itemName = request.getParameter("itemName");
-            String category = request.getParameter("category");
-            Double price = Double.parseDouble(request.getParameter("price"));
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
-            int LowStockThreshold = Integer.parseInt(request.getParameter("LowStockThreshold"));
+
+            String action = request.getParameter("action");
+            if (action.equals("AddItemToInventory")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                String itemName = request.getParameter("itemName");
+                String category = request.getParameter("category");
+                Double price = Double.parseDouble(request.getParameter("price"));
+                int quantity = Integer.parseInt(request.getParameter("quantity"));
+                int LowStockThreshold = Integer.parseInt(request.getParameter("LowStockThreshold"));
             
-            boolean isAdded = inventoryService.insertItems(0, userId, itemName, category, price, quantity, LowStockThreshold);
-            response.getWriter().write(isAdded ? "Item Added succesfully" : "Failed to add an item!");
+                boolean isAdded = inventoryService.insertItems(0, userId, itemName, category, price, quantity, LowStockThreshold);
+                response.getWriter().write(isAdded ? "Item Added succesfully" : "Failed to add an item!");
+            }
         }
         catch(SQLException | UserNotFoundException e){
             e.printStackTrace();

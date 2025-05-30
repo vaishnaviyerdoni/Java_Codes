@@ -44,9 +44,12 @@ public class UserController extends HttpServlet{
         response.setContentType("application/json");
         Gson gson = new Gson();
         try{
-            int userId = Integer.parseInt(request.getParameter("userId"));
-            List<User> users = userService.ReadAllUsers(userId);
-            response.getWriter().write(gson.toJson(users));
+            String action = request.getParameter("action");
+            if (action.equals("viewUserInfo")){
+                int userId = Integer.parseInt(request.getParameter("userId"));
+                List<User> users = userService.ReadAllUsers(userId);
+                response.getWriter().write(gson.toJson(users));
+            }
         }
         catch(SQLException | NullPointerException e){
             e.printStackTrace();
