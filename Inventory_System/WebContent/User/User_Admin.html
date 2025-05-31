@@ -15,7 +15,9 @@
       <main class="dashboard-sections">
         <section>
           <h3>View Users</h3>
-          <form id="ViewUsers">
+          <form id="ViewUsers" method="get" action="/user">
+              <input type="hidden" name="action" value="viewUserInfo">
+
               <label for="userID">userID:</label>
               <input type="text" id="userID" required><br><br>
 
@@ -27,7 +29,9 @@
 
         <section>
           <h3>Delete User</h3>
-          <form id="delete">
+          <form id="deleteUserForm" method="post" action="/user">
+            <input type="hidden" name="action" value="AdminDeletesUser">
+
             <label for="AdminID">AdminID</label>
             <input type="text" id="AdminID" required><br><br>
 

@@ -163,7 +163,7 @@ public class UserController extends HttpServlet{
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if(action.equals("AdminDeletesuser")){
+            if(action.equals("AdminDeletesUser")){
                 int AdminUserId = Integer.parseInt(request.getParameter("AdminUserId"));
                 int UserId = Integer.parseInt(request.getParameter("DeleteUserId"));
 
