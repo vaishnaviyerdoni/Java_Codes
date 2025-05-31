@@ -12,7 +12,9 @@
             <h3>Register here to begin shopping!</h3>
         </header>
         <main class="dashboard-sections">
-            <form id="RegisterForm"> <!--UserID is auto generated-->
+            <form id="RegisterForm" method="post" action="/user"> <!--UserID is auto generated-->
+                <input type="hidden" name="action" value="RegisterUser">
+
                 <label for="userName">Username:</label>
                 <input type="text" id="userName" name="userName" required><br><br>
 
@@ -29,11 +31,11 @@
                         <option value="customer">Customer</option>
                     </select><br><br>
 
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
                 <p id="RegisterMessage"></p>
             </form>
         </main>
     <p>After registering, login here! <a href="../User/login.html">Login here</a></p>
-    <script src=""></script>
+    <script src="register.js"></script>
     </body>
 </html>
