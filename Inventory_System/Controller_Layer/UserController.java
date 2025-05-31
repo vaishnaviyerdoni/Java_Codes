@@ -72,17 +72,17 @@ public class UserController extends HttpServlet{
                 if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
                     if(roleUser.equalsIgnoreCase("customer")){
                         String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "User Registration Failed");
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "User Registration Failed");
                     }
 
                     else if (roleUser.equalsIgnoreCase("staff")){
                         String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "Only 10 Staff registrations allowed!");
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "Only 10 Staff registrations allowed!");
                     }
                 
                     else if (roleUser.equalsIgnoreCase("admin")){
                         String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registration Successfully" : "Only 5 Admin registrations allowed!");
+                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "Only 5 Admin registrations allowed!");
                     }
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
