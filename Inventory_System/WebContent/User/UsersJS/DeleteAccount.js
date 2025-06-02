@@ -3,16 +3,16 @@ document.addEventListener("DOMContentLoaded", () => {
     form.addEventListener("submit", async(e) => {
         e.preventDefault();
 
-        const userID = document.getElementById("userID").value.trim();
+        const userId = document.getElementById("userID").value.trim();
         const userName = document.getElementById("userName").value.trim();
 
         try{
             const response = await fetch("/user", {
-                method : "DELETE",
-                headers : {"Content-Type" : "application/json"},
-                body : JSON.stringify({
+                method : "POST",
+                headers : {"Content-Type" : "application/x-www-urlencoded"},
+                body : new URLSearchParams({
                     action : "UserDeletesTheirAccount",
-                    userID,
+                    userId,
                     userName
                 })
             });
