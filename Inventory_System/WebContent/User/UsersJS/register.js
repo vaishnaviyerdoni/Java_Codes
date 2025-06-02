@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () =>{
         const userName = document.getElementById("userName").value.trim();
         const passCode = document.getElementById("passCode").value.trim();
         const email = document.getElementById("email").value.trim();
-        const role = document.getElementById("role").value.trim();
+        const roleUser = document.getElementById("roleUser").value.trim();
 
         try{
 
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () =>{
                     userName,
                     passCode,
                     email,
-                    roleUser : role
+                    roleUser
                 })
             });
 

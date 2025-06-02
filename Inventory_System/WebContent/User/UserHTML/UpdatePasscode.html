@@ -12,22 +12,24 @@
           <h3>Manage your Account here!</h3>
         </header>
       <main class="dashboard-sections">
-        <form id="Update Passcode">
+        <form id="UpdatePasscode" method="post" action="/user">
             <h4>UpdatePasscode:</h4>
+            <input type="hidden" name="action" value="UpdatePassCode">
+
             <label for="passcode">Username:</label>
             <input type="text" id="passcode" required><br><br>
 
             <label for="userID">UserID:</label>
             <input type="text" id="update" required><br><br>
 
-            <label for="new PassCode">new PassCode:</label>
-            <input type="text" id="new PassCode" required><br><br>
+            <label for="newPassCode">new PassCode:</label>
+            <input type="text" id="newPassCode" required><br><br>
                 
             <button type="submit">Update Passcode</button>
-            <p id="PasscodeMessage"></p>
+            <p id="UpdatePasscodeMessage"></p>
             <script src=""></script>
         </form>
       </main>
-        <script src=""></script>
+        <script src="../../User/UsersJS/UpdatePassCode.js"></script>
     </body>
 </html>

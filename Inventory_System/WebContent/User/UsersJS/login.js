@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("userId").value.trim();
         const userName = document.getElementById("userName").value.trim();
         const passCode = document.getElementById("passCode").value.trim();
-        const role = document.getElementById("role").value.trim();
+        const roleUser = document.getElementById("roleUser").value.trim();
         try{
             const res = await fetch("/user", {
                 method : "POST",
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     userId,
                     userName,
                     passCode,
-                    roleUser : role
+                    roleUser
                 })
             });
 
