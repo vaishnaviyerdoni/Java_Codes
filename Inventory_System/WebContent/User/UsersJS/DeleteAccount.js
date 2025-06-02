@@ -1,0 +1,33 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("deleteForm");
+    form.addEventListener("submit", async(e) => {
+        e.preventDefault();
+
+        const userID = document.getElementById("userID").value.trim();
+        const userName = document.getElementById("userName").value.trim();
+
+        try{
+            const response = await fetch("/user", {
+                method : "DELETE",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify({
+                    action : "UserDeletesTheirAccount",
+                    userID,
+                    userName
+                })
+            });
+
+            const result = await response.text();
+            if(response.ok && result.includes("Account deleted successfully!")){
+                alert("Account deleted!");
+            }
+            else{
+                document.getElementById("DeleteAccountMessage").innerText = "Account could not be deleted, try again later!";
+            }
+        }
+        catch(error){
+            console.error("Error while deleting account:", error);
+            document.getElementById("DeleteAccountMessage").innerText = "Server Error, Try again later!";
+        }
+    })
+})
