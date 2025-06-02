@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
         catch(error){
+            console.error("Error while updating email:", error);
             document.getElementById("UpdateEmailMessage").innerText = "Server Error, Try again later!";
         }
     })
