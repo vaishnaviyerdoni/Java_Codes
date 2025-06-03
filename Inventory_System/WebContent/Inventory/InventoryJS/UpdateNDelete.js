@@ -56,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.text();
             if(response.ok && result.includes("Quantity Updated")){
                 alert("Stock Updated succesfully!");
+                formforStock.reset();
             }
             else{
                 document.getElementById("StockMessage").innerText = "Failed to update stock, try again, later!";
@@ -64,6 +65,38 @@ document.addEventListener("DOMContentLoaded", () => {
         catch(error){
             console.error("Error while updating stock:", error);
             document.getElementById("StockMessage").innerText = "Server Error, Try again later!";
+        }
+    })
+
+    const formforDeleteItem = document.getElementById("DeleteItemForm");
+    formforDeleteItem.addEventListener("submit", async(e) => {
+        e.preventDefault();
+        
+        const itemId = document.getElementById("DeleteItemID").value.trim();
+        const userId = document.getElementById("DeleteUserID").value.trim();
+
+        try{
+            const response = await fetch("/inventory", {
+                method : "POST",
+                headers : {"Content-Type" : "application/x-www-urlencoded"},
+                body : new URLSearchParams({
+                    action : "deleteItem",
+                    itemId,
+                    userId
+                })
+            })
+
+            const result = await response.text();
+            if(response.ok && result.includes("Deleted Successfully")){
+                alert("Item was deleted successfully!");
+            }
+            else{
+                document.getElementById("DeleteMessage").innerText = "Failed to delete item, try again later!";
+            }
+        }
+        catch(error){
+            console.error("Item not deleted due to error:", error);
+            document.getElementById("DeleteMessage").innerText = "Server Error, try again later!";
         }
     })
 })
