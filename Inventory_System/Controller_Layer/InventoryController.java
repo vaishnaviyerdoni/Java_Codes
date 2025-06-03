@@ -160,7 +160,7 @@ public class InventoryController extends HttpServlet{
             }
             
             else{
-                response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 response.getWriter().write("{\"error\": \"Invalid method to update data\"}");
             }
         }
