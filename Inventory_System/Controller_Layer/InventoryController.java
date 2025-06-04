@@ -53,7 +53,7 @@ public class InventoryController extends HttpServlet{
         try{
             String action = request.getParameter("action");
 
-            if (action == null || action.equals("viewAll")){
+            if (action.equals("viewAll")){
                 List<Inventory> items = inventoryService.viewAllItems();
 
                 response.getWriter().write(gson.toJson(items));
