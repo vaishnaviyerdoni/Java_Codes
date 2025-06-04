@@ -73,5 +73,29 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("viewCategorymessage").innerText = "Server Error, try again later";
         }
     })
+
+    const priceSection = document.getElementById("getPriceSection");
+    const formforPrice = document.getElementById("viewPrice");
+    formforPrice.addEventListener("submit", async(e) => {
+        e.preventDefault();
+        try{
+            const res = await fetch(`/inventory?action=getPricebyItemID&itemId=${encodeURIComponent(itemId)}&itemName=${encodeURIComponent(itemName)}`, {
+                method : "GET"
+            })
+
+            const price = await res.json();
+            if(res.ok){
+                priceSection.innerHTML = "<h3>Price of item is:</h3>"
+                priceSection.innerHTML += price;
+            }
+            else{
+                document.getElementById("PriceMessage").innerText = "Failed to retrieve price, try again later";
+            }
+        }
+        catch(error){
+            console.error("error occurred when retrieving price:", error);
+            document.getElementById("PriceMessage").innerText = "Server Error, try again later!";
+        }
+    })
 })
 
