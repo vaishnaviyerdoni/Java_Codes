@@ -40,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const formtoViewByCategory = document.getElementById("viewByCategoryForm");
     formtoViewByCategory.addEventListener("submit", async(e) => {
         e.preventDefault();
+        const category = document.getElementById("ItemsByCategory").value.trim();
 
         try{
             const res = await fetch(`/inventory?action=viewByCategory&category=${encodeURIComponent(category)}`, {
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 for (let i = 0; i < inventoryInfobyCategory.length; i++){
                     const data = inventoryInfobyCategory[i];
 
-                    const jsonData = `
+                    const jsonCategoryData = `
                         <p><strong>ItemID:</strong>${data.itemId}</P>
                         <p><strong>ItemName:</strong>${data.itemName}</p>
                         <p><strong>Category:</strong>${data.category}</p>
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p><strong>LowStockThreshold:</strong>${data.LowStockThreshold}</p>
                         <hr>
                     `
-                    viewCategorySection.innerHTML += jsonData;
+                    viewCategorySection.innerHTML += jsonCategoryData;
                 }
             }
             else{
@@ -78,6 +79,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const formforPrice = document.getElementById("viewPrice");
     formforPrice.addEventListener("submit", async(e) => {
         e.preventDefault();
+        const itemId = document.getElementById("itemId").value.trim();
+        const itemName = document.getElementById("itemName").value.trim();
+        
         try{
             const res = await fetch(`/inventory?action=getPricebyItemID&itemId=${encodeURIComponent(itemId)}&itemName=${encodeURIComponent(itemName)}`, {
                 method : "GET"
@@ -85,8 +89,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const price = await res.json();
             if(res.ok){
-                priceSection.innerHTML = "<h3>Price of item is:</h3>"
-                priceSection.innerHTML += price;
+                priceSection.innerHTML = "<h3>Price</h3>"
+                const jsonPriceData = `<P><strong>Price:</strong>${price}</p>`
+                priceSection.innerHTML += jsonPriceData;
             }
             else{
                 document.getElementById("PriceMessage").innerText = "Failed to retrieve price, try again later";
