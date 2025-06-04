@@ -36,10 +36,42 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
+    const viewCategorySection = document.getElementById("getByCategory");
     const formtoViewByCategory = document.getElementById("viewByCategoryForm");
     formtoViewByCategory.addEventListener("submit", async(e) => {
         e.preventDefault();
-        
+
+        try{
+            const res = await fetch(`/inventory?action=viewByCategory&category=${encodeURIComponent(category)}`, {
+                method : "GET"
+            })
+
+            const inventoryInfobyCategory = await response.json();
+            if(res.ok){
+                viewCategorySection.innerHTML = "<h3>Inventory Information</h3>";
+                for (let i = 0; i < inventoryInfobyCategory.length; i++){
+                    const data = inventoryInfobyCategory[i];
+
+                    const jsonData = `
+                        <p><strong>ItemID:</strong>${data.itemId}</P>
+                        <p><strong>ItemName:</strong>${data.itemName}</p>
+                        <p><strong>Category:</strong>${data.category}</p>
+                        <p><strong>Price:</strong>${data.price}</p>
+                        <p><strong>Quantity:</strong>${data.quantity}</p>
+                        <p><strong>LowStockThreshold:</strong>${data.LowStockThreshold}</p>
+                        <hr>
+                    `
+                    viewCategorySection.innerHTML += jsonData;
+                }
+            }
+            else{
+                document.getElementById("viewCategorymessage").innerText = "Could not fetch data, try again later!";
+            }
+        }
+        catch(error){
+            console.error("Error occurred while fetching data:", error);
+            document.getElementById("viewCategorymessage").innerText = "Server Error, try again later";
+        }
     })
 })
 
