@@ -27,10 +27,24 @@
         <form id="viewByCategoryForm" method="get">
             <h4>View Items by Category:</h4>
             <label for="ItemsByCategory">Category:</label>
-            <input type="text" id="ItemsByCategory" name="category" required><br><br>
+            <input type="text" id="ItemsByCategory" required><br><br>
             <button type="submit">View</button>
             <p id="viewCategorymessage"></p>
           
+        </form>
+      </section>
+
+      <section id="getPriceSection">
+        <form id="viewPrice" method="get">
+          <h4>Get Price</h4>
+          <label for="itemId">Item ID:</label>
+          <input type="text" id="itemId" required><br><br>
+
+          <label for="itemName">Item Name:</label>
+          <input type="text" id="itemName" required><br><br>
+
+          <button type="submit">View</button>
+          <p id="PriceMessage"></p>
         </form>
       </section>
 
