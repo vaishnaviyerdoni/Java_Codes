@@ -29,6 +29,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     userInfoSection.innerHTML += jsonData;
                 }
             }
+            else{
+                document.getElementById("viewMessage").innerText = "Could not fetch data, try again later!";
+            }
         }
         catch(error){
             console.error("Error:", error);
