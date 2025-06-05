@@ -13,7 +13,7 @@
       </header>
 
         <main class="dashboard-sections">
-            <section>
+            <section id="viewItemsSection">
                 <form id="viewItemsForm" method="get">
                     <h4>View Items by userID</h4>
                     <label for="ViewItemsUserID">userID:</label>
@@ -25,14 +25,14 @@
                 </form>
             </section>
 
-            <section>
+            <section id="viewByOrderIDSection">
                 <form id="viewItemsbyOrderIDForm" method="get">
                     <h4>View all Items by OrderID</h4>
                     <label for="viewUserID">userID:</label>
                     <input type="text" id="viewUserID" name="userId" required><br><br>
 
-                    <label for="ViewOrdersOrderID">orderID:</label>
-                    <input type="text" id="ViewOrdersOrderID" name="orderId" required><br><br>
+                    <label for="ViewOrderID">orderID:</label>
+                    <input type="text" id="ViewOrderID" name="orderId" required><br><br>
 
                     <button type="submit">View</button>
                     <p id="viewByOrderIDMessage"></p>
@@ -40,6 +40,6 @@
                 </form>
             </section>
         </main>
-        <script src=""></script>
+        <script src="../../Orders/OrderJS/GetOrderItemsInfo.js"></script>
     </body>
 </html>
