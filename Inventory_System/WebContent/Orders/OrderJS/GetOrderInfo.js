@@ -17,12 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 for(let i=0; i<OrderInfo.length; i++){
                     const data = OrderInfo[i];
                     const jsonData = `
-                        <p><strong>ItemsID:</strong>${data.itemsId}</p>
                         <p><strong>OrderID:</strong>${data.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId}</p>
-                        <p><strong>Quantity:</strong>${data.quantity}</p>
-                        <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userId}</p>
+                        <p><strong>UserID:</strong>${data.userId}</p>
+                        <p><strong>OrderDate:</strong>${data.orderDate}</p>
+                        <p><strong>CustomerName:</strong>${data.customerName}</p>
+                        <p><strong>Status:</strong>${data.orderStatus}</p>
+                        <p><strong>Total Price</strong>${data.total_Price}</p>
                         <hr>
                     `
                     orderSection.innerHTML += jsonData;
@@ -56,12 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 for(let i=0; i<OrderInfo.length; i++){
                     const data = OrderInfo[i];
                     const jsonDatabyOrderID = `
-                        <p><strong>ItemsID:</strong>${data.itemsId}</p>
                         <p><strong>OrderID:</strong>${data.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId}</p>
-                        <p><strong>Quantity:</strong>${data.quantity}</p>
-                        <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userId}</p>
+                        <p><strong>UserID:</strong>${data.userId}</p>
+                        <p><strong>OrderDate:</strong>${data.orderDate}</p>
+                        <p><strong>CustomerName:</strong>${data.customerName}</p>
+                        <p><strong>Status:</strong>${data.orderStatus}</p>
+                        <p><strong>Total Price</strong>${data.total_Price}</p>
                         <hr>
                     `
                     viewSectionSection.innerHTML += jsonDatabyOrderID;
@@ -95,12 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 for(let i=0; i<orderbyUserID.length; i++){
                     const data = orderbyUserID[i];
                     const jsonDatabyUserID = `
-                        <p><strong>ItemsID:</strong>${data.itemsId}</p>
                         <p><strong>OrderID:</strong>${data.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId}</p>
-                        <p><strong>Quantity:</strong>${data.quantity}</p>
-                        <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userId}</p>
+                        <p><strong>UserID:</strong>${data.userId}</p>
+                        <p><strong>OrderDate:</strong>${data.orderDate}</p>
+                        <p><strong>CustomerName:</strong>${data.customerName}</p>
+                        <p><strong>Status:</strong>${data.orderStatus}</p>
+                        <p><strong>Total Price</strong>${data.total_Price}</p>
                         <hr>
                     `
                     viewbyuserIDsection.innerHTML += jsonDatabyUserID;
