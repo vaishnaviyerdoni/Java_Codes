@@ -230,7 +230,7 @@ public class OrderController extends HttpServlet {
 
                 boolean isDeleted = orderItemService.adminDeletesItem(userId, itemsId);
 
-                response.getWriter().write(isDeleted ? "item deleted from order" : "Failed to delete order");
+                response.getWriter().write(isDeleted ? "Item Deleted" : "Failed to delete order");
             }
             else{
                 response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
