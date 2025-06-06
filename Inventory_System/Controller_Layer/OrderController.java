@@ -197,7 +197,7 @@ public class OrderController extends HttpServlet {
 
                 boolean isUpdated = orderItemService.updateQuantityAndSubtotal(itemsId, inventoryId, userId, nQuantity);
 
-                response.getWriter().write(isUpdated ? "quantity and hence subtotal!" : "Failed to update the quantity and subtotal!");
+                response.getWriter().write(isUpdated ? "quantity and subtotal updated!" : "Failed to update the quantity and subtotal!");
             }
             else{
                 response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
