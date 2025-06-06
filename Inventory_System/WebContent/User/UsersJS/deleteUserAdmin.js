@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try{
             const response = await fetch("/user", {
                 method : "POST",
-                headers : {"Content-Type" : "application/x-www-urlencoded"},
+                headers : {"Content-Type" : "application/x-www-form-urlencoded"},
                 body : new URLSearchParams({
                     action : "AdminDeletesUser",
                     AdminUserId,
