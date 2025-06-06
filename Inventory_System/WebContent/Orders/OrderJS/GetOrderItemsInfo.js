@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("ViewItemsUserID").value.trim();
 
         try{
-            const res = await fetch(`/inventory?action=viewItems&userId=${encodeURIComponent(userId)}`, {
+            const res = await fetch(`/order?action=viewItems&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
             })
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const orderId = document.getElementById("ViewOrderID").value.trim();
 
         try{
-            const res = await fetch(`/inventory?action=ItemsbyOrderId&userId=${encodeURIComponent(userId)}&orderId=${encodeURIComponent(orderId)}`,{
+            const res = await fetch(`/order?action=ItemsbyOrderId&userId=${encodeURIComponent(userId)}&orderId=${encodeURIComponent(orderId)}`,{
                 method : "GET"
             })
 

@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("GetAllUserID").value.trim();
 
         try{
-            const res = await fetch(`/inventory?action=getAllOrders&userId=${encodeURIComponent(userId)}`, {
+            const res = await fetch(`/order?action=getAllOrders&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
             })
 
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("viewUserID").value.trim();
 
         try{
-            const res = await fetch(`/inventory?action=viewByOrderId&orderId=${encodeURIComponent(orderId)}&userId=${encodeURIComponent(userId)}`, {
+            const res = await fetch(`/order?action=viewByOrderId&orderId=${encodeURIComponent(orderId)}&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
             })
 
@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         const userId = document.getElementById("viewPriceID").value.trim();
         try{
-            const res = await fetch(`/inventory?action=viewByUserId&userId=${encodeURIComponent(userId)}`, {
+            const res = await fetch(`/order?action=viewByUserId&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
             })
 
@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("viewPriceID").value.trim();
 
         try{
-            const res = await fetch(`/inventory?action=getPrice&userId=${encodeURIComponent(userId)}`, {
+            const res = await fetch(`/order?action=getPrice&userId=${encodeURIComponent(userId)}`, {
             method : "GET"
             })
 
