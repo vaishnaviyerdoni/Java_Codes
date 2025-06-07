@@ -1,11 +1,11 @@
 //Dashboard.html
 const role = localStorage.getItem("role");
-if(!role){
-    alert("No user found. redirecting to login page");
-    window.location.href='../../User/UserHTML/login.html';
+if (!role || role !== "customer") {
+    alert("Unauthorized access. Redirecting to login page.");
+    window.location.href = "../../User/UserHTML/login.html";
 }
 
 document.getElementById("logoutBtn").addEventListener("click", ()=>{
     localStorage.removeItem("role");
-    window.location.href = "../../User/UserHTML/login.html";
+    window.location.href = "../../User/UserHTML/logout.html";
 })
