@@ -9,7 +9,7 @@
   <body>
     <h2>Welcome to Inventory</h2>
     <div class="dashboard-sections"> <!--new container-->
-      <div>
+      <div id="userManagementSection">
         <h3>User Management</h3>
         <button id="updatePassBtn" onclick="location.href='../../User/UserHTML/UpdatePasscode.html'">Update PassCode</button>
         <button id="updateEmailBtn" onclick="location.href='../../User/UserHTML/UpdateEmail.html'">Update Email</button>
@@ -18,7 +18,7 @@
         <button id="logoutBtn" onclick="location.href='../../User/UserHTML/logout.html'">Logout</button>
       </div>
 
-      <div>
+      <div id="orderManagementSection">
         <h3>Order Management</h3>
         <button id="placeOrderBtn" onclick="location.href='../../Orders/OrderHTML/PlaceOrder.html'">Place Order</button>
         <button id="orderInfoBtn" onclick="location.href='../../Orders/OrderHTML/GetOrderInfo.html'">Order Info</button>
@@ -28,7 +28,7 @@
 
       </div>
 
-      <div>
+      <div id="inventoryManagementSection">
         <h3>Inventory Management</h3>
         <button id="updateInventoryBtn" onclick="location.href='../../Inventory/InventoryHTML/UpdateNDelete.html'">Update Inventory</button>
         <button id="viewInventoryBtn" onclick="location.href='../../Inventory/InventoryHTML/ViewItem.html'">View Inventory</button>
@@ -36,6 +36,6 @@
         <button id="deleteInventoryBtn" onclick="location.href='../../Inventory/InventoryHTML/UpdateNDelete.html'">Delete Item</button>
       </div>
     </div>
-    <script src="../dashboard/AdminAndStaff.js"></script>
+    <script src="../../dashboard/DashboardJS/AdminAndStaff.js"></script>
   </body>
 </html>
