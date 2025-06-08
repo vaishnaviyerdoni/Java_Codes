@@ -20,7 +20,7 @@ public class OrderService {
     }
 
     //to place new order
-    public boolean addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus, Double totalPrice) throws SQLException, UserNotFoundException{
+    public int addOrder(int orderId, int userID, String orderDate, String customerName, String orderStatus, Double totalPrice) throws SQLException, UserNotFoundException{
         try{
             List<Integer> userids = userDAO.getUserIds();
             boolean foundUser = false;
@@ -38,16 +38,12 @@ public class OrderService {
             }
             java.sql.Date date = validate_Date(orderDate);
             Order order = new Order(orderId, user, date, customerName, "Pending", totalPrice);
-            if(orderDAO.addOrderInDatabase(order)){
-                return true; //"Order added!";
-            }
-            else{
-                return false; //"Order could not be added!";
-            }
+            
+            return orderDAO.addOrderInDatabase(order)
         }
         catch(SQLException e){
             e.printStackTrace();
-            return false; //"Error occurred while adding order!"; 
+            return -1; //"Error occurred while adding order!"; 
         }
     }
 

@@ -16,7 +16,7 @@ public class OrderDAO {
     }
 
     //Create method to place new orders, before placing order, the user must register themselves
-    public boolean addOrderInDatabase(Order order) throws SQLException{
+    public int addOrderInDatabase(Order order) throws SQLException{
         String sql = "INSERT INTO Orders (userId, OrderDate, CustomerName, OrderStatus, total_Price) VALUES  (?,?,?,?,?)";
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, order.get_UserId().get_userId());
@@ -24,14 +24,17 @@ public class OrderDAO {
             stmt.setString(3, order.get_customerName());
             stmt.setString(4, order.get_status());
             stmt.setDouble(5, order.get_total());
+            
             int rows = stmt.executeUpdate();
-            if (rows > 0){
-                return true;
-            }
-            else{
-                return false;
+            if(rows > 0){
+                try(ResultSet rs = stmt.getGeneratedKeys()){
+                    if(rs.next()){
+                        return rs.getInt(1); //this is auto generated order Id
+                    }
+                }
             }
         }
+        return -1;
     }
     
     //to fetch all the orders from the database

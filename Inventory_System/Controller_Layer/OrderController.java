@@ -121,9 +121,10 @@ public class OrderController extends HttpServlet {
                 String orderDate = request.getParameter("orderDate");
                 String customerName = request.getParameter("customerName");
                 //String orderStatus = request.getParameter("orderStatus"); default=pending
-                Double totalPrice = Double.parseDouble(request.getParameter("totalPrice")); //get it from database, hence update backend
+                Double totalPrice = 0.0d //we will update it after adding items
 
-                boolean isOrderAdded = orderService.addOrder(0, userId, orderDate, customerName, "pending", totalPrice);
+
+                int orderId = orderService.addOrder(0, userId, orderDate, customerName, "pending", totalPrice);
 
                 response.getWriter().write(isOrderAdded ? "Order Added, Now please enter the items you like to purchase!" : "Couldnt add order!");
             }
@@ -138,7 +139,11 @@ public class OrderController extends HttpServlet {
 
                 boolean itemsAdded = orderItemService.addItems(0, orderId, inventoryId, quantity, subtotal, userId);
 
-                response.getWriter().write(itemsAdded ? "Items added to order" : "Failed to add item to order!");
+                if (orderId > 0){
+                    //Send order Id to frontend
+                    response.setContentType("application/json");
+                    response.getWriter().write("{\"message\": \"Order added! Now add items.\", \"orderId\": " + orderId + "}");
+                }
             }
             else{
                 response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
