@@ -115,6 +115,9 @@ public class OrderController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
+            response.setContentType("application/json");
+            Gson gson = new Gson();
+
             String action = request.getParameter("action");
             if (action.equals("addOrder")){
                 int userId = Integer.parseInt(request.getParameter("userId"));
@@ -125,8 +128,17 @@ public class OrderController extends HttpServlet {
 
 
                 int orderId = orderService.addOrder(0, userId, orderDate, customerName, "pending", totalPrice);
+                
+                Map<String, Object> myResponseMap = new HashMap<>();
+                if (orderId > 0){
+                    myResponseMap.put("OrderID: ", orderId);
+                    myResponseMap.put("Message: ", "Order Added, Now please enter the items you like to purchase!");
+                }
+                else{
+                    myResponseMap.put("Could not add Order, try again later!");
+                }
 
-                response.getWriter().write(isOrderAdded ? "Order Added, Now please enter the items you like to purchase!" : "Couldnt add order!");
+                response.getWriter().write(gson.toJson(myResponseMap));
             }
 
             else if (action.equals("addItems")){
@@ -139,11 +151,7 @@ public class OrderController extends HttpServlet {
 
                 boolean itemsAdded = orderItemService.addItems(0, orderId, inventoryId, quantity, subtotal, userId);
 
-                if (orderId > 0){
-                    //Send order Id to frontend
-                    response.setContentType("application/json");
-                    response.getWriter().write("{\"message\": \"Order added! Now add items.\", \"orderId\": " + orderId + "}");
-                }
+                response.getWriter().write(itemsAdded ? "Order Placed!" : "Failed to add items to order, hence could not place order!");
             }
             else{
                 response.setStatus(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
