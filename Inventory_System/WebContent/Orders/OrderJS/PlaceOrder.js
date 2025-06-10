@@ -95,5 +95,106 @@ document.getElementById("addItem").addEventListener("click", async() => {
 
     const newSelect = newItemRow.querySelector(".select-item");
     await populateDropdown(newSelect);
+    updateTotalPrice(); // Optional immediate refresh
 })
+
+//remove item from the form
+document.getElementById("itemsList").addEventListener("click", async(e) => {
+    if(e.target.classList.contains("removeItem")){
+        const row = e.target.closest(".item-Row");
+        if(document.querySelectorAll(".item-Row").length){
+            row.remove();
+            updateTotalPrice(); // Refresh total
+        }
+    }
+})
+
+//to calculate subtotal
+document.getElementById("itemsList").addEventListener("change", async(e) => {
+    const row = e.target.closest(".item-Row");
+    const select = row.querySelector(".select-item");
+    const quantityInput = row.querySelector('input[name="quantity"]');
+    const subtotalInput = row.querySelector("input[readonly]");
+
+    const itemName = select.value;
+    const quantity = parseInt(quantityInput.value);
+
+    if(itemName && quantity > 0){
+        try{
+            const res = await fetch(`/inventory?action=getPriceByItemName&itemName=${encodeURIComponent(itemName)}`);
+            const price = await res.json();
+            subtotalInput.value = (price * quantity).toFixed(2);
+            updateTotalPrice();
+        }
+        catch(error){
+            console.error("Failed to update subtotal:", error);
+        }
+    }
+})
+
+//to calculate total
+function updateTotalPrice() {
+    const subtotals = document.querySelectorAll(".item-Row input[readonly]");
+    let total = 0;
+
+    subtotals.forEach(input => {
+        const subtotal = parseFloat(input.value);
+        if (!isNaN(subtotal)) {
+            total += subtotal;
+        }
+    });
+
+    document.getElementById("totalPrice").value = total.toFixed(2);
+}
+
+//to submit all items
+document.getElementById("addItemsToOrderForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const orderId = document.getElementById("itemsOrderID").value.trim();
+    const userId = document.getElementById("orderUserID").value.trim();
+    const itemRows = document.querySelectorAll(".item-Row");
+
+    let allSuccess = true;
+
+    for (const row of itemRows) {
+        const itemName = row.querySelector(".select-item").value;
+        const quantity = row.querySelector("input[name='quantity']").value;
+        const subtotal = row.querySelector("input[readonly]").value;
+
+        const params = new URLSearchParams({
+            action: "addItems",
+            orderId,
+            userId,
+            itemName,
+            quantity,
+            subtotal
+        });
+
+        try {
+            const res = await fetch("/order", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: params
+            });
+
+            const result = await res.text();
+
+            if (!res.ok || !result.includes("Order Placed")) {
+                allSuccess = false;
+                console.error("Error from server:", result);
+            }
+        } catch (error) {
+            allSuccess = false;
+            console.error("Error adding item:", error);
+        }
+    }
+
+    if (allSuccess) {
+        alert("Order placed successfully with all items!");
+        document.getElementById("AddItemMessage").innerText = "";
+    } else {
+        document.getElementById("AddItemMessage").innerText = "Some items failed to add. Please check.";
+    }
+});
 
