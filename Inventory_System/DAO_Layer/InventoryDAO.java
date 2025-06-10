@@ -86,6 +86,22 @@ public class InventoryDAO {
         }
     }
 
+    //To get the price from DB by itemName
+    public double getPriceByItemName(String itemName) throws SQLException {
+        String sql = "SELECT price FROM InventoryTable WHERE itemName = ?";
+        double itemPrice = 0d;
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setString(1, itemName);
+            try(ResultSet rs = stmt.executeQuery()){
+                if(rs.next()){
+                    itemPrice = rs.getDouble("price");
+                }
+
+                return itemPrice;
+            }
+        }
+    }
+
     //To get the quantity
     public int getQuantity(int itemId) throws SQLException{
         String sql = "SELECT quantity FROM InventoryTable WHERE itemId = ?";

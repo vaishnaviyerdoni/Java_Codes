@@ -79,6 +79,15 @@ public class InventoryController extends HttpServlet{
 
                 response.getWriter().write(gson.toJson(price));
             }
+
+            else if (action.equals("getPriceByItemName")){
+                String itemName = request.getParameter("itemName");
+
+                Double price = inventoryService.getTotalPricebyItemName(itemName);
+
+                response.getWriter().write(gson.toJson(price));
+            }
+
             else{
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"error\" : \"Something went wrong\"}");
