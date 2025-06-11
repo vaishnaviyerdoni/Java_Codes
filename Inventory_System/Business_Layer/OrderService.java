@@ -39,7 +39,7 @@ public class OrderService {
             java.sql.Date date = validate_Date(orderDate);
             Order order = new Order(orderId, user, date, customerName, "Pending", totalPrice);
             
-            return orderDAO.addOrderInDatabase(order)
+            return orderDAO.addOrderInDatabase(order);
         }
         catch(SQLException e){
             e.printStackTrace();

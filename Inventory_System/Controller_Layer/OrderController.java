@@ -124,7 +124,7 @@ public class OrderController extends HttpServlet {
                 String orderDate = request.getParameter("orderDate");
                 String customerName = request.getParameter("customerName");
                 //String orderStatus = request.getParameter("orderStatus"); default=pending
-                Double totalPrice = 0.0d //we will update it after adding items
+                Double totalPrice = 0.0d; //we will update it after adding items
 
 
                 int orderId = orderService.addOrder(0, userId, orderDate, customerName, "pending", totalPrice);
@@ -135,7 +135,7 @@ public class OrderController extends HttpServlet {
                     myResponseMap.put("Message: ", "Order Added, Now please enter the items you like to purchase!");
                 }
                 else{
-                    myResponseMap.put("Could not add Order, try again later!");
+                    myResponseMap.put("Message: ","Could not add Order, try again later!");
                 }
 
                 response.getWriter().write(gson.toJson(myResponseMap));
