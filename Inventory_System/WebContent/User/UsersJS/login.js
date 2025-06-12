@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("userId").value.trim();
         const userName = document.getElementById("userName").value.trim();
         const passCode = document.getElementById("passCode").value.trim();
-        const roleUser = document.getElementById("roleUser").value.trim();
+        const role = document.getElementById("roleUser").value.trim();
         try{
             const res = await fetch("/user", {
                 method : "POST",
@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     userId,
                     userName,
                     passCode,
-                    roleUser
+                    roleUser : role
                 })
             });
 
@@ -30,14 +30,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 localStorage.setItem("role", role);
 
                 if(role === "admin" || role === "staff"){
-                    window.location.href = "../dashboard/AdminAndStaffDashboard.html";
+                    window.location.href = "../../dashboard/DashboardHTML/AdminAndStaffDashboard.html";
                 }
                 else if(role === "customer"){
-                    window.location.href = "../dashboard/CustomerDashboard.html";
+                    window.location.href = "../../dashboard/DashboardHTML/CustomerDashboard.html";
                 }
                 else{
-                    document.getElementById("loginMessage").innerText = "Login Failed, Check the credentials!";
+                    document.getElementById("LoginMessage").innerText = "Login Failed, Check the credentials!";
                 }
+            }
+            else {
+                document.getElementById("LoginMessage").innerText = "Login Failed, Check the credentials!";
             }
         }
         catch(error){
