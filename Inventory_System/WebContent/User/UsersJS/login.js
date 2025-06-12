@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const passCode = document.getElementById("passCode").value.trim();
         const role = document.getElementById("roleUser").value.trim();
         try{
-            const res = await fetch("/user", {
+            const res = await fetch("/InventorySystem/user", {
                 method : "POST",
                 headers : {"Content-Type" : "application/x-www-form-urlencoded"},
                 body : new URLSearchParams({
