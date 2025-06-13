@@ -204,9 +204,18 @@ public class UserService {
     //Login Logic
     public boolean isValidUserForLogin(int userId, String username, String passcode, String roleUser) throws SQLException{
         try{
-            String userName = userDAO.getUsername(userId);
-            String passCode = userDAO.getPasscode(userId);
-            String role = userDAO.getRole(userId);
+            String userName = userDAO.getUsername(userId).trim();
+            String passCode = userDAO.getPasscode(userId).trim();
+            String role = userDAO.getRole(userId).trim();
+
+            System.out.println("Input username: " + username);
+            System.out.println("DB username: " + userName);
+
+            System.out.println("Input passcode: " + passcode);
+            System.out.println("DB passcode: " + passCode);
+
+            System.out.println("Input role: " + roleUser);
+            System.out.println("DB role: " + role);
 
             /* 
             System.out.println(userName);

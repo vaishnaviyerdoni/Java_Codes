@@ -81,13 +81,13 @@ public class UserDAO {
     //READ method to fetch the user role 
     public String getRole(int userId) throws SQLException{
         String sql = "SELECT roleUser FROM Users WHERE userId = ?";
-        String role = " ";
+        String role = "";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, userId);
             try(ResultSet res = stmt.executeQuery()){
                 if(res.next()){
-                    role = res.getString("roleUser");
+                    role = res.getString("roleUser").trim();
                 }
                 return role;
 
@@ -98,13 +98,13 @@ public class UserDAO {
     //READ method to fetch passcode
     public String getPasscode(int userId) throws SQLException{
         String sql = "SELECT passcode FROM Users WHERE userId = ?";
-        String passcode = " ";
+        String passcode = "";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, userId);
             try(ResultSet res = stmt.executeQuery()){
                 if(res.next()){
-                    passcode = res.getString("passcode");
+                    passcode = res.getString("passcode").trim();
                 }
                 return passcode;
 
@@ -115,13 +115,13 @@ public class UserDAO {
     //READ method to fetch username
     public String getUsername(int userId) throws SQLException{
         String sql = "SELECT userName FROM Users WHERE userId = ?";
-        String username = " ";
+        String username = "";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, userId);
             try(ResultSet res = stmt.executeQuery()){
                 if(res.next()){
-                    username = res.getString("userName");
+                    username = res.getString("userName").trim();
                 }
                 return username;
             }
