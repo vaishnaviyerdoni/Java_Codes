@@ -63,6 +63,7 @@ public class UserController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
+            response.setContentType("text/plain");
             String action = request.getParameter("action");
             if ("RegisterUser".equals(action)){ // for user registration
                 String userName = request.getParameter("userName");
@@ -102,6 +103,8 @@ public class UserController extends HttpServlet{
         }
         catch(Exception e){
             e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("Server error: " + e.getMessage());
         }
     }
     

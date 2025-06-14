@@ -1,3 +1,4 @@
+console.log("🟢 login.js loaded");
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("loginform");
     form.addEventListener("submit",  async(e) => {
