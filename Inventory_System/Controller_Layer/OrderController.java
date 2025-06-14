@@ -56,13 +56,13 @@ public class OrderController extends HttpServlet {
         Gson gson = new Gson();
         try{
             String action = request.getParameter("action");
-            if (action.equals("getAllOrders")){
+            if ("getAllOrders".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 List<Order> orders = orderService.getallOrders(userId);
 
                 response.getWriter().write(gson.toJson(orders));
             }
-            else if (action.equals("viewByOrderId")){
+            else if ("viewByOrderId".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
 
@@ -70,27 +70,27 @@ public class OrderController extends HttpServlet {
 
                 response.getWriter().write(gson.toJson(orders));
             }
-            else if (action.equals("viewByUserId")){
+            else if ("viewByUserId".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
 
                 List<Order> orders = orderService.viewOrderByUserId(userId);
 
                 response.getWriter().write(gson.toJson(orders));
             }
-            else if (action.equals("getPrice")){
+            else if ("getPrice".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
 
                 Double totalPrice = orderService.getPricebyUserId(userId);
 
                 response.getWriter().write(gson.toJson(totalPrice));
             }
-            else if (action.equals("viewItems")){
+            else if ("viewItems".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 List<OrderItem> itemsByUser = orderItemService.viewItems(userId);
 
                 response.getWriter().write(gson.toJson(itemsByUser));
             }
-            else if (action.equals("ItemsbyOrderId")){
+            else if ("ItemsbyOrderId".equals(action)){
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
                 int userId = Integer.parseInt(request.getParameter("userId"));
 
@@ -119,7 +119,7 @@ public class OrderController extends HttpServlet {
             Gson gson = new Gson();
 
             String action = request.getParameter("action");
-            if (action.equals("addOrder")){
+            if ("addOrder".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String orderDate = request.getParameter("orderDate");
                 String customerName = request.getParameter("customerName");
@@ -141,7 +141,7 @@ public class OrderController extends HttpServlet {
                 response.getWriter().write(gson.toJson(myResponseMap));
             }
 
-            else if (action.equals("addItems")){
+            else if ("addItems".equals(action)){
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
                 String itemName = request.getParameter("itemName");
                 int inventoryId = inventoryService.getItemIDfromTable(itemName);
@@ -184,7 +184,7 @@ public class OrderController extends HttpServlet {
             String action = data.get("action");
 
             // Send JSON format like this : { "action": "updateQuantity", "itemId": 1, "quantity": 100 }
-            if (action.equals("updateTotalPrice")){
+            if ("updateTotalPrice".equals(action)){
                 Double price = Double.parseDouble(data.get("price"));
                 int orderId = Integer.parseInt(data.get("orderId"));
                 int userId = Integer.parseInt(data.get("userId"));
@@ -193,7 +193,7 @@ public class OrderController extends HttpServlet {
 
                 response.getWriter().write(isUpdated ? "total price updated" : "Failed to update the total price");
             }
-            else if (action.equals("changeStatus")){
+            else if ("changeStatus".equals(action)){
                 String status = data.get("status");
                 int userId = Integer.parseInt(data.get("userId"));
                 int customerId = Integer.parseInt(data.get("customerId"));
@@ -202,7 +202,7 @@ public class OrderController extends HttpServlet {
 
                 response.getWriter().write(isUpdated ? "Status updated!" : "Failed to update status");
             }
-            else if (action.equals("updateQuantity")){
+            else if ("updateQuantity".equals(action)){
                 int itemsId = Integer.parseInt(data.get("itemsId"));
                 int userId = Integer.parseInt(data.get("userId"));
                 int nQuantity = Integer.parseInt(data.get("nQuantity"));
@@ -229,7 +229,7 @@ public class OrderController extends HttpServlet {
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if (action.equals("AdminDeletesOrder")){
+            if ("AdminDeletesOrder".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 int orderId = Integer.parseInt(request.getParameter("orderId"));
 
@@ -237,7 +237,7 @@ public class OrderController extends HttpServlet {
 
                 response.getWriter().write(isDeleted ? "order Deleted" : "Failed to delete order");
             }
-            else if (action.equals("AdminDeletesItem")){
+            else if ("AdminDeletesItem".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 int itemsId = Integer.parseInt(request.getParameter("itemsId"));
 

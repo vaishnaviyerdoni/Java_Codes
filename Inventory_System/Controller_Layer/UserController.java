@@ -2,6 +2,7 @@ package Inventory_System.Controller_Layer;
 
 import java.io.*;
 import java.lang.reflect.Type;
+import java.security.spec.ECFieldF2m;
 import java.sql.*;
 import java.util.*;
 import javax.servlet.ServletException;
@@ -45,7 +46,7 @@ public class UserController extends HttpServlet{
         Gson gson = new Gson();
         try{
             String action = request.getParameter("action");
-            if (action.equals("viewUserInfo")){
+            if ("viewUserInfo".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 List<User> users = userService.ReadAllUsers(userId);
                 response.getWriter().write(gson.toJson(users));
@@ -63,47 +64,44 @@ public class UserController extends HttpServlet{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if (action.equals("RegisterUser")){ // for user registration
+            if ("RegisterUser".equals(action)){ // for user registration
                 String userName = request.getParameter("userName");
                 String email = request.getParameter("email");
                 String passCode = request.getParameter("passCode");
                 String roleUser = request.getParameter("roleUser");
 
                 if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
-                    if(roleUser.equalsIgnoreCase("customer")){
-                        String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "User Registration Failed");
-                    }
-
-                    else if (roleUser.equalsIgnoreCase("staff")){
-                        String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "Only 10 Staff registrations allowed!");
-                    }
-                
-                    else if (roleUser.equalsIgnoreCase("admin")){
-                        String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                        response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "Only 5 Admin registrations allowed!");
-                    }
+                    String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
+                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "User Registration Failed");
+                }
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\" : \"Something went wrong, try again later!\"}");
-                    }
                 }
             }
-            else if (action.equals("isValidUser")){ //for user login
+            else if ("isValidUser".equals(action)){ //for user login
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String userName = request.getParameter("userName");
                 String roleUser = request.getParameter("roleUser");
                 String passCode = request.getParameter("passCode");
+                
+                // Debug output
+                System.out.println("userId: " + userId);
+                System.out.println("userName: " + userName);
+                System.out.println("roleUser: " + roleUser);
+                System.out.println("passCode: " + passCode);
 
                 boolean isUserValid = userService.isValidUserForLogin(userId, userName, passCode, roleUser);
-                response.getWriter().write(isUserValid ? "Logged In,  Welcome to Inventory!" : "Login Failed, Check your credentials!");
+                response.getWriter().write(isUserValid ? "Logged In, Welcome to Inventory!" : "Login Failed, Check your credentials!");
             }
         }
         catch(SQLException e){
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\":\"Something Went Wrong\"}");
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
     }
     
@@ -127,7 +125,7 @@ public class UserController extends HttpServlet{
 
             String action = data.get("action");
             // Send JSON format like this : { "action": "updateQuantity", "itemId": 1, "quantity": 100 }
-            if (action.equals("UpdatePassCode")){
+            if ("UpdatePassCode".equals(action)){
                 int userId = Integer.parseInt(data.get("userId"));
                 String nPassCode = data.get("nPasscode");
                 String userName = data.get("userName");
@@ -136,7 +134,7 @@ public class UserController extends HttpServlet{
 
                 response.getWriter().write(isUpdated ? "PassCode updated Successfully!" : "Failed to update the passcode!");
             }
-            else if (action.equals("UpdateEmail")){
+            else if ("UpdateEmail".equals(action)){
                 int userId = Integer.parseInt(data.get("userId"));
                 String nEmail = data.get("nEmail");
                 String userName = data.get("userName");
@@ -163,7 +161,7 @@ public class UserController extends HttpServlet{
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if(action.equals("AdminDeletesUser")){
+            if("AdminDeletesUser".equals(action)){
                 int AdminUserId = Integer.parseInt(request.getParameter("AdminUserId"));
                 int UserId = Integer.parseInt(request.getParameter("DeleteUserId"));
 
@@ -171,7 +169,7 @@ public class UserController extends HttpServlet{
 
                 response.getWriter().write(isDeleted ? "User was deleled successfully!" : "Failed to delete user");   
             }
-            else if (action.equals("UserDeletesTheirAccount")){
+            else if ("UserDeletesTheirAccount".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String userName = request.getParameter("userName");
 

@@ -53,13 +53,13 @@ public class InventoryController extends HttpServlet{
         try{
             String action = request.getParameter("action");
 
-            if (action.equals("viewAll")){
+            if ("viewAll".equals(action)){
                 List<Inventory> items = inventoryService.viewAllItems();
 
                 response.getWriter().write(gson.toJson(items));
             }
 
-            else if (action.equals("viewByCategory")){
+            else if ("viewByCategory".equals(action)){
                 String category = request.getParameter("category");
                 if(category == null){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -71,7 +71,7 @@ public class InventoryController extends HttpServlet{
                 response.getWriter().write(gson.toJson(items));
             }
 
-            else if (action.equals("getPricebyItemID")){
+            else if ("getPricebyItemID".equals(action)){
                 String itemName = request.getParameter("itemName");
                 int itemId =  Integer.parseInt(request.getParameter("itemId"));
 
@@ -80,7 +80,7 @@ public class InventoryController extends HttpServlet{
                 response.getWriter().write(gson.toJson(price));
             }
 
-            else if (action.equals("getPriceByItemName")){
+            else if ("getPriceByItemName".equals(action)){
                 String itemName = request.getParameter("itemName");
 
                 Double price = inventoryService.getTotalPricebyItemName(itemName);
@@ -106,7 +106,7 @@ public class InventoryController extends HttpServlet{
         try{
 
             String action = request.getParameter("action");
-            if (action.equals("AddItemToInventory")){
+            if ("AddItemToInventory".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String itemName = request.getParameter("itemName");
                 String category = request.getParameter("category");
@@ -148,7 +148,7 @@ public class InventoryController extends HttpServlet{
             String action = data.get("action");
 
             // Send JSON format like this : { "action": "updateQuantity", "itemId": 1, "quantity": 100 }
-            if(action.equals("updatePrice")){
+            if("updatePrice".equals(action)){
                 int itemId = Integer.parseInt(data.get("itemId"));
                 int userId = Integer.parseInt(data.get("userId"));
                 double newPrice = Double.parseDouble(data.get("newPrice"));
@@ -158,7 +158,7 @@ public class InventoryController extends HttpServlet{
                 response.getWriter().write(isUpdated ? "Price Updated" : "Couldn't update price");
             }
 
-            else if (action.equals("addtoQuantity")){
+            else if ("addtoQuantity".equals(action)){
                 int itemId = Integer.parseInt(data.get("itemId"));
                 int userId = Integer.parseInt(data.get("userId"));
                 int newQuantity = Integer.parseInt(data.get("newQuantity"));
@@ -187,7 +187,7 @@ public class InventoryController extends HttpServlet{
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
             String action = request.getParameter("action");
-            if (action.equals("deleteItem")){
+            if ("deleteItem".equals(action)){
                 int itemId = Integer.parseInt(request.getParameter("itemId"));
                 int userId = Integer.parseInt(request.getParameter("userId"));
 
