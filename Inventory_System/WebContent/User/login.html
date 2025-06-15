@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang = "en">
+  <head>
+    <meta charset = "UTF-8">
+    <title>Welcome to Inventory!</title>
+    <link rel = "stylesheet" href="../style.css">
+  </head>
+  <body>
+    <header>
+      <h2>Welcome to Inventory</h2>
+      <h3>Login to begin shopping!</h3>
+    </header>
+
+    <main class="dashboard-sections">
+      <form id="loginform" method="post" action="/InventorySystem/user">
+        <input type="hidden" name="action" value="isValidUser">
+
+        <label for="userId">UserID:</label>
+        <input type="text" id="userId" name="userId" required><br><br>
+    
+        <label for="userName">Username:</label>
+        <input type="text" id="userName" name="userName" required><br><br>
+
+        <label for="passCode">PassCode:</label>
+        <input type="text" id="passCode" name="passCode" required><br><br>
+
+        <label for="roleUser">Role:</label>
+          <select id="roleUser" name="roleUser">
+            <option value="admin">Admin</option>
+            <option value="staff">Staff</option>
+            <option value="customer">Customer</option>
+          </select><br><br>
+
+          <button type="submit">Login</button>
+          <p id="LoginMessage"></p>
+      </form>
+    </main>
+    <script src="login.js"></script>
+    <p>If not Registered, Register here: <a href="register.html">Register here!</a></p>
+  </body>
+</html>

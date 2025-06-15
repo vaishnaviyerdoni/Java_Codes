@@ -1,0 +1,33 @@
+<!--View All Users-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <link rel="stylesheet" href="../style.css">
+  </head>
+  <body>
+    <header>
+    <h2>User Management</h2>
+    <h3>Manage users here!</h3>
+    </header>
+
+      <main class="dashboard-sections">
+        <section id="userInfoSection">
+          <h3>View Users</h3>
+          <form id="ViewUsers" method="get" action="/InventorySystem/user">
+              <input type="hidden" name="action" value="viewUserInfo">
+
+              <label for="userID">userID:</label>
+              <input type="text" id="userID" required><br><br>
+
+              <button type="submit">View User Records</button>
+              <p id="viewMessage"></p>
+         
+          </form>
+        </section>
+      </main>
+    <script src="viewAllUsers.js"></script>
+  </body>
+
+</html>
