@@ -1,0 +1,72 @@
+<!--Update and delete items from the Inventory-->
+<!--PUT and DELETE Request from inventory Controller-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Inventory Management</title>
+        <link rel="stylesheet" href="../style.css">
+    </head>
+    <body>
+      <header>
+        <h2>Welcome to Inventory</h2>
+        <h3>Manage your Inventory here!</h3>
+      </header>
+
+        <main class="dashboard-sections">
+            <section>
+                <form id="UpdateItemPriceForm" action="/InventorySystem/inventory">
+
+                    <h4>Update Price</h4>
+                    <label for="priceUserID">userID:</label>
+                    <input type="text" id="priceUserID" required><br><br>
+
+                    <label for="priceItemID">ItemID:</label>
+                    <input type="text" id="priceItemID" required><br><br>
+
+                    <label for="newPrice">New Price:</label>
+                    <input type="number" id="newPrice" step="0.01" min="0" required><br><br>
+
+                    <button type="submit">Update Price</button>
+                    <p id="PriceMessage"></p>
+                    
+                </form>
+            </section>
+
+            <section>
+                <form id="UpdateStockForm" method="post" action="/InventorySystem/inventory">
+                    <h4>Update Stock</h4>
+                    <label for="StockUserID">userID:</label>
+                    <input type="text" id="StockUserID" name="userId" required><br><br>
+
+                    <label for="StockItemID">itemID:</label>
+                    <input type="text" id="StockItemID" name="itemId" required><br><br>
+
+                    <label for="newQuantity">New Quantity:</label>
+                    <input type="number" id="newQuantity" name="quantity" step="1" min="0" required><br><br>
+
+                    <button type="submit">Update Stock</button>
+                    <p id="StockMessage"></p>
+                    
+                </form>
+            </section>
+
+            <section>
+                <form id="DeleteItemForm" method="post" action="/InventorySystem/inventory">
+                    <h4>Delete item</h4>
+                    <label for="DeleteUserID">UserID:</label>
+                    <input type="text" id="DeleteUserID" name="userId" required><br><br>
+
+                    <label for="DeleteItemID">ItemID:</label>
+                    <input type="text" id="DeleteItemID" name="itemId" required><br><br>
+
+                    <button type="submit">Delete item</button>
+                    <p id="DeleteMessage"></p>
+                    
+                </form>
+            </section>
+        </main>
+
+        <script src="UpdateNDelete.js"></script>
+    </body>
+</html>
