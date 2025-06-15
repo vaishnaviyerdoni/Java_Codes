@@ -1,0 +1,45 @@
+<!--GET method from order item Controller-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta  charset="UTF-8">
+        <title>View Items</title>
+        <link rel="stylesheet" href="../style.css">
+    </head>
+    <body>
+      <header>
+        <h2>Welcome to Inventory</h2>
+        <h3>Manage your Orders here!</h3>
+      </header>
+
+        <main class="dashboard-sections">
+            <section id="viewItemsSection">
+                <form id="viewItemsForm" method="get" action="/InventorySystem/order">
+                    <h4>View Items by userID</h4>
+                    <label for="ViewItemsUserID">userID:</label>
+                    <input type="text" id="ViewItemsUserID" name="userId" required><br><br>
+
+                    <button type="submit">View</button>
+                    <p id="viewItemsMessage"></p>
+                    
+                </form>
+            </section>
+
+            <section id="viewByOrderIDSection">
+                <form id="viewItemsbyOrderIDForm" method="get" action="/InventorySystem/order">
+                    <h4>View all Items by OrderID</h4>
+                    <label for="viewUserID">userID:</label>
+                    <input type="text" id="viewUserID" name="userId" required><br><br>
+
+                    <label for="ViewOrderID">orderID:</label>
+                    <input type="text" id="ViewOrderID" name="orderId" required><br><br>
+
+                    <button type="submit">View</button>
+                    <p id="viewByOrderIDMessage"></p>
+                    
+                </form>
+            </section>
+        </main>
+        <script src="GetOrderItemsInfo.js"></script>
+    </body>
+</html>
