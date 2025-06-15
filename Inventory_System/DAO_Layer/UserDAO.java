@@ -167,7 +167,7 @@ public class UserDAO {
     //UPDATE method to update the Passcode.
     public boolean updatePassCode(int userId, String newPasscode, String name) throws SQLException, UserNotFoundException{
         String sql1 = "SELECT userName FROM Users where userId = ?";
-        String sql2 = "UPDATE Users SET Email = ? WHERE userId = ?";
+        String sql2 = "UPDATE Users SET PassCode = ? WHERE userId = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql1)){
             stmt.setInt(1, userId);
