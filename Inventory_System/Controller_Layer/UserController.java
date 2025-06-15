@@ -35,6 +35,7 @@ public class UserController extends HttpServlet{
         }
         catch(SQLException e){
             e.printStackTrace();
+            throw new ServletException("Failed to initialize UserController", e);
         }
     }
 
