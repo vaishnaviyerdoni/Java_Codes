@@ -22,5 +22,5 @@ if (role === "staff") {
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
   localStorage.removeItem("role");
-  window.location.href = "../User/login.html";
+  window.location.href = "../User/logout.html";
 });
