@@ -9,23 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const UserId = document.getElementById("DeleteUserID").value.trim();
 
         try{
-            const response = await fetch("/InventorySystem/user", {
-                method : "POST",
-                headers : {"Content-Type" : "application/x-www-form-urlencoded"},
-                body : new URLSearchParams({
-                    action : "AdminDeletesUser",
-                    AdminUserId,
-                    UserId
-                })
+            const response = await fetch(`/InventorySystem/user?action=AdminDeletesUser&AdminUserId=${encodeURIComponent(AdminUserId)}&UserId=${encodeURIComponent(UserId)}`, {
+                method : "DELETE"
             });
+        
 
             const result = await response.text();
-            if(response.ok && result.includes("User was deleted successfully!")){
-                alert("The user is deleted!");
-            }
-            else{
-                console.log(result);
-                document.getElementById("DeleteMessage").innerText = "Failed to delete User, try again later";
+            if (response.ok && result.toLowerCase().includes("deleted")) {
+                console.log("User deleted successfully!");
+            } else {
+                console.log("Failed to delete user");
+                console.log("Server response:", result);
             }
         }
         catch(error){

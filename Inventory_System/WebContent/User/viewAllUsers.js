@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p><strong>UserID:</strong> ${data.userId}</p>
                         <p><strong>UserName:</strong> ${data.userName}</p>
                         <p><strong>Email ID:</strong> ${data.email}</p>
-                        <p><strong>PassCode</strong> ${data.passCode}</p>
+                        <p><strong>PassCode</strong> ${data.passcode}</p>
                         <p><strong>Role:</strong> ${data.role}</p>
                         <hr>
                     `
@@ -34,7 +34,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             else{
-                document.getElementById("viewMessage").innerText = "Could not fetch data, try again later!";
+                const errorText = await response.text();
+                console.log("Server response:", errorText);
+                document.getElementById("viewMessage").innerText = "Customer cannot access the data!";
             }
         }
         catch(error){
