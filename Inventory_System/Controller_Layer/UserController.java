@@ -52,6 +52,10 @@ public class UserController extends HttpServlet{
                 List<User> users = userService.ReadAllUsers(userId);
                 response.getWriter().write(gson.toJson(users));
             }
+            else{
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"error\":\"Invalid action\"}");
+            }
         }
         catch(SQLException | NullPointerException e){
             e.printStackTrace();
@@ -171,7 +175,7 @@ public class UserController extends HttpServlet{
 
                 boolean isDeleted = userService.AdminDeletesUser(AdminUserId, UserId);
 
-                response.getWriter().write(isDeleted ? "User was deleled successfully!" : "Failed to delete user");   
+                response.getWriter().write(isDeleted ? "User was deleted successfully!" : "Failed to delete user");   
             }
             else if ("UserDeletesTheirAccount".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
