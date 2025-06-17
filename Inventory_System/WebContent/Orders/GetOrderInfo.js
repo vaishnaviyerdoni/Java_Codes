@@ -19,9 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 orderSection.innerHTML = "<h3>Order Info</h3>";
                 for(let i=0; i<OrderInfo.length; i++){
                     const data = OrderInfo[i];
+                    console.log("userId field:", data.userId);
+
                     const jsonData = `
                         <p><strong>OrderID:</strong>${data.orderId}</p>
-                        <p><strong>UserID:</strong>${data.userId}</p>
+                        <p><strong>UserID:</strong>${data.userId.userId}</p>
                         <p><strong>OrderDate:</strong>${data.orderDate}</p>
                         <p><strong>CustomerName:</strong>${data.customerName}</p>
                         <p><strong>Status:</strong>${data.orderStatus}</p>
@@ -47,7 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const orderId = document.getElementById("orderID").value.trim();
-        const userId = document.getElementById("viewUserID").value.trim();
+        const userId = document.getElementById("viewUserID").value.trim() || localStorage.getItem("userId");
+        
+        if (!orderId || !userId) {
+        document.getElementById("viewbyIDMessage").innerText = "Order ID and User ID are required.";
+        return;
+        }
+
+        console.log(" Fetching OrderID:", orderId, "| UserID:", userId);
 
         try{
             const res = await fetch(`/InventorySystem/order?action=viewByOrderId&orderId=${encodeURIComponent(orderId)}&userId=${encodeURIComponent(userId)}`, {
@@ -72,6 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             else{
+                const error = await res.text();
+                console.warn(" Server error:", error);
                 document.getElementById("viewbyIDMessage").innerText = "Failed to fetch data, try again later!";
             }
         }
@@ -86,21 +97,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ViewByUserIDForm.addEventListener("submit", async(e) => {
         e.preventDefault();
-        const userId = document.getElementById("viewPriceID").value.trim();
+        const userId = document.getElementById("viewPriceID").value.trim() || localStorage.getItem("userId");
         try{
             const res = await fetch(`/InventorySystem/order?action=viewByUserId&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
             })
+            if (!userId) {
+                document.getElementById("viewbyIDMessage").innerText = "User ID is required.";
+                return;
+            }
 
-            const orderbyUserID = await res.json();
+        console.log("UserID:", userId);
+
 
             if(res.ok){
+                const orderbyUserID = await res.json();
+
                 viewbyuserIDsection.innerHTML = "<h3>Order Information</h3>";
                 for(let i=0; i<orderbyUserID.length; i++){
                     const data = orderbyUserID[i];
                     const jsonDatabyUserID = `
                         <p><strong>OrderID:</strong>${data.orderId}</p>
-                        <p><strong>UserID:</strong>${data.userId}</p>
+                        <p><strong>UserID:</strong>${data.userId.userId}</p>
                         <p><strong>OrderDate:</strong>${data.orderDate}</p>
                         <p><strong>CustomerName:</strong>${data.customerName}</p>
                         <p><strong>Status:</strong>${data.orderStatus}</p>
@@ -111,6 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             }
             else{
+                const error = await res.text();
+                console.warn(" Server error:", error);
                 document.getElementById("viewByUserIDMessage").innerText = "Failed to fetch data, try again later!";
             }
         }
