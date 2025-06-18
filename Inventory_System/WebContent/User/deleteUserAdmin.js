@@ -17,9 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.text();
             if (response.ok && result.toLowerCase().includes("deleted")) {
                 console.log("User deleted successfully!");
+                document.getElementById("DeleteMessage").innerText = result;
+
             } else {
                 console.log("Failed to delete user");
-                console.log("Server response:", result);
+                document.getElementById("DeleteMessage").innerText = result;
             }
         }
         catch(error){
