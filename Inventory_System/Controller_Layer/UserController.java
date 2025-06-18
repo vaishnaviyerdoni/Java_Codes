@@ -75,6 +75,14 @@ public class UserController extends HttpServlet{
                 String email = request.getParameter("email");
                 String passCode = request.getParameter("passCode");
                 String roleUser = request.getParameter("roleUser");
+                System.out.println("userName: " + userName);
+                System.out.println("passCode: " + passCode);
+                System.out.println("email: " + email);
+                System.out.println("roleUser: " + roleUser);
+
+                System.out.println("isValidUserName: " + userService.isValiduserName(userName));
+                System.out.println("isValidPasscode: " + userService.isValidPasscode(passCode));
+
 
                 if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
                     String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
@@ -171,7 +179,7 @@ public class UserController extends HttpServlet{
             String action = request.getParameter("action");
             if("AdminDeletesUser".equals(action)){
                 int AdminUserId = Integer.parseInt(request.getParameter("AdminUserId"));
-                int UserId = Integer.parseInt(request.getParameter("DeleteUserId"));
+                int UserId = Integer.parseInt(request.getParameter("UserId"));
 
                 boolean isDeleted = userService.AdminDeletesUser(AdminUserId, UserId);
 

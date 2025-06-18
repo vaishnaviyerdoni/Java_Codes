@@ -236,15 +236,15 @@ public class UserDAO {
     //DELETE method to delete the specified user.
     public boolean deleteUser(int userId) throws SQLException{
         String sql = "DELETE FROM Users WHERE UserId = ?";
-            try(PreparedStatement stmt  = conn.prepareStatement(sql)){
-                stmt.setInt(1, userId);
-                int rows = stmt.executeUpdate();
-                if (rows > 0){
-                    return true;
-                }
-                else{
-                    return false;
-                }
+        try(PreparedStatement stmt  = conn.prepareStatement(sql)){
+            stmt.setInt(1, userId);
+            int rows = stmt.executeUpdate();
+            if (rows > 0){
+                return true;
+            }
+            else{
+                return false;
             }
         }
+    }
 }
