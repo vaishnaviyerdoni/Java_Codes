@@ -86,7 +86,7 @@ public class UserController extends HttpServlet{
 
                 if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
                     String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registrated Successfully" : "User Registration Failed");
+                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registered Successfully" : "User Registration Failed");
                 }
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

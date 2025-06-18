@@ -1,5 +1,5 @@
 console.log("🟢 register page is loading");
-document.addEventListener("DOMContentLoaded", () =>{
+document.addEventListener("DOMContentLoaded", () => {
     console.log("🟢 DOM ready");
     const form = document.getElementById("RegisterForm");
     form.addEventListener("submit", async(e) => {
@@ -26,7 +26,10 @@ document.addEventListener("DOMContentLoaded", () =>{
 
             const result = await res.text();
             if(res.ok && result.includes("User Registered Successfully")){
-                window.location.href = "../User/login.html";
+                alert("User registered successfully!");
+                setTimeout(() => {
+                    window.location.href = "../User/login.html";
+                }, 3000);
             }
             else{
                     document.getElementById("RegisterMessage").innerText = "Registration Failed, Check the credentials!";
