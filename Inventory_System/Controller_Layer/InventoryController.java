@@ -165,7 +165,7 @@ public class InventoryController extends HttpServlet{
 
                 boolean isUpdated = inventoryService.addToQuantity(itemId, userId, newQuantity);
                 
-                response.getWriter().write(isUpdated ? "Quantity Updated" : "Failed to Update quantity");
+                response.getWriter().write(isUpdated ? "Quantity Updated" : "Stock is sufficient, no update needed");
             }
             
             else{

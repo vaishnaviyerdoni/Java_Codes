@@ -18,7 +18,7 @@ public class OrderDAO {
     //Create method to place new orders, before placing order, the user must register themselves
     public int addOrderInDatabase(Order order) throws SQLException{
         String sql = "INSERT INTO Orders (userId, OrderDate, CustomerName, OrderStatus, total_Price) VALUES  (?,?,?,?,?)";
-        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+        try(PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             stmt.setInt(1, order.get_UserId().get_userId());
             stmt.setDate(2, new java.sql.Date((order.get_Orderdate().getTime())));
             stmt.setString(3, order.get_customerName());

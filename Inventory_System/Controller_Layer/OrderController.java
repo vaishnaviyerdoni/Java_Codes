@@ -186,14 +186,14 @@ public class OrderController extends HttpServlet {
 
 
                 int orderId = orderService.addOrder(0, userId, orderDate, customerName, "pending", totalPrice);
-                
+                System.out.println("Returned Order ID from DB: " + orderId);
                 Map<String, Object> myResponseMap = new HashMap<>();
                 if (orderId > 0){
-                    myResponseMap.put("OrderID: ", orderId);
-                    myResponseMap.put("Message: ", "Order Added, Now please enter the items you like to purchase!");
+                    myResponseMap.put("OrderID", orderId);
+                    myResponseMap.put("Message", "Order Added, Now please enter the items you like to purchase!");
                 }
                 else{
-                    myResponseMap.put("Message: ","Could not add Order, try again later!");
+                    myResponseMap.put("Message","Could not add Order, try again later!");
                 }
 
                 response.getWriter().write(gson.toJson(myResponseMap));
