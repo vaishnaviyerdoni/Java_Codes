@@ -5,7 +5,7 @@ if (!role || role !== "customer") {
     window.location.href = "../User/login.html";
 }
 
-document.getElementById("logoutBtn").addEventListener("click", ()=>{
-    localStorage.removeItem("role");
-    window.location.href = "../User/logout.html";
-})
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.clear();
+  window.location.href = "../User/logout.html";
+});

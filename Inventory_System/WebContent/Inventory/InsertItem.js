@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const itemName = document.getElementById("itemName").value.trim();
         const category = document.getElementById("Category").value.trim();
         const price = document.getElementById("price").value.trim();
+        const quantity = document.getElementById("quantity").value.trim();
         const LowStockThreshold = document.getElementById("LowStockThreshold").value.trim();
 
         try{
@@ -23,16 +24,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     itemName,
                     category,
                     price,
+                    quantity,
                     LowStockThreshold
                 })
             })
 
             const result = await response.text();
-            if(response.ok && result.includes("Item Added Successfully")){
+            if(response.ok && result.includes("Item Added successfully")){
                 alert("Item Added to the Inventory!");
             }
             else{
-                document.getElementById("InsertMessage").innerText = "Item could not be added to the Inventory!";
+                console.log(result)
+                document.getElementById("InsertMessage").innerText = result;
             }
         }
         catch(error){
