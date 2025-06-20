@@ -63,7 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 formforStock.reset();
             }
             else{
-                document.getElementById("StockMessage").innerText = "Failed to update stock, try again, later!";
+                console.log("Server response: ", result)
+                document.getElementById("StockMessage").innerText = result;
             }
         }
         catch(error){
@@ -80,14 +81,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const userId = document.getElementById("DeleteUserID").value.trim();
 
         try{
-            const response = await fetch("/InventorySystem/inventory", {
-                method : "POST",
-                headers : {"Content-Type" : "application/x-www-form-urlencoded"},
-                body : new URLSearchParams({
-                    action : "deleteItem",
-                    itemId,
-                    userId
-                })
+            const response = await fetch(`/InventorySystem/inventory?action=deleteItem&itemId=${encodeURIComponent(itemId)}&userId=${encodeURIComponent(userId)}`, {
+                method : "DELETE"
             })
 
             const result = await response.text();
@@ -95,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Item was deleted successfully!");
             }
             else{
+                console.log("Server response:", result)
                 document.getElementById("DeleteMessage").innerText = "Failed to delete item, try again later!";
             }
         }
