@@ -11,14 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const orderId = document.getElementById("orderID").value.trim();
 
         try{
-            const res = await fetch("/InventorySystem/order", {
-                method : "POST",
-                headers : {"Content-Type" : "application/x-www-form-urlencoded"},
-                body : new URLSearchParams({
-                    action : "AdminDeletesOrder",
-                    userId,
-                    orderId
-                })
+            const res = await fetch(`/InventorySystem/order?action=AdminDeletesOrder&userId=${userId}&orderId=${orderId}`, {
+                method : "DELETE"
             })
 
             const result = await res.text();
@@ -26,10 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Order deleted Successfully!");
             }
             else{
+                console.log("Server response: ", result);
                 document.getElementById("DeleteOrderMessage").innerText = "Failed to delete order, try again later!";
             }
         }
         catch(error){
+            console.log("Server response: ", result);
             console.error("Error occurred when deleting Order:", error);
             document.getElementById("DeleteOrderMessage").innerText = "Server Error, try again later!";
         }
@@ -43,14 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const itemsId = document.getElementById("ItemsID").value.trim();
 
         try{
-            const res = await fetch("/InventorySystem/order", {
-                method : "POST",
-                headers : {"Content-Type" : "application/x-www-form-urlencoded"},
-                body : new URLSearchParams({
-                    action : "AdminDeletesItem",
-                    userId,
-                    itemsId
-                })
+            const res = await fetch(`/InventorySystem/order?action=AdminDeletesItem&userId=${userId}&itemsId=${itemsId}`, {
+                method : "DELETE"
             })
 
             const result = await res.text();
@@ -58,10 +48,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Item deleted from Order!");
             }
             else{
+                console.log("Server response: ", result);
                 document.getElementById("DeleteItemMessage").innerText = "Failed to delete item from order!";
             }
         }
         catch(error){
+            console.log("Server response: ", result);
             console.error("Error occurred when deleting error", error);
             document.getElementById("DeleteItemMessage").innerText = "Server Error, try again later!";
         }

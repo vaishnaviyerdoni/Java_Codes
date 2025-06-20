@@ -1,76 +1,74 @@
-console.log("🟢 Page is loading, get ready to place orders");
-const placeOrder = document.getElementById("placeOrderForm");
+console.log("🟢 JS is loading");
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("🟢 DOM ready");
+    const placeOrder = document.getElementById("placeOrderForm");
 
-placeOrder.addEventListener("submit", async(e) => {
-    e.preventDefault();
-    const userId = document.getElementById("PlaceUserID").value.trim();
-    const orderDate = document.getElementById("orderDate").value.trim();
-    const customerName = document.getElementById("customerName").value.trim();
+    placeOrder.addEventListener("submit", async(e) => {
+    	e.preventDefault();
+    	const userId = document.getElementById("PlaceUserID").value.trim();
+    	const orderDate = document.getElementById("orderDate").value.trim();
+    	const customerName = document.getElementById("customerName").value.trim();
 
-    try{
-        const res = await fetch("/InventorySystem/order", {
-            method : "POST",
-            headers: {"Content-Type" : "application/x-www-form-urlencoded"},
-            body: new URLSearchParams({
-                action : "addOrder",
-                userId,
-                orderDate,
-                customerName,
-                totalPrice : "0.0"
-            })
-        });
+    	try{
+            const res = await fetch("/InventorySystem/order", {
+                method : "POST",
+                headers: {"Content-Type" : "application/x-www-form-urlencoded"},
+                body: new URLSearchParams({
+                    action : "addOrder",
+                    userId,
+                    orderDate,
+                    customerName,
+                    totalPrice : "0.0"
+                })
+            });
 
-        const result = await res.json();
-        if(res.ok && result.OrderID){
-            document.getElementById("placeOrderMessage").innerText = result.Message;
-            document.getElementById("itemsOrderID").value = result.OrderID;
+            const result = await res.json();
+            if(res.ok && result.OrderID){
+               document.getElementById("placeOrderMessage").innerText = result.Message;
+               document.getElementById("itemsOrderID").value = result.OrderID;
+            }
+            else{
+                document.getElementById("placeOrderMessage").innerText = result.Message || "Could not place the Order, try again later!";
+             }
+        }catch(error){
+            console.error("Error occurred when placing order:", error);
+            document.getElementById("placeOrderMessage").innerText = "Server Error try again later!";
+           }
+      })
+    
+      //This function reused to populate dropdowns
+      async function populateDropdown(select){
+         try{
+            //request to backend to gel all items
+            const res = await fetch("/InventorySystem/inventory?action=viewAll");
+            const items = await res.json();
+
+            //clear the existing options and add dafault 1st option
+            select.innerHTML = '<option value="">--Select value--</option>';
+
+            items.forEach(item => {
+                //create new option element
+                const option = document.createElement("option");
+                option.value = item.itemName;  //set value to item name
+                option.text = item.itemName;   //set visible text
+                select.appendChild(option);    //add append option to select
+            });
         }
-        else{
-            document.getElementById("placeOrderMessage").innerText = result.Message || "Could not place the Order, try again later!";
+        catch(error){
+            console.error("Error ocurred when populating dropdown:", error);
         }
     }
-    catch(error){
-        console.error("Error occurred when placing order:", error);
-        document.getElementById("placeOrderMessage").innerText = "Server Error try again later!";
-    }
-})
+    
+     //This will run when page is loaded
+     //It loops through all the existing dopdowns and populates them
+     const selects = document.getElementsByClassName("select-item");
+     //get all dropdowns
+     for(const select of selects){
+         populateDropdown(select);
+     }
 
-//This function can be reused to populate the dropdown
-async function populateDropdown(select){
-    try{
-        //request to backend to gel all items
-        const res = await fetch("/InventorySystem/inventory?action=viewAll");
-        const items = await res.json();
-
-        //clear the existing options and add dafault 1st option
-        select.innerHTML = '<option value="">--Select value--</option>';
-
-        items.forEach(item => {
-            //create new option element
-            const option = document.createElement("option");
-            option.value = item.itemName;  //set value to item name
-            option.text = item.itemName;   //set visible text
-            select.appendChild(option);    //add append option to select
-        });
-    }
-    catch(error){
-        console.error("Error ocurred when populating dropdown:", error);
-    }
-}
-
-//This will run when page is loaded
-//It loops through all the existing dopdowns and populates them
-window.addEventListener("DOMContentLoaded", async() => {
-    const selects = document.getElementsByClassName("select-item");
-
-    //get all dropdowns
-    for(const select of selects){
-        await populateDropdown(select);
-    }
-})
-
-//To handle another Item
-document.getElementById("addItem").addEventListener("click", async() => {
+     //To handle another Item
+     document.getElementById("addItem").addEventListener("click", async() => {
 
     //create new div to hold new item
     const newItemRow = document.createElement("div");
@@ -98,105 +96,105 @@ document.getElementById("addItem").addEventListener("click", async() => {
     const newSelect = newItemRow.querySelector(".select-item");
     await populateDropdown(newSelect);
     updateTotalPrice(); // Optional immediate refresh
-})
+   })
 
-//remove item from the form
-document.getElementById("itemsList").addEventListener("click", async(e) => {
+    //remove item from the form
+    document.getElementById("itemsList").addEventListener("click", async(e) => {
     if(e.target.classList.contains("removeItem")){
         const row = e.target.closest(".item-Row");
         if(document.querySelectorAll(".item-Row").length){
             row.remove();
             updateTotalPrice(); // Refresh total
+            }
         }
-    }
-})
+    })
+    
+    //to calculate subtotal
+    document.getElementById("itemsList").addEventListener("change", async(e) => {
+        const row = e.target.closest(".item-Row");
+        const select = row.querySelector(".select-item");
+        const quantityInput = row.querySelector('input[name="quantity"]');
+        const subtotalInput = row.querySelector("input[readonly]");
 
-//to calculate subtotal
-document.getElementById("itemsList").addEventListener("change", async(e) => {
-    const row = e.target.closest(".item-Row");
-    const select = row.querySelector(".select-item");
-    const quantityInput = row.querySelector('input[name="quantity"]');
-    const subtotalInput = row.querySelector("input[readonly]");
+        const itemName = select.value;
+        const quantity = parseInt(quantityInput.value);
 
-    const itemName = select.value;
-    const quantity = parseInt(quantityInput.value);
-
-    if(itemName && quantity > 0){
-        try{
-            const res = await fetch(`/InventorySystem/inventory?action=getPriceByItemName&itemName=${encodeURIComponent(itemName)}`);
-            const price = await res.json();
-            subtotalInput.value = (price * quantity).toFixed(2);
-            updateTotalPrice();
+        if(itemName && quantity > 0){
+            try{
+                const res = await fetch(`/InventorySystem/inventory?action=getPriceByItemName&itemName=${encodeURIComponent(itemName)}`);
+                const price = await res.json();
+                subtotalInput.value = (price * quantity).toFixed(2);
+                updateTotalPrice();
+            }
+            catch(error){
+                console.error("Failed to update subtotal:", error);
+            }
         }
-        catch(error){
-            console.error("Failed to update subtotal:", error);
-        }
-    }
-})
+    })
 
-//to calculate total
-function updateTotalPrice() {
-    const subtotals = document.querySelectorAll(".item-Row input[readonly]");
-    let total = 0;
+    //to calculate total
+    function updateTotalPrice() {
+        const subtotals = document.querySelectorAll(".item-Row input[readonly]");
+        let total = 0;
 
-    subtotals.forEach(input => {
-        const subtotal = parseFloat(input.value);
-        if (!isNaN(subtotal)) {
+        subtotals.forEach(input => {
+            const subtotal = parseFloat(input.value);
+            if (!isNaN(subtotal)) {
             total += subtotal;
-        }
-    });
-
-    document.getElementById("totalPrice").value = total.toFixed(2);
-}
-
-//to submit all items
-document.getElementById("addItemsToOrderForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const orderId = document.getElementById("itemsOrderID").value.trim();
-    const userId = document.getElementById("orderUserID").value.trim();
-    const itemRows = document.querySelectorAll(".item-Row");
-
-    let allSuccess = true;
-
-    for (const row of itemRows) {
-        const itemName = row.querySelector(".select-item").value;
-        const quantity = row.querySelector("input[name='quantity']").value;
-        const subtotal = row.querySelector("input[readonly]").value;
-
-        const params = new URLSearchParams({
-            action: "addItems",
-            orderId,
-            userId,
-            itemName,
-            quantity,
-            subtotal
+            }
         });
 
-        try {
-            const res = await fetch(".InventorySystem/order", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: params
+        document.getElementById("totalPrice").value = total.toFixed(2);
+    }
+
+    //to submit all items
+    document.getElementById("addItemsToOrderForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const orderId = document.getElementById("itemsOrderID").value.trim();
+        const userId = document.getElementById("orderUserID").value.trim();
+        const itemRows = document.querySelectorAll(".item-Row");
+
+        let allSuccess = true;
+
+        for (const row of itemRows) {
+            const itemName = row.querySelector(".select-item").value;
+            const quantity = row.querySelector("input[name='quantity']").value;
+            const subtotal = row.querySelector("input[readonly]").value;
+
+            const params = new URLSearchParams({
+                action: "addItems",
+                orderId,
+                userId,
+                itemName,
+                quantity,
+                subtotal
             });
 
-            const result = await res.text();
+            try {
+                const res = await fetch("/InventorySystem/order", {
+                   method: "POST",
+                   headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                   body: params
+                });
 
-            if (!res.ok || !result.includes("Order Placed")) {
+                const result = await res.text();
+
+                if (!res.ok || !result.includes("Order Placed")) {
+                    allSuccess = false;
+                    console.error("Error from server:", result);
+                }
+            } catch (error) {
                 allSuccess = false;
-                console.error("Error from server:", result);
+                console.error("Error adding item:", error);
             }
-        } catch (error) {
-            allSuccess = false;
-            console.error("Error adding item:", error);
         }
-    }
 
-    if (allSuccess) {
-        alert("Order placed successfully with all items!");
-        document.getElementById("AddItemMessage").innerText = "";
-    } else {
-        document.getElementById("AddItemMessage").innerText = "Some items failed to add. Please check.";
-    }
-});
-
+        if (allSuccess) {
+            alert("Order placed successfully with all items!");
+            document.getElementById("AddItemMessage").innerText = "";
+        } else {
+            document.getElementById("AddItemMessage").innerText = "Some items failed to add. Please check.";
+       }
+    });
+})
