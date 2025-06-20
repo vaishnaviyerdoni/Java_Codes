@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const orderId = document.getElementById("itemsOrderID").value.trim();
-        const userId = document.getElementById("orderUserID").value.trim();
+        const userId = document.getElementById("ordersUserID").value.trim();
         const itemRows = document.querySelectorAll(".item-Row");
 
         let allSuccess = true;
@@ -191,10 +191,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         if (allSuccess) {
+
+            const total = parseFloat(document.getElementById("totalPrice").value);
+
+            try{
+                const updatePriceResult = await fetch("/InventorySystem/order",{
+                    method : "PUT",
+                    headers : {"Content-Type" : "application/json"},
+                    body : JSON.stringify({
+                        action : "updateTotalPrice",
+                        price : total.toFixed(2),
+                        orderId,
+                        userId
+                    }) 
+                });
+                
+                const result = await res.text();
+                if(updatePriceResult.ok && result.includes("total price updated")){
+                    console.log("total Price updated!");
+                }
+                else{
+                    console.log("Failed to update the total price of an order!");
+                }
+            }
+            catch(error){
+                console.error("Price was not updated:", error);
+            }
+
             alert("Order placed successfully with all items!");
             document.getElementById("AddItemMessage").innerText = "";
         } else {
             document.getElementById("AddItemMessage").innerText = "Some items failed to add. Please check.";
-       }
+        }
     });
 })

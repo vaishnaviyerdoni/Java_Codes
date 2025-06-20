@@ -197,14 +197,19 @@ public class OrderDAO {
     }
 
     //Delete the Order
-    public void deleteOrder(int orderID) throws SQLException{
+    public boolean deleteOrder(int orderID) throws SQLException{
         String sql = "DELETE FROM Orders WHERE orderId = ?";
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setInt(1, orderID);
-            stmt.executeUpdate();
+            int rows = stmt.executeUpdate();
 
-            System.out.println("Your Order was deleted!");
+            if(rows > 0){
+                return true;
+            } 
+            else{
+                return false;
+            }
         }
     }
 }

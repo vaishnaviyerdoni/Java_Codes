@@ -152,7 +152,7 @@ public class OrderService {
         }
         catch(SQLException e){
             e.printStackTrace();
-            return true; //"Error occured when updating the price!";
+            return false; //"Error occured when updating the price!";
         }
     }
 
@@ -199,11 +199,13 @@ public class OrderService {
         try{
             String role = userDAO.getRole(userId);
             if(role.equalsIgnoreCase("admin")){
-                orderDAO.deleteOrder(orderId);
-                
-                return true; //"Order records Deleted!";
-            }
-            else{
+                if(orderDAO.deleteOrder(orderId)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }else{
                 throw new UserNotFoundException("Only Admin can delete order!");
             }
         }
