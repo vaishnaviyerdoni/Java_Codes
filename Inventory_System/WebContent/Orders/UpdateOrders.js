@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     statusChangeForm.addEventListener("submit", async(e) => {
         e.preventDefault();
         const userId = document.getElementById("AdminORStaffID").value.trim();
-        const customerId = document.getElementById("customerID").value.trim();
+        const customerId = document.getElementById("customerOrderID").value.trim();
         const status = document.getElementById("OrderStatus").value.trim();
 
         try{

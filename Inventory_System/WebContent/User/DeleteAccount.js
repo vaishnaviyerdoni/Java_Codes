@@ -10,14 +10,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const userName = document.getElementById("userName").value.trim();
 
         try{
-            const response = await fetch("/InventorySystem/user", {
-                method : "POST",
-                headers : {"Content-Type" : "application/x-www-form-urlencoded"},
-                body : new URLSearchParams({
-                    action : "UserDeletesTheirAccount",
-                    userId,
-                    userName
-                })
+            const response = await fetch(`/InventorySystem/user?action=UserDeletesTheirAccount&userId=${encodeURIComponent(userId)}&userName=${encodeURIComponent(userName)}`, {
+                method : "DELETE"
             });
 
             const result = await response.text();
