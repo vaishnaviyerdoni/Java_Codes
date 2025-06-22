@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await res.json();
             if(res.ok && result.UserID){
-                alert("Hell User, Your ID is" + result.UserID);
+                alert("Hello User, Your ID is " + result.UserID);
                 document.getElementById("RegisterMessage").innerText = result.Message;
                 setTimeout(() => {
                     window.location.href = "../User/login.html";
