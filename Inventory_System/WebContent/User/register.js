@@ -24,15 +24,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             });
 
-            const result = await res.text();
-            if(res.ok && result.includes("User Registered Successfully")){
-                alert("User registered successfully!");
+            const result = await res.json();
+            if(res.ok && result.UserID){
+                alert("Hell User, Your ID is" + result.UserID);
+                document.getElementById("RegisterMessage").innerText = result.Message;
                 setTimeout(() => {
                     window.location.href = "../User/login.html";
-                }, 3000);
+                }, 7000);
             }
             else{
-                    document.getElementById("RegisterMessage").innerText = "Registration Failed, Check the credentials!";
+                    document.getElementById("RegisterMessage").innerText = result.Message || "Registration Failed, Check the credentials!";
                 }
         }
         catch(error){

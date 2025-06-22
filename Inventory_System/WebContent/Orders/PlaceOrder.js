@@ -29,12 +29,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             else{
                 document.getElementById("placeOrderMessage").innerText = result.Message || "Could not place the Order, try again later!";
-             }
+            }
         }catch(error){
             console.error("Error occurred when placing order:", error);
             document.getElementById("placeOrderMessage").innerText = "Server Error try again later!";
            }
-      })
+        })
     
       //This function reused to populate dropdowns
       async function populateDropdown(select){
@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     }) 
                 });
                 
-                const result = await res.text();
+                const result = await updatePriceResult.text();
                 if(updatePriceResult.ok && result.includes("total price updated")){
                     console.log("total Price updated!");
                 }
