@@ -75,6 +75,7 @@ public class UserController extends HttpServlet{
                 String email = request.getParameter("email");
                 String passCode = request.getParameter("passCode");
                 String roleUser = request.getParameter("roleUser");
+                
                 System.out.println("userName: " + userName);
                 System.out.println("passCode: " + passCode);
                 System.out.println("email: " + email);
@@ -85,8 +86,19 @@ public class UserController extends HttpServlet{
 
 
                 if (userService.isValidPasscode(passCode) && userService.isValiduserName(userName)){
-                    String isRegistered = userService.registerUser(0, userName, email, passCode, roleUser);
-                    response.getWriter().write(isRegistered.equals("User Registered!") ? "User Registered Successfully" : "User Registration Failed");
+                    int userId = userService.registerUser(0, userName, email, passCode, roleUser);
+                    System.out.println("Returned userId from DB: " + userId );
+                    Map<String, Object> MyResMap = new HashMap<>();
+
+                    if(userId > 0){
+                       myResMap.put("UserID", userId);
+                       myResMap.put("Message", "User Registered. you can login!");
+                    }
+                    else{
+                        myResMap.put("Message", "Could not register user!");
+                    }
+
+                    response.getWriter().write(gson.toJson(myResMap));
                 }
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

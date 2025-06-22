@@ -15,28 +15,31 @@ public class UserDAO {
     }
 
     //CREATE method to add/register new Users.
-    public boolean addUser(User user) throws SQLException{
+    public int addUser(User user) throws SQLException{
         String sql = "INSERT INTO Users (UserName, email, passcode, roleUser) VALUES (?,?,?,?)";
         try{
-            try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            try(PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
                 stmt.setString(1, user.get_userName());
                 stmt.setString(2, user.get_email());
                 stmt.setString(3, user.get_passcode());
                 stmt.setString(4, user.get_role());
                 int rows = stmt.executeUpdate();
                 if (rows > 0){
-                    return true;
+                    try(ResultSet res = stmt.getGeneratedKeys()){
+                        if(res.next()){
+                            return res.getInt(1);
+                        }
+                    }
                 }
                 else{
-                    return false;
+                    return 0;
                 }
             }
         }
         catch(SQLServerException e){
             System.out.println("User name has to be unique!");
             System.out.println("Enter a new User name.");
-            return false;
-        }
+            return -1;
     }
 
     //READ method to fetch all the user records.

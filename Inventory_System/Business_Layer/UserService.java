@@ -18,7 +18,7 @@ public class UserService {
     }
 
     //to register the new users
-    public String registerUser(int userId, String userName, String email, String passcode, String roleUser) throws SQLException{
+    public int registerUser(int userId, String userName, String email, String passcode, String roleUser) throws SQLException{
         try{
             User user  = new User(userId, userName, email, passcode, roleUser);
             List<String> roles = userDAO.getUserRoles();
@@ -37,46 +37,31 @@ public class UserService {
             }
 
             if (roleUser.equalsIgnoreCase("customer")){
-                if(userDAO.addUser(user)){
-                    return "User Registered!";
-                }
-                else{
-                    return "Could not register User!";
-                }
+                return userDAO.addUser(user);
             }
             else if (roleUser.equalsIgnoreCase("admin")){
-                if (cntAdmin < 5){
-                    if (userDAO.addUser(user)){
-                        return "User Registered!";
-                    }
-                    else{
-                        return "Could not register User!";
-                    }
+                if(cntAdmin < 5){
+                    return userDAO.addUser(user);
                 }
                 else{
-                    return "Only 5 Admin registrations are allowed.";
+                    return 0;
                 }
             }
             else if (roleUser.equalsIgnoreCase("staff")){
                 if (cntStaff < 10){
-                    if (userDAO.addUser(user)){
-                        return "User Registered!";
-                    }
-                    else{
-                        return "Could not register User!";
-                    }
+                    return userDAO.addUser(user);
                 }
                 else{
-                    return "Only 10 Staff registrations are allowed.";
+                    return 0;
                 }
             }
             else{
-                return "The user must be admin, staff or customer";
+                return -1;
             }
         }
         catch(SQLException e){
             e.printStackTrace();
-            return "Error occurred when registering the user, Try again later";
+            return -1;
         }
     }
 
