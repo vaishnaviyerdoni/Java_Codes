@@ -176,7 +176,7 @@ public class OrderDAO {
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
             stmt.setDouble(1, newPrice);
             stmt.setInt(2, orderId);
-            stmt.executeQuery();
+            stmt.executeUpdate();
 
             System.out.println("price updated Successfully!");
             

@@ -29,6 +29,9 @@ public class UserDAO {
                         if(res.next()){
                             return res.getInt(1);
                         }
+                        else{
+                            return 0;
+                        }
                     }
                 }
                 else{
@@ -40,6 +43,7 @@ public class UserDAO {
             System.out.println("User name has to be unique!");
             System.out.println("Enter a new User name.");
             return -1;
+        }
     }
 
     //READ method to fetch all the user records.

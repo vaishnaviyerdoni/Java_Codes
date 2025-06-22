@@ -68,9 +68,12 @@ public class UserController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
-            response.setContentType("text/plain");
             String action = request.getParameter("action");
             if ("RegisterUser".equals(action)){ // for user registration
+
+                Gson gson = new Gson();
+                response.setContentType("application/json");
+
                 String userName = request.getParameter("userName");
                 String email = request.getParameter("email");
                 String passCode = request.getParameter("passCode");
@@ -91,14 +94,14 @@ public class UserController extends HttpServlet{
                     Map<String, Object> MyResMap = new HashMap<>();
 
                     if(userId > 0){
-                       myResMap.put("UserID", userId);
-                       myResMap.put("Message", "User Registered. you can login!");
+                       MyResMap.put("UserID", userId);
+                       MyResMap.put("Message", "User Registered. you can login!");
                     }
                     else{
-                        myResMap.put("Message", "Could not register user!");
+                        MyResMap.put("Message", "Could not register user!");
                     }
 
-                    response.getWriter().write(gson.toJson(myResMap));
+                    response.getWriter().write(gson.toJson(MyResMap));
                 }
                 else{
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -106,6 +109,9 @@ public class UserController extends HttpServlet{
                 }
             }
             else if ("isValidUser".equals(action)){ //for user login
+
+                response.setContentType("text/plain");
+
                 int userId = Integer.parseInt(request.getParameter("userId"));
                 String userName = request.getParameter("userName");
                 String roleUser = request.getParameter("roleUser");
