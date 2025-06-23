@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const BtntoDashboard = document.getElementById("gotoDashboard");
     if(BtntoDashboard){
         BtntoDashboard.addEventListener("click", ()=> {
-            const role = localStorage.getItem("roleUser");
+            const role = localStorage.getItem("role");
             if(role === "customer"){
                 window.location.href = "../dashboard/CustomerDashboard.html";
             }
