@@ -15,8 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await response.text();
-            if(response.ok && result.includes("Account deleted successfully!")){
-                alert("Account deleted!");
+            if(response.ok && result.toLowerCase().includes("account deleted successfully!")){
+                alert("Account deleted Successfully, redirecting you to User registration!");
+
+                setTimeout(() => {
+                    window.location.href = "../User/register.html";
+                }, 5000)
+
             }
             else{
                 document.getElementById("DeleteAccountMessage").innerText = "Account could not be deleted, try again later!";
