@@ -35,4 +35,25 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("UpdateEmailMessage").innerText = "Server Error, Try again later!";
         }
     })
+
+    const BtntoDashboard = document.getElementById("gotoDashboard");
+    if(BtntoDashboard){
+        BtntoDashboard.addEventListener("click", ()=> {
+            const role = localStorage.getItem("role");
+            if(role === "customer"){
+                window.location.href = "../dashboard/CustomerDashboard.html";
+            }
+
+            else if(role === "admin" || role === "staff"){
+                window.location.href = "../dashboard/AdminAndStaffDashboard.html";
+            }
+
+            else{
+                alert("role not found, redirecting to login!");
+                setTimeout(() => {
+                    window.location.href = "../User/login.html";
+                }, 5000)
+            }
+        })
+    }
 })
