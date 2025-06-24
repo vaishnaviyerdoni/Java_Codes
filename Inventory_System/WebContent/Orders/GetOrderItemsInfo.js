@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     viewItemsForm.addEventListener("submit", async(e) => {
         e.preventDefault();
-        const userId = document.getElementById("ViewItemsUserID").value.trim() || localStorage.getItem("userId");
+        const userId = document.getElementById("ViewItemsUserID").value.trim();
 
         try{
             const res = await fetch(`/InventorySystem/order?action=viewItems&userId=${encodeURIComponent(userId)}`, {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     viewItemsByOrderID.addEventListener("submit", async(e) => {
         e.preventDefault();
 
-        const userId = document.getElementById("viewUserID").value.trim() || localStorage.getItem("userId");
+        const userId = document.getElementById("viewUserID").value.trim();
         const orderId = document.getElementById("ViewOrderID").value.trim();
 
         try{

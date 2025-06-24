@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p><strong>UserID:</strong>${data.userId.userId}</p>
                         <p><strong>OrderDate:</strong>${data.orderDate}</p>
                         <p><strong>CustomerName:</strong>${data.customerName}</p>
-                        <p><strong>Status:</strong>${data.orderStatus}</p>
+                        <p><strong>Status:</strong>${data.status}</p>
                         <p><strong>Total Price</strong>${data.total_Price}</p>
                         <hr>
                     `
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         const orderId = document.getElementById("orderID").value.trim();
-        const userId = document.getElementById("viewUserID").value.trim();
+        const userId = document.getElementById("ViewUserIDforOrders").value.trim();
         
         if (!orderId || !userId) {
         document.getElementById("viewbyIDMessage").innerText = "Order ID and User ID are required.";
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <p><strong>UserID:</strong>${data.userId}</p>
                         <p><strong>OrderDate:</strong>${data.orderDate}</p>
                         <p><strong>CustomerName:</strong>${data.customerName}</p>
-                        <p><strong>Status:</strong>${data.orderStatus}</p>
+                        <p><strong>Status:</strong>${data.status}</p>
                         <p><strong>Total Price:</strong>${data.total_Price}</p>
                         <hr>
                     `
@@ -97,16 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     ViewByUserIDForm.addEventListener("submit", async(e) => {
         e.preventDefault();
-        const userId = document.getElementById("viewPriceID").value.trim();
+        const userId = document.getElementById("viewUserID").value.trim();
+        
+        if (!userId) {
+                document.getElementById("viewByUserIDMessage").innerText = "User ID is required.";
+                return;
+            }
+
         try{
             const res = await fetch(`/InventorySystem/order?action=viewByUserId&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
             })
-            if (!userId) {
-                document.getElementById("viewbyIDMessage").innerText = "User ID is required.";
-                return;
-            }
-
+            
         console.log("UserID:", userId);
 
 

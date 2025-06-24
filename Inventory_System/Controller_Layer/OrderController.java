@@ -61,7 +61,8 @@ public class OrderController extends HttpServlet {
                 String userIDStr = request.getParameter("userId");
                 if(userIDStr == null || userIDStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().write("{\"error\": \"Missing userId or orderId\"}");
+                    response.getWriter().write("{\"error\": \"Missing userId\"}");
+                    return;
                 }
                 int userId = Integer.parseInt(userIDStr);
                 List<Order> orders = orderService.getallOrders(userId);
@@ -72,30 +73,30 @@ public class OrderController extends HttpServlet {
                 String userIdStr = request.getParameter("userId");
                 String orderIdStr = request.getParameter("orderId");
 
-                if (orderIdStr == null || userIdStr == null){
+                if (orderIdStr == null || orderIdStr.trim().isEmpty() ||userIdStr == null || userIdStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Missing userId or orderId\"}");
+                    return;
                 }
 
                 int userId = Integer.parseInt(userIdStr);
                 int orderId = Integer.parseInt(orderIdStr); 
 
                 Order orders = orderService.viewOrderByID(orderId, userId);
-
                 response.getWriter().write(gson.toJson(orders));
             }
             else if ("viewByUserId".equals(action)){
                 String userIdStr = request.getParameter("userId");
 
-                if (userIdStr == null){
+                if (userIdStr == null || userIdStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Missing userId\"}");
+                    return;
                 }
                 
                 int userId = Integer.parseInt(userIdStr);
 
                 List<Order> orders = orderService.viewOrderByUserId(userId);
-
                 response.getWriter().write(gson.toJson(orders));
             }
             else if ("getPrice".equals(action)){
@@ -104,19 +105,20 @@ public class OrderController extends HttpServlet {
                 if(userIDStr == null || userIDStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Missing userId or orderId\"}");
+                    return;
                 }
                 int userId = Integer.parseInt(userIDStr);
 
                 Double totalPrice = orderService.getPricebyUserId(userId);
-
                 response.getWriter().write(gson.toJson(totalPrice));
             }
             else if ("viewItems".equals(action)){
                 String userIdStr = request.getParameter("userId");
 
-                if (userIdStr == null){
+                if (userIdStr == null || userIdStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Missing userId\"}");
+                    return;
                 }
 
                 int userId = Integer.parseInt(userIdStr);
@@ -128,16 +130,16 @@ public class OrderController extends HttpServlet {
                 String orderIdStr = request.getParameter("orderId");
                 String userIdStr = request.getParameter("userId");
 
-                if (orderIdStr == null || userIdStr == null){
+                if (orderIdStr == null || orderIdStr.trim().isEmpty() || userIdStr == null || userIdStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Missing userId or orderId\"}");
+                    return;
                 }
 
                 int userId = Integer.parseInt(userIdStr);
                 int orderId = Integer.parseInt(orderIdStr); 
 
                 List<OrderItem> itemsInOrder = orderItemService.getItemsbyOrderid(userId, orderId);
-
                 response.getWriter().write(gson.toJson(itemsInOrder));
             }
             else{
