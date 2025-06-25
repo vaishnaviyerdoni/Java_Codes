@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const data = OrderInfobyOrderID[i];
                     const jsonDatabyOrderID = `
                         <p><strong>OrderID:</strong>${data.orderId}</p>
-                        <p><strong>UserID:</strong>${data.userId}</p>
+                        <p><strong>UserID:</strong>${data.userId.userId}</p>
                         <p><strong>OrderDate:</strong>${data.orderDate}</p>
                         <p><strong>CustomerName:</strong>${data.customerName}</p>
                         <p><strong>Status:</strong>${data.status}</p>
