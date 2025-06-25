@@ -100,16 +100,16 @@ public class OrderController extends HttpServlet {
                 response.getWriter().write(gson.toJson(orders));
             }
             else if ("getPrice".equals(action)){
-                String userIDStr = request.getParameter("userId");
+                String orderIDStr = request.getParameter("orderId");
 
-                if(userIDStr == null || userIDStr.trim().isEmpty()){
+                if(orderIDStr == null || orderIDStrIDStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                    response.getWriter().write("{\"error\": \"Missing userId or orderId\"}");
+                    response.getWriter().write("{\"error\": \"Missing orderId\"}");
                     return;
                 }
-                int userId = Integer.parseInt(userIDStr);
+                int orderId = Integer.parseInt(orderIDStr);
 
-                Double totalPrice = orderService.getPricebyUserId(userId);
+                Double totalPrice = orderService.getPricebyOrderId(orderId);
                 response.getWriter().write(gson.toJson(totalPrice));
             }
             else if ("viewItems".equals(action)){

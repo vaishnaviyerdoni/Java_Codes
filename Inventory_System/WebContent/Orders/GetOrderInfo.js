@@ -148,10 +148,10 @@ document.addEventListener("DOMContentLoaded", () => {
     getPriceForm.addEventListener("submit", async(e) => {
         e.preventDefault();
 
-        const userId = document.getElementById("viewPriceID").value.trim();
+        const orderId = document.getElementById("viewPriceID").value.trim();
 
         try{
-            const res = await fetch(`/InventorySystem/order?action=getPrice&userId=${encodeURIComponent(userId)}`, {
+            const res = await fetch(`/InventorySystem/order?action=getPrice&orderId=${encodeURIComponent(orderId)}`, {
             method : "GET"
             })
 
