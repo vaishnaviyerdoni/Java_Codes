@@ -89,15 +89,17 @@ public class OrderService {
     }
 
     //Users who have placed Orders can have view their order by order id
-    public Order viewOrderByID(int orderId, int userId) throws SQLException, NullPointerException, UserNotFoundException {
+    public List<Order> viewOrderByID(int orderId, int userId) throws SQLException, NullPointerException, UserNotFoundException {
         try{
+            List<Order> orders = new ArrayList<>();
             Order order = null;
             if (orderDAO.isUserValid(userId)){
                 order = orderDAO.fetchOrderbyId(orderId);
 
                 int userid = order.get_UserId().get_userId();
                 if(userid == userId){
-                    return order;
+                    orders.add(order);
+                    return orders;
                 }
                 else{
                     throw new UserNotFoundException("User for " + userId + " not found!");
