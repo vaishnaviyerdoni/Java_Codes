@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     const data = ItemsInOrderInfo[i];
                     const jsonData = `
                         <p><strong>ItemsID:</strong>${data.itemsId}</p>
-                        <p><strong>OrderID:</strong>${data.orderId.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId.inventoryId}</p>
+                        <p><strong>OrderID:</strong>${data.OrderId.orderId}</p>
+                        <p><strong>InventoryID:</strong>${data.inventoryId.itemId}</p>
                         <p><strong>Quantity:</strong>${data.quantity}</p>
                         <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userId.userId}</p>
+                        <p><strong>userID:</strong>${data.userid.userId}</p>
                         <hr>
                     `
                     viewSection.innerHTML += jsonData;
@@ -67,14 +67,17 @@ document.addEventListener("DOMContentLoaded", () => {
                  const orderInfobyOrderId = await res.json();
                 viewItemsSection.innerHTML = "<h3>Order Information</h3>";
                 for (let i = 0; i < orderInfobyOrderId.length; i++){
+                    
                     const data = orderInfobyOrderId[i];
+                    console.log("Raw data:", data);
+
                     const jsonData = `
                         <p><strong>ItemsID:</strong>${data.itemsId}</p>
-                        <p><strong>OrderID:</strong>${data.orderId.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId.inventoryId}</p>
+                        <p><strong>OrderID:</strong>${data.OrderId.orderId}</p>
+                        <p><strong>InventoryID:</strong>${data.inventoryId.itemId}</p>
                         <p><strong>Quantity:</strong>${data.quantity}</p>
                         <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userId.userId}</p>
+                        <p><strong>userID:</strong>${data.userid.userId}</p>
                         <hr>
                     `
                     viewItemsSection.innerHTML += jsonData;
