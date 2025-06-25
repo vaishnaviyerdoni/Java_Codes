@@ -102,7 +102,7 @@ public class OrderController extends HttpServlet {
             else if ("getPrice".equals(action)){
                 String orderIDStr = request.getParameter("orderId");
 
-                if(orderIDStr == null || orderIDStrIDStr.trim().isEmpty()){
+                if(orderIDStr == null || orderIDStr.trim().isEmpty()){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("{\"error\": \"Missing orderId\"}");
                     return;

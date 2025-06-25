@@ -162,9 +162,7 @@ public class OrderService {
     public Double getPricebyOrderId(int orderId) throws SQLException {
         Double totalPrice = 0d;
         try{
-            if (orderDAO.isUserValid(userId)){
-                totalPrice = orderDAO.getPricebyOrder(orderId);
-            }
+            totalPrice = orderDAO.getPricebyOrder(orderId);
 
             return totalPrice;
         }

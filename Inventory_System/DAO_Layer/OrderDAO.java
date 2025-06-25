@@ -115,7 +115,7 @@ public class OrderDAO {
         Double priceTotal = 0d;
 
         try(PreparedStatement stmt = conn.prepareStatement(sql)){
-            stmt.setDouble(1, orderId);
+            stmt.setInt(1, orderId);
             try(ResultSet res = stmt.executeQuery()){
                 if(res.next()){
                     priceTotal = res.getDouble("total_Price");
