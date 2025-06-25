@@ -82,7 +82,7 @@ public class OrderController extends HttpServlet {
                 int userId = Integer.parseInt(userIdStr);
                 int orderId = Integer.parseInt(orderIdStr); 
 
-                Order orders = orderService.viewOrderByID(orderId, userId);
+                List<Order> orders = orderService.viewOrderByID(orderId, userId);
                 response.getWriter().write(gson.toJson(orders));
             }
             else if ("viewByUserId".equals(action)){
