@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await response.text();
-            if(response.ok && result.toLowerCase().includes("account deleted successfully!")){
+            if(response.ok && result.toLowerCase().includes("account deleted successfully")){
                 alert("Account deleted Successfully, redirecting you to User registration!");
 
                 setTimeout(() => {
