@@ -104,7 +104,7 @@ public class OrderItemService {
                 boolean isUpdated = orderItemDAO.UpdateQuantity(nQuantity, itemsId);
                 if(isUpdated){
                     if(orderItemDAO.updateSubtotal(inventoryId, itemsId)){
-                        if(inventoryDAO.updateForDeduction(inventoryId, nQuantity)){
+                        if(service.deductInventory(inventoryId, nQuantity)){
                             return true; // return true is quantity is updated and then subtotal is updated
                         }
                         else{
