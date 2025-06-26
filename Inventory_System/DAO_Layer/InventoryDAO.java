@@ -175,6 +175,23 @@ public class InventoryDAO {
         }
     }
 
+    //UPDATE method: update quantity after order is placed, so item can deducted from inventory
+    public boolean updateForDeduction(int itemId, int deductedQuantity) throws SQLException{
+        String sql = "UPDATE InventoryTable SET quantity = ? WHERE itemId = ?";
+        try(PreparedStatement stmt = conn.prepareStatement(sql)){
+            stmt.setInt(1, deductedQuantity);
+            stmt.setInt(2, itemId);
+
+            int rows = stmt.executeUpdate();
+            if(rows > 0){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+
     //UPDATE method: update price for given itemID
     public boolean updatePricebyItemId(int itemId, double newPrice) throws SQLException{
         String sql = "UPDATE InventoryTable SET price = ? WHERE itemId = ?";
