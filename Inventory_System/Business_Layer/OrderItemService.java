@@ -98,13 +98,19 @@ public class OrderItemService {
     }
 
     //Update the quantity and update subtotal
-    public boolean updateQuantityAndSubtotal(int itemsId, int inventoryId, int userId, int nQuantity) throws SQLException, UserNotFoundException {
+    public boolean updateQuantityAndSubtotal(int itemsId, int inventoryId, int userId, int nQuantity) throws SQLException, UserNotFoundException, ItemAbsentException {
         try{
             if(orderDAO.isUserValid(userId)){
                 boolean isUpdated = orderItemDAO.UpdateQuantity(nQuantity, itemsId);
                 if(isUpdated){
                     if(orderItemDAO.updateSubtotal(inventoryId, itemsId)){
-                        return true; // return true is quantity is updated and then subtotal is updated
+                        if(inventoryDAO.updateForDeduction(inventoryId, nQuantity)){
+                            return true; // return true is quantity is updated and then subtotal is updated
+                        }
+                        else{
+                            throw new ItemAbsentException("Failed to update inventory!");
+                        }
+                            
                     }
                     else{
                         return false; // return false if quantity is updated, but subtotal is not updated

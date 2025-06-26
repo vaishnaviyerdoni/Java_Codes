@@ -213,7 +213,7 @@ public class InventoryService{
         int UpdatedQuantity = oldQuantity - newQuantity;
 
         try{
-            if(inventoryDAO.updateItembyQuantity(itemId, UpdatedQuantity)){
+            if(inventoryDAO.updateForDeduction(itemId, UpdatedQuantity)){
                 return true;
             }
             else{

@@ -2,9 +2,11 @@ package Inventory_System.Business_Layer;
 
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.UserDAO;
+import Inventory_System.Exceptions.InvalidPasscodeException;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.User;
 import java.util.*;
+import java.security.InvalidParameterException;
 import java.sql.*;
 
 
@@ -97,16 +99,21 @@ public class UserService {
     }
 
     //update the passcode if username is correct
-    public boolean updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException, UserNotFoundException {
+    public boolean updatePasscodeIfuserNameExists(int userId, String nPasscode, String username) throws SQLException, UserNotFoundException, InvalidPasscodeException {
         
         try{
             String name = userDAO.getUsername(userId);
             if (name.equals(username)){
-                if(userDAO.updatePassCode(userId, nPasscode, name)){
+                if(isValidPasscode(nPasscode)){
+                    if(userDAO.updatePassCode(userId, nPasscode, name)){
                     return true; //"Passcode Updated!";
+                    }
+                    else{
+                        return false; //"Passcode was not updated!";
+                    }
                 }
                 else{
-                    return false; //"Passcode was not updated!";
+                    throw new InvalidPasscodeException("Passcode should between 8 to 15 characters");
                 }
             }
             else{
