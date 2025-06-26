@@ -222,6 +222,7 @@ public class OrderController extends HttpServlet {
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 
@@ -277,10 +278,11 @@ public class OrderController extends HttpServlet {
                 response.getWriter().write("{\"error\" : \"Incoorect method to update the information\"}");
             }
         }
-        catch(SQLException | UserNotFoundException e){
+        catch(SQLException | UserNotFoundException | ItemAbsentException e){
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
      
@@ -314,6 +316,7 @@ public class OrderController extends HttpServlet {
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_GATEWAY);
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 }

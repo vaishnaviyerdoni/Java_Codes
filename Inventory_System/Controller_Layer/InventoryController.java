@@ -96,7 +96,7 @@ public class InventoryController extends HttpServlet{
         catch(SQLException | NullPointerException | ItemAbsentException e){
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
-            response.getWriter().write("{\"error\":\"Something Went Wrong\"}");
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 
@@ -104,7 +104,7 @@ public class InventoryController extends HttpServlet{
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         try{
-
+            response.setContentType("text/plain");
             String action = request.getParameter("action");
             if ("AddItemToInventory".equals(action)){
                 int userId = Integer.parseInt(request.getParameter("userId"));
@@ -122,7 +122,7 @@ public class InventoryController extends HttpServlet{
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR); 
-            response.getWriter().write("{\"error\":\"Something Went Wrong\"}");
+            response.getWriter().write(e.getMessage());
         }
     }
     
@@ -177,7 +177,7 @@ public class InventoryController extends HttpServlet{
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\" : \"Something went wrong\"}");
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 
@@ -202,7 +202,7 @@ public class InventoryController extends HttpServlet{
         catch(SQLException | UserNotFoundException e){
             e.printStackTrace();
             System.err.println(e.getMessage());
-            response.getWriter().write("{\"error\": \"Something went wrong!\"}");
+            response.getWriter().write(e.getMessage());
         }
     }
 }

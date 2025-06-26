@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import Inventory_System.Business_Layer.UserService;
 import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.UserDAO;
+import Inventory_System.Exceptions.InvalidPasscodeException;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.User;
 
@@ -60,7 +61,7 @@ public class UserController extends HttpServlet{
         catch(SQLException | NullPointerException e){
             e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\" : \"Something went wrong\"}");
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 
@@ -182,11 +183,11 @@ public class UserController extends HttpServlet{
                 response.getWriter().write("{\"error\" : \"Invalid method to update user information!\"}");
             }
         }
-        catch(SQLException | UserNotFoundException e){
+        catch(SQLException | UserNotFoundException | InvalidPasscodeException e){
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\" : \"Someting wnet wring when updating user information\"}");
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 
@@ -220,7 +221,7 @@ public class UserController extends HttpServlet{
             e.printStackTrace();
             System.err.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\" : \"Sonething went wrong!\"}");
+            response.getWriter().write("{\"error\": \"" + e.getMessage().replace("\"", "'") + "\"}");
         }
     }
 }
