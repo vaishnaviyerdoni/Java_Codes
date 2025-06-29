@@ -36,43 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    const formforStock = document.getElementById("UpdateStockForm");
-    formforStock.addEventListener("submit", async(e) => {
-        e.preventDefault();
-
-        const itemId = document.getElementById("StockItemID").value.trim();
-        const userId = document.getElementById("StockUserID").value.trim();
-        const newQuantity = document.getElementById("newQuantity").value.trim();
-
-        try{
-            const response = await fetch("/InventorySystem/inventory", {
-                method : "PUT",
-                headers : {"Content-Type" : "application/json"},
-                body : JSON.stringify({
-
-                    action : "addtoQuantity",
-                    itemId,
-                    userId,
-                    newQuantity
-                })
-            })
-
-            const result = await response.text();
-            if(response.ok && result.includes("Quantity Updated")){
-                alert("Stock Updated succesfully!");
-                formforStock.reset();
-            }
-            else{
-                console.log("Server response: ", result)
-                document.getElementById("StockMessage").innerText = result;
-            }
-        }
-        catch(error){
-            console.error("Error while updating stock:", error);
-            document.getElementById("StockMessage").innerText = "Server Error, Try again later!";
-        }
-    })
-
     const formforDeleteItem = document.getElementById("DeleteItemForm");
     formforDeleteItem.addEventListener("submit", async(e) => {
         e.preventDefault();
