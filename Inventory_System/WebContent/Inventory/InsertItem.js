@@ -3,6 +3,11 @@ console.log("🟢 InsertItem page loading");
 document.addEventListener("DOMContentLoaded", () => {
     console.log("🟢 DOM ready");
 
+    const userIDfromStorage =  localStorage.getItem("userId");
+    if(userID){
+        document.getElementById("userID").value = userIDfromStorage;
+    }
+
     const form = document.getElementById("InsertItemsForm");
     form.addEventListener("submit", async(e) => {
         e.preventDefault();
