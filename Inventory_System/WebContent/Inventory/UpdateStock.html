@@ -1,0 +1,36 @@
+<!--Update the Item stock in inventory-->
+<!--PUT request to update the inventory-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Update Stock</title>
+        <link rel="stylesheet" href="../stylesheet.css">
+    </head>
+    <body>
+        <header>
+            <h2>Welcome to Inventory</h2>
+            <h3>Manage your Inventory here!</h3>
+        </header>
+        <main class="dashboard-sections">
+            <section>
+                <form id="UpdateStockForm" method="post" action="/InventorySystem/inventory">
+                    <h4>Update Stock</h4>
+                    <label for="StockUserID">userID:</label>
+                    <input type="text" id="StockUserID" name="userId" required><br><br>
+
+                    <label for="StockItemID">itemID:</label>
+                    <input type="text" id="StockItemID" name="itemId" required><br><br>
+
+                    <label for="newQuantity">New Quantity:</label>
+                    <input type="number" id="newQuantity" name="quantity" step="1" min="0" required><br><br>
+
+                    <button type="submit">Update Stock</button>
+                    <p id="StockMessage"></p>
+                </form>
+            </section>
+        </main>
+        <button id="gotoDashboard" class="top-right-btn">Go back to Dashboard</button>
+        <script src="UpdateStock.js"></script>
+    </body>
+</html>
