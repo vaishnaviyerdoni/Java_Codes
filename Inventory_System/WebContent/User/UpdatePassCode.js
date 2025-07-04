@@ -28,7 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("PassCode Updated Successfully!");
             }
             else{
-                document.getElementById("UpdatePasscodeMessage").innerText = "Failed to update PassCode, try again later!";
+                const errorMessage = await response.json();
+                console.log("Error:", errorMessage);
+                document.getElementById("UpdatePasscodeMessage").innerText = errorMessage.error;
             }
         }
         catch(error){

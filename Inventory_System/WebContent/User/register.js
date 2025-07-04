@@ -33,11 +33,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 }, 7000);
             }
             else{
-                    document.getElementById("RegisterMessage").innerText = result.Message || "Registration Failed, Check the credentials!";
+                const errorMessage = await res.json();
+                document.getElementById("RegisterMessage").innerText = errorMessage.error;
                 }
         }
         catch(error){
-            console.error("Login error", error);
+            console.error("Register error", error);
             document.getElementById("RegisterMessage").innerText = "Server Error, Try again later!";
         }
     })

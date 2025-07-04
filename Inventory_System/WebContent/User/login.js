@@ -45,7 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     window.location.href = "/InventorySystem/dashboard/CustomerDashboard.html";
                 }
             } else {
-                document.getElementById("LoginMessage").innerText = "Login failed. Check your credentials.";
+                const error = await res.text();
+                console.log("Error while login :", error);
+                document.getElementById("LoginMessage").innerText = error, "Login failed. Check your credentials.";
             }
         } catch (err) {
             console.error("Login error:", err);

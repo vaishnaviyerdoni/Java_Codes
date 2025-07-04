@@ -20,8 +20,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("DeleteMessage").innerText = result;
 
             } else {
-                console.log("Failed to delete user");
-                document.getElementById("DeleteMessage").innerText = result;
+                const errorMessage = await response.json();
+                console.log("Failed to delete user:", errorMessage);
+                document.getElementById("DeleteMessage").innerText = errorMessage.error;
             }
         }
         catch(error){

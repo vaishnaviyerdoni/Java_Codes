@@ -24,7 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
             else{
-                document.getElementById("DeleteAccountMessage").innerText = "Account could not be deleted, try again later!";
+                const errorMessage = await response.json();
+                console.log(errorMessage);
+                document.getElementById("DeleteAccountMessage").innerText = errorMessage.error;
             }
         }
         catch(error){

@@ -3,13 +3,15 @@ console.log("🟢 JS is loading");
 document.addEventListener("DOMContentLoaded", () => {
     console.log("🟢 DOM ready");
 
-    const userInfoSection = document.getElementById("userInfoSection");
     const form = document.getElementById("ViewUsers");
     form.addEventListener("submit", async(e) => {
         e.preventDefault();
 
         const userId = document.getElementById("userID").value.trim();
-        
+        if (!userId) {
+            document.getElementById("viewMessage").innerText = "Please enter a User ID!";
+        return;
+        }
         try{
             const response = await fetch(`/InventorySystem/user?action=viewUserInfo&userId=${encodeURIComponent(userId)}`, {
                 method : "GET"
@@ -17,26 +19,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if(response.ok){
                 const userInfo = await response.json();
-                userInfoSection.innerHTML = "<h3>User Information</h3>";
+                console.log(userInfo);
 
-                for (let i = 0; i < userInfo.length; i++){
-                    const data = userInfo[i];
+                if(userInfo.length === 0){
+                    document.getElementById("viewAllUsersTable") = "<p>User Information Not available!what </p>";
+                }
+                else{
+                    let Table = `
+                        <table border="1" cellpadding="8" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>UserID</th>
+                              <th>User Name</th>
+                              <th>Email ID</th>
+                              <th>PassCode</th>
+                              <th>Role</th>
+                            </tr>
+                    `;
 
-                    const jsonData = `
-                        <p><strong>UserID:</strong> ${data.userId}</p>
-                        <p><strong>UserName:</strong> ${data.userName}</p>
-                        <p><strong>Email ID:</strong> ${data.email}</p>
-                        <p><strong>PassCode</strong> ${data.passcode}</p>
-                        <p><strong>Role:</strong> ${data.role}</p>
-                        <hr>
-                    `
-                    userInfoSection.innerHTML += jsonData;
+                    userInfo.forEach(data => {
+                        Table += `
+                            <tr>
+                              <td>${data.userId}</td>
+                              <td>${data.userName}</td>
+                              <td>${data.email}</td>
+                              <td>${data.passcode}</td>
+                              <td>${data.role}</td>
+                            </tr>
+                        `;
+                    });
+
+                    Table += "</tbody></table>";
+                    document.getElementById("viewAllUsersTable").innerHTML = Table;
                 }
             }
             else{
-                const errorText = await response.text();
-                console.log("Server response:", errorText);
-                document.getElementById("viewMessage").innerText = "Customer cannot access the data!";
+                const errorMessage = await response.json();
+                console.log("Server response:", errorMessage);
+                document.getElementById("viewMessage").innerText = errorMessage.error;
             }
         }
         catch(error){

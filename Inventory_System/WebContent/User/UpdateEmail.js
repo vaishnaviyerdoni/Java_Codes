@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Email Updated!");
             }
             else{
-                document.getElementById("UpdateEmailMessage").innerText = "Failed to update Email!";
+                const errorMessage = await response.json();
+                console.log(errorMessage);
+                document.getElementById("UpdateEmailMessage").innerText = errorMessage.error;
             }
         }
         catch(error){
