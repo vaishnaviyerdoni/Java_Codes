@@ -3,13 +3,11 @@ console.log("🟢 JS is loading");
 document.addEventListener("DOMContentLoaded", () => {
     console.log("🟢 DOM ready");
 
-    const viewSection = document.getElementById("getItemsSection");
     const formToViewAll = document.getElementById("ViewAllItemsForm");
 
     formToViewAll.addEventListener("submit", async (e) => {
         e.preventDefault();
-        viewSection.innerHTML = "<p>Loading...</p>";
-
+        
         try {
             const response = await fetch("/InventorySystem/inventory?action=viewAll", {
                 method: "GET"
@@ -17,38 +15,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (response.ok) {
                 const items = await response.json();
-                viewSection.innerHTML = "<h3>Inventory Information</h3>";
+                if(items.length === 0){
+                    document.getElementById("AllItemsTable").innerHTML = "<p> No Items found </p>";
+                }
+                else{
+                    let Table = `
+                        <table border="1" cellpadding="8" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Item ID</th>
+                              <th>Item Name</th>
+                              <th>Category</th>
+                              <th>Price</th>
+                              <th>Quantity</th>
+                              <th>Low Stock Threshold</th>
+                            </tr>
+                          </thead>
+                        <tbody>
+                    `;
 
-                items.forEach(data => {
-                    viewSection.innerHTML += `
-                        <div class="inventory-item">
-                            <p><strong>ItemID:</strong> ${data.itemId}</p>
-                            <p><strong>ItemName:</strong> ${data.itemName}</p>
-                            <p><strong>Category:</strong> ${data.category}</p>
-                            <p><strong>Price:</strong> ${data.price}</p>
-                            <p><strong>Quantity:</strong> ${data.quantity}</p>
-                            <p><strong>LowStockThreshold:</strong> ${data.LowStockThreshold}</p>
-                            <hr>
-                        </div>
+                    items.forEach(data => {
+                    Table += `
+                        <tr>
+                          <td>${data.itemId}</td>
+                          <td>${data.itemName}</td>
+                          <td>${data.category}</td>
+                          <td>${data.price}</td>
+                          <td>${data.quantity}</td>
+                          <td>${data.LowStockThreshold}</td>
+                        </tr>
                     `;
                 });
-            } else {
-                document.getElementById("viewItemMessage").innerText = "Could not fetch the data, try again later!";
+
+                    Table += "</tbody></table>";
+                    console.log("AllItemsTable exists?", document.getElementById("AllItemsTable"));
+                    document.getElementById("AllItemsTable").innerHTML = Table;
+                }
+            } 
+            else {
+                const errorMessage = await response.json();
+                document.getElementById("viewItemMessage").innerText = errorMessage.error;
+                return;
             }
         } catch (error) {
-            console.error("Error occurred when obtaining data", error);
+            console.error("Error occurred when obtaining data: ", error);
             document.getElementById("viewItemMessage").innerText = "Server Error, try again later!";
         }
     });
 
-    const viewCategorySection = document.getElementById("getByCategory");
     const formToViewByCategory = document.getElementById("viewByCategoryForm");
 
     formToViewByCategory.addEventListener("submit", async (e) => {
         e.preventDefault();
         const category = document.getElementById("ItemsByCategory").value.trim();
-        viewCategorySection.innerHTML = "<p>Loading...</p>";
-
+       
         try {
             const res = await fetch(`/InventorySystem/inventory?action=viewByCategory&category=${encodeURIComponent(category)}`, {
                 method: "GET"
@@ -56,23 +76,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (res.ok) {
                 const items = await res.json();
-                viewCategorySection.innerHTML = "<h3>Inventory Information</h3>";
-
-                items.forEach(data => {
-                    viewCategorySection.innerHTML += `
-                        <div class="inventory-item">
-                            <p><strong>ItemID:</strong> ${data.itemId}</p>
-                            <p><strong>ItemName:</strong> ${data.itemName}</p>
-                            <p><strong>Category:</strong> ${data.category}</p>
-                            <p><strong>Price:</strong> ${data.price}</p>
-                            <p><strong>Quantity:</strong> ${data.quantity}</p>
-                            <p><strong>LowStockThreshold:</strong> ${data.LowStockThreshold}</p>
-                            <hr>
-                        </div>
+                if (items.length === 0){
+                    document.getElementById("viewCategorymessage").innerHTML = "<p>No information found!</p>";
+                }
+                else{
+                    let Table = `
+                        <table border="1" cellpadding="8" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <th>Item ID</th>
+                              <th>Item Name</th>
+                              <th>Category</th>
+                              <th>Price</th>
+                              <th>Quantity</th>
+                              <th>Low Stock Threshold</th>
+                            </tr>
+                          </thead>
+                        <tbody>
                     `;
-                });
+
+                    items.forEach(data => {
+                    Table += `
+                        <tr>
+                          <td>${data.itemId}</td>
+                          <td>${data.itemName}</td>
+                          <td>${data.category}</td>
+                          <td>${data.price}</td>
+                          <td>${data.quantity}</td>
+                          <td>${data.LowStockThreshold}</td>
+                        </tr>
+                    `;
+                    });
+
+                    Table += "</tbody></table>";
+                    console.log("AllItemsTable exists?", document.getElementById("viewCategorymessage"));
+                    document.getElementById("viewCategorymessage").innerHTML = Table;
+                }
             } else {
-                document.getElementById("viewCategorymessage").innerText = "Could not fetch data, try again later!";
+                const errorMessage = await response.json();
+                document.getElementById("viewCategorymessage").innerText = errorMessage.error;
             }
         } catch (error) {
             console.error("Error occurred while fetching data:", error);
@@ -101,7 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p><strong>Price:</strong> ${price}</p>
                 `;
             } else {
-                document.getElementById("PriceMessage").innerText = "Failed to retrieve price, try again later!";
+                const errorMessage = await response.json();
+                document.getElementById("PriceMessage").innerText = errorMessage.error;
             }
         } catch (error) {
             console.error("Error occurred when retrieving price:", error);

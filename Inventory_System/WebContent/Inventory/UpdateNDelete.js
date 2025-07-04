@@ -28,10 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Price is updated!");
             }
             else{
-                document.getElementById("PriceMessage").innerText = "Failed to update the price, try again later!";
+                console.log(result)
+                document.getElementById("PriceMessage").innerText = result;
             }
         }
         catch(error){
+            console.error("Failed to insert item:", error);
             document.getElementById("PriceMessage").innerText = "Server Error, try again later!";
         }
     })
@@ -53,8 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Item was deleted successfully!");
             }
             else{
-                console.log("Server response:", result)
-                document.getElementById("DeleteMessage").innerText = "Failed to delete item, try again later!";
+                const errorMessage = await response.json();
+                console.log("Server response:", errorMessage);
+                document.getElementById("DeleteMessage").innerText = errorMessage.error;
             }
         }
         catch(error){
