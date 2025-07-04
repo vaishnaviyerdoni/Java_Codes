@@ -23,11 +23,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
                 alert("The total price of an order is updated!");
             }
             else{
-                document.getElementById("updatePriceMessage").innerText = "Failed to update the total price of an order!";
+                const errorMessage = await res.json();
+                console.log(errorMessage);
+                document.getElementById("updatePriceMessage").innerText = errorMessage.error;
             }
         }
         catch(error){
-            console.error("Error occurred when updating error:", error);
+            console.log("Error occurred when updating error:", error);
             document.getElementById("updatePriceMessage").innerText = "Server error, try again later!";
         }
     })

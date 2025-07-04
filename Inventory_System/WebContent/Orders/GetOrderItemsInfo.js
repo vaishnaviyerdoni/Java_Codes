@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("🟢 DOM is loading");
 
     const viewItemsForm = document.getElementById("viewItemsForm");
-    const viewSection = document.getElementById("viewItemsSection");
 
     viewItemsForm.addEventListener("submit", async(e) => {
         e.preventDefault();
@@ -16,42 +15,54 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if(res.ok){
                 const ItemsInOrderInfo = await res.json();
-                viewSection.innerHTML = "<h3>Items Information</h3>";
-                for (let i = 0; i < ItemsInOrderInfo.length; i++){
-                    const data = ItemsInOrderInfo[i];
-                    const jsonData = `
-                        <p><strong>ItemsID:</strong>${data.itemsId}</p>
-                        <p><strong>OrderID:</strong>${data.OrderId.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId.itemId}</p>
-                        <p><strong>Quantity:</strong>${data.quantity}</p>
-                        <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userid.userId}</p>
-                        <hr>
-                    `
-                    viewSection.innerHTML += jsonData;
+                console.log(ItemsInOrderInfo);
+
+                if(ItemsInOrderInfo.length === 0){
+                    document.getElementById("viewAllItemsTable").innerHTML = "<p>The information is not available</p>"
+                }
+                else{
+                    let Table = `
+                        <table border="1" cellspacing="0" cellpadding="8">
+                          <thead>
+                            <tr>
+                              <th>ItemsID</th>
+                              <th>OrderID</th>
+                              <th>InventoryID</th>
+                              <th>Quantity</th>
+                              <th>Subtotal</th>
+                              <th>UserID</th>
+                    `;
+
+                    ItemsInOrderInfo.forEach(data => {
+                        Table =+ `
+                            <tr>
+                                <td>${data.itemsId}</td>
+                                <td>${data.OrderId.orderId}}</td>
+                                <td>${data.inventoryId.itemId}</td>
+                                <td>${data.quantity}</td>
+                                <td>${data.subtotal}</td>
+                                <td>${data.userid.userId}</td>
+                        `;
+                    });
+
+                    Table += "</tbody></table>";
+                    document.getElementById("viewAllItemsTable").innerHTML = Table;
                 }
             }
             else{
-                const errorText = await res.text();
-                console.warn("Server response:", errorText);
-                if (errorText.includes("Customer cannot view this information")){
-                    document.getElementById("viewItemsMessage").innerText = "Access Denied: Customers are not allowed to view the data!";
-                }
-                else{
-                    document.getElementById("viewItemsMessage").innerText = "Failed to fetch data, try again later!";
-                }
-                    
+                const errorText = await res.json();
+                console.log("Server response:", errorText);
+                document.getElementById("viewItemsMessage").innerText = errorText.error;
             }
         }
         catch(error){
-            console.error("Error occurred while fetching data:", error);
+            console.log("Error occurred while fetching data:", error);
             document.getElementById("viewItemsMessage").innerText = "Server Error, try again later!";
         }
     })
 
     const viewItemsByOrderID = document.getElementById("viewItemsbyOrderIDForm");
-    const viewItemsSection = document.getElementById("viewByOrderIDSection");
-
+    
     viewItemsByOrderID.addEventListener("submit", async(e) => {
         e.preventDefault();
 
@@ -64,33 +75,50 @@ document.addEventListener("DOMContentLoaded", () => {
             })
 
             if(res.ok){
-                 const orderInfobyOrderId = await res.json();
-                viewItemsSection.innerHTML = "<h3>Order Information</h3>";
-                for (let i = 0; i < orderInfobyOrderId.length; i++){
-                    
-                    const data = orderInfobyOrderId[i];
-                    console.log("Raw data:", data);
+                const orderInfobyOrderId = await res.json();
+                console.log(orderInfobyOrderId);
 
-                    const jsonData = `
-                        <p><strong>ItemsID:</strong>${data.itemsId}</p>
-                        <p><strong>OrderID:</strong>${data.OrderId.orderId}</p>
-                        <p><strong>InventoryID:</strong>${data.inventoryId.itemId}</p>
-                        <p><strong>Quantity:</strong>${data.quantity}</p>
-                        <p><strong>Subtotal:</strong>${data.subtotal}</p>
-                        <p><strong>userID:</strong>${data.userid.userId}</p>
-                        <hr>
-                    `
-                    viewItemsSection.innerHTML += jsonData;
-                } 
+                if(orderInfobyOrderId.length === 0){
+                    document.getElementById("viewItemsbyIDTable") = "<p>This information is not available</p>";
+                }
+                else{
+                    let Table = `
+                        <table border="1" cellspacing="0" cellpadding="8">
+                          <thead>
+                            <tr>
+                              <th>ItemsID</th>
+                              <th>OrderID</th>
+                              <th>InventoryID</th>
+                              <th>Quantity</th>
+                              <th>Subtotal</th>
+                              <th>UserID</th>
+                    `;
+
+                    ItemsInOrderInfo.forEach(data => {
+                        Table =+ `
+                            <tr>
+                                <td>${data.itemsId}</td>
+                                <td>${data.OrderId.orderId}}</td>
+                                <td>${data.inventoryId.itemId}</td>
+                                <td>${data.quantity}</td>
+                                <td>${data.subtotal}</td>
+                                <td>${data.userid.userId}</td>
+                        `;
+                    });
+
+                    Table += "</tbody></table>";
+                    document.getElementById("viewItemsbyIDTable").innerHTML = Table;
+                }
+                
             }
             else{
-                const errorText = await res.text();
-                console.warn("Server response:", errorText);
-                document.getElementById("viewByOrderIDMessage").innerText = "Failed to fetch the data, try again later!";
+                const errorText = await res.json();
+                console.log("Server response:", errorText);
+                document.getElementById("viewByOrderIDMessage").innerText = errorText.error;
             }
         }
         catch(error){
-            console.error("Error occurred while fetching the data:", error);
+            console.log("Error occurred while fetching the data:", error);
             document.getElementById("viewByOrderIDMessage").innerText = "Server Error, try again later!";
         }
     })

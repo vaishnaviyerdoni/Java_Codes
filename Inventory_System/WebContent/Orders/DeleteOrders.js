@@ -20,13 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Order deleted Successfully!");
             }
             else{
-                console.log("Server response: ", result);
-                document.getElementById("DeleteOrderMessage").innerText = "Failed to delete order, try again later!";
+                const errorMessage = await res.json();
+                console.log("Server response: ", errorMessage);
+                document.getElementById("DeleteOrderMessage").innerText = errorMessage.error;
             }
         }
         catch(error){
-            console.log("Server response: ", result);
-            console.error("Error occurred when deleting Order:", error);
+            console.log("Error occurred when deleting Order:", error);
             document.getElementById("DeleteOrderMessage").innerText = "Server Error, try again later!";
         }
     })
@@ -48,8 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert("Item deleted from Order!");
             }
             else{
-                console.log("Server response: ", result);
-                document.getElementById("DeleteItemMessage").innerText = "Failed to delete item from order!";
+                const errorMessage = await res.json();
+                console.log("Server response: ", errorMessage);
+                document.getElementById("DeleteItemMessage").innerText = errorMessage.error;
             }
         }
         catch(error){

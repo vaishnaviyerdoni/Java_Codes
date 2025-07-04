@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 document.getElementById("placeOrderMessage").innerText = result.Message || "Could not place the Order, try again later!";
             }
         }catch(error){
-            console.error("Error occurred when placing order:", error);
+            console.log("Error occurred when placing order:", error);
             document.getElementById("placeOrderMessage").innerText = "Server Error try again later!";
            }
         })
