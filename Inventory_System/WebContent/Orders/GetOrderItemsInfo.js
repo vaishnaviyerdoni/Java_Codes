@@ -34,10 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     `;
 
                     ItemsInOrderInfo.forEach(data => {
-                        Table =+ `
+                        Table += `
                             <tr>
                                 <td>${data.itemsId}</td>
-                                <td>${data.OrderId.orderId}}</td>
+                                <td>${data.OrderId.orderId}</td>
                                 <td>${data.inventoryId.itemId}</td>
                                 <td>${data.quantity}</td>
                                 <td>${data.subtotal}</td>
@@ -94,11 +94,11 @@ document.addEventListener("DOMContentLoaded", () => {
                               <th>UserID</th>
                     `;
 
-                    ItemsInOrderInfo.forEach(data => {
-                        Table =+ `
+                    orderInfobyOrderId.forEach(data => {
+                        Table += `
                             <tr>
                                 <td>${data.itemsId}</td>
-                                <td>${data.OrderId.orderId}}</td>
+                                <td>${data.OrderId.orderId}</td>
                                 <td>${data.inventoryId.itemId}</td>
                                 <td>${data.quantity}</td>
                                 <td>${data.subtotal}</td>
