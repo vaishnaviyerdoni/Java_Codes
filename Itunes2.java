@@ -13,7 +13,6 @@ public class Itunes2{
             String term = args[0];
             String urlString = "https://itunes.apple.com/search?entity=song&limit=5&term=" + term;
 
-            @SuppressWarnings("deprecation")
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 

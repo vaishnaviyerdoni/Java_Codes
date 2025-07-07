@@ -34,7 +34,6 @@ public class Bitcoin {
         try{
             String urlString = "https://api.coincap.io/v2/assets/bitcoin";
 
-            @SuppressWarnings("deprecation")
             URL url = new URL(urlString);
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("GET");
