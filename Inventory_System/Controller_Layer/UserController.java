@@ -2,7 +2,6 @@ package Inventory_System.Controller_Layer;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.security.spec.ECFieldF2m;
 import java.sql.*;
 import java.util.*;
 import javax.servlet.ServletException;
@@ -10,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.Action;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import Inventory_System.Business_Layer.UserService;

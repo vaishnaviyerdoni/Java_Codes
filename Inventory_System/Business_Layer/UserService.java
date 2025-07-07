@@ -1,12 +1,10 @@
 package Inventory_System.Business_Layer;
 
-import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.DAO_Layer.UserDAO;
 import Inventory_System.Exceptions.InvalidPasscodeException;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.User;
 import java.util.*;
-import java.security.InvalidParameterException;
 import java.sql.*;
 
 

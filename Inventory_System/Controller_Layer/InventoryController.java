@@ -1,10 +1,8 @@
 package Inventory_System.Controller_Layer;
 
 import java.io.*;
-import java.net.http.HttpResponse;
 import java.sql.*;
 import java.util.*;
-import javax.print.DocFlavor.READER;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -129,7 +127,6 @@ public class InventoryController extends HttpServlet{
     
     //to handle put request
     @Override
-    @SuppressWarnings("unchecked")
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try{
             response.setContentType("application/json");

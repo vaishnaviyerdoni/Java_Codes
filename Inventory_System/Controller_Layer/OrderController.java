@@ -5,8 +5,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.StyledEditorKit;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
@@ -42,8 +40,8 @@ public class OrderController extends HttpServlet {
             orderItemDAO = new OrderItemDAO(conn);
 
             inventoryService = new InventoryService(inventoryDAO, userDAO, orderItemDAO);
-            this.orderService = new OrderService(orderDAO, userDAO, inventoryDAO);
-            this.orderItemService = new OrderItemService(orderItemDAO, inventoryDAO, orderDAO, userDAO, inventoryService);
+            this.orderService = new OrderService(orderDAO, userDAO);
+            this.orderItemService = new OrderItemService(orderItemDAO, orderDAO, userDAO, inventoryService);
         }
         catch(SQLException e){
             e.printStackTrace();

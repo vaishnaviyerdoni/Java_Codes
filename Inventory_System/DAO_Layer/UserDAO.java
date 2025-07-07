@@ -4,7 +4,6 @@ import java.sql.*;
 import java.util.*;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import Inventory_System.Model_Layer.User;
-import Inventory_System.DAO_Layer.DatabaseConnection;
 import Inventory_System.Exceptions.UserNotFoundException;
 
 public class UserDAO {

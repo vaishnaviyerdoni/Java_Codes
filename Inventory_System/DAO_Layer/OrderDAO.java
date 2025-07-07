@@ -2,8 +2,6 @@ package Inventory_System.DAO_Layer;
 
 import java.sql.*;
 import java.util.*;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
-import java.text.SimpleDateFormat;
 import Inventory_System.Model_Layer.Order;
 import Inventory_System.Model_Layer.User;
 

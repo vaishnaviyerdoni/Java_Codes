@@ -21,7 +21,6 @@ public class User {
         this.email = email;
         this.passcode = passcode;
         this.role = role;
-        this.order = order;
     }
 
     //getters

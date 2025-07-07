@@ -1,6 +1,5 @@
 package Inventory_System.DAO_Layer;
 
-import Inventory_System.DAO_Layer.*;
 import Inventory_System.Exceptions.ItemAbsentException;
 import Inventory_System.Model_Layer.*;
 import java.util.*;
