@@ -61,7 +61,7 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public void set_userId(User user_Id){
+    public void set_userId(User user_Id, User userId){
         this.userId = userId;
     }
 
