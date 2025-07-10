@@ -6,7 +6,6 @@ import Inventory_System.DAO_Layer.*;
 import Inventory_System.Exceptions.ItemAbsentException;
 import Inventory_System.Exceptions.UserNotFoundException;
 import Inventory_System.Model_Layer.Inventory;
-import Inventory_System.Model_Layer.User;
 
 public class InventoryService{
     private InventoryDAO inventoryDAO;
@@ -124,7 +123,7 @@ public class InventoryService{
     }
     
     //to get itemID based on the itemname passed
-    public int getItemIDfromTable(String itemName) throws  SQLException, ItemAbsentException{
+    public int getItemIDfromTable(String itemName) throws SQLException, ItemAbsentException{
         try{
             Integer itemId = inventoryDAO.getItemId(itemName);
             if (itemId == null){

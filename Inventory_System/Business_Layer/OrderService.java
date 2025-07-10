@@ -2,7 +2,6 @@ package Inventory_System.Business_Layer;
 
 import java.util.*;
 import java.sql.*;
-import java.sql.Date;
 import Inventory_System.DAO_Layer.*;
 import Inventory_System.Exceptions.*;
 import Inventory_System.Model_Layer.*;
