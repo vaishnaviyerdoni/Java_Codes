@@ -93,7 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
                               <th>Subtotal</th>
                               <th>UserID</th>
                     `;
-
+ 
                     orderInfobyOrderId.forEach(data => {
                         Table += `
                             <tr>
