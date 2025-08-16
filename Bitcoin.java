@@ -55,7 +55,7 @@ public class Bitcoin {
 
             double rate = data.getDouble("priceUsd");
 
-            ///System.out.println(jsonRes.toString(2));
+            System.out.println(jsonRes.toString(2));
 
             return rate;
  
