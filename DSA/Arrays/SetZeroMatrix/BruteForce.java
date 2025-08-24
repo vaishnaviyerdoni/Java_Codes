@@ -63,7 +63,8 @@ public class BruteForce {
     public static void markColumn(ArrayList<ArrayList<Integer>> matrix, int n, int ind) {
         for (int i = 0; i < n; i++) {
             if(matrix.get(i).get(ind) != 0) {
-                matrix.get(i).set(ind, -1);            }
+                matrix.get(i).set(ind, -1);            
+            }
         }
     }
 }
