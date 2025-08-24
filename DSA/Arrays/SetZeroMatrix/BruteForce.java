@@ -24,7 +24,7 @@ public class BruteForce {
         }
     }
 
-    public static ArrayList<ArrayList<Integer>> setZero(ArrayList<ArrayList<Integer>> matrix, int n, int m) {
+    static ArrayList<ArrayList<Integer>> setZero(ArrayList<ArrayList<Integer>> matrix, int n, int m) {
         try {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
@@ -52,7 +52,7 @@ public class BruteForce {
         }
     }
 
-    public static void markRow(ArrayList<ArrayList<Integer>> matrix, int m, int ind) {
+    static void markRow(ArrayList<ArrayList<Integer>> matrix, int m, int ind) {
         for (int i = 0; i < m; i++) {
             if (matrix.get(ind).get(i) != -1){
                 matrix.get(ind).set(i, -1);
@@ -60,7 +60,7 @@ public class BruteForce {
         }
     }
 
-    public static void markColumn(ArrayList<ArrayList<Integer>> matrix, int n, int ind) {
+    static void markColumn(ArrayList<ArrayList<Integer>> matrix, int n, int ind) {
         for (int i = 0; i < n; i++) {
             if(matrix.get(i).get(ind) != 0) {
                 matrix.get(i).set(ind, -1);            
