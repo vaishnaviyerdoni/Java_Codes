@@ -1,2 +1,3 @@
 *.class
 bin/*/*.class
+/Java_Codes/DSA/bin/**/*.class
