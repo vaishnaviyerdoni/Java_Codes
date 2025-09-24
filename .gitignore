@@ -1,2 +1,2 @@
 *.class
-/Inventory_System/**/*.class
+bin/*/*.class
