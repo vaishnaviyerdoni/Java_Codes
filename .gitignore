@@ -1,1 +1,2 @@
 *.class
+/Inventory_System/**/*.class
